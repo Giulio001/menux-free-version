@@ -13,7 +13,7 @@ function menux_enqueue_frontend() {
     $style = get_option( 'menux_style', array() );
     if ( ! empty( $style['google_font'] ) ) {
         $gf_slug = urlencode( $style['google_font'] );
-        wp_enqueue_style( 'menux-gfont', "https://fonts.googleapis.com/css2?family={$gf_slug}:wght@300;400;500;600;700&display=swap", array(), null );
+        wp_enqueue_style( 'menux-gfont', "https://fonts.googleapis.com/css2?family={$gf_slug}:wght@300;400;500;600;700&display=swap", array(), MENUX_VERSION );
     }
     wp_enqueue_style( 'menux-fa6', MENUX_URL . 'assets/fa6/css/all.min.css', array(), '6.5.2' );
 }
