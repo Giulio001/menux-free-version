@@ -115,6 +115,18 @@ Yes, use the **Style → Advanced** tab for custom CSS rules. Quick-snippets are
 5. Frontend result — desktop view
 6. Frontend result — mobile hamburger menu open
 
+== External Services ==
+
+This plugin may connect to the following external service:
+
+**Google Fonts** (optional)
+If you configure a Google Font in the Style panel (Typography tab), the plugin loads the font stylesheet from Google's servers:
+`https://fonts.googleapis.com`
+
+This request is made only when a Google Font is explicitly selected by the site administrator. No data is sent by default. By using this feature you agree to Google's privacy policy: https://policies.google.com/privacy
+
+Font Awesome icons are bundled locally within the plugin and do **not** load from any external server.
+
 == Changelog ==
 
 = 2.1.1 =
