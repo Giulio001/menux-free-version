@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Style Panel
+ * MenuX Free — Style Panel
  * Color field helper and full style configuration panel.
  * @package MenuX
  */
@@ -30,10 +30,7 @@ function menux_render_style_panel($style) {
         'typo'      => '🔤 Typography',
         'layout'    => '📐 Layout',
         'mobile'    => '📱 Mobile',
-        'logo'      => '🖼️ Logo',
-        'search'    => '🔍 Search',
         'darkmode'  => '🌙 Dark Mode',
-        'a11y'      => '♿ Accessibility',
         'css'       => '⚙️ Advanced',
     );
     ?>
@@ -124,59 +121,6 @@ function menux_render_style_panel($style) {
             </div>
         </div>
 
-        <!-- Gradients -->
-        <div style="margin-top:20px; padding-top:16px; border-top:1px solid #e5e7eb;">
-            <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;">🌈 Gradients</div>
-            <p style="font-size:11px;color:#6b7280;margin:0 0 12px;">CSS gradient syntax — overrides the solid background color. E.g. <code>linear-gradient(135deg, #667eea, #764ba2)</code></p>
-            <?php
-            $grad_presets = array(
-                'Indigo Purple' => 'linear-gradient(135deg,#667eea,#764ba2)',
-                'Ocean'         => 'linear-gradient(135deg,#2193b0,#6dd5ed)',
-                'Sunset'        => 'linear-gradient(135deg,#f7971e,#ffd200)',
-                'Forest'        => 'linear-gradient(135deg,#134e5e,#71b280)',
-                'Midnight'      => 'linear-gradient(135deg,#232526,#414345)',
-                'Rose'          => 'linear-gradient(135deg,#f953c6,#b91d73)',
-            );
-            $grad_fields = array(
-                'container_bg_gradient'   => 'Container background',
-                'link_hover_bg_gradient'  => 'Link hover background',
-                'link_active_bg_gradient' => 'Active link background',
-            );
-            ?>
-            <!-- Preset swatches -->
-            <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;">
-                <?php foreach ($grad_presets as $label => $grad): ?>
-                <button type="button" onclick="menux_applyGradientPreset(<?php echo json_encode($grad); ?>)"
-                    style="width:32px;height:32px;border-radius:6px;border:2px solid rgba(0,0,0,.1);cursor:pointer;background:<?php echo esc_attr($grad); ?>;"
-                    title="<?php echo esc_attr($label . ': ' . $grad); ?>"></button>
-                <?php endforeach; ?>
-                <button type="button" onclick="menux_applyGradientPreset('')" style="padding:4px 10px;font-size:11px;border:1px solid #d1d5db;border-radius:6px;background:#f9fafb;cursor:pointer;color:#374151;">✕ Clear all</button>
-            </div>
-            <table style="border-collapse:collapse;width:100%;"><tbody>
-            <?php foreach ($grad_fields as $field => $label): ?>
-            <tr>
-                <td style="<?php echo $td;?>"><?php echo esc_html($label); ?></td>
-                <td style="<?php echo $tv;?>">
-                    <input type="text" name="menux_style[<?php echo esc_attr($field); ?>]"
-                           id="menux-grad-<?php echo esc_attr($field); ?>"
-                           value="<?php echo esc_attr($s[$field] ?? ''); ?>"
-                           placeholder="linear-gradient(135deg, #667eea, #764ba2)"
-                           style="width:100%;max-width:380px;font-size:12px;padding:6px 10px;border:1px solid #d1d5db;border-radius:6px;"
-                           oninput="menux_liveStylePreview()">
-                </td>
-            </tr>
-            <?php endforeach; ?>
-            </tbody></table>
-            <script>
-            function menux_applyGradientPreset(grad) {
-                ['container_bg_gradient','link_hover_bg_gradient','link_active_bg_gradient'].forEach(function(f) {
-                    var el = document.getElementById('menux-grad-' + f);
-                    if (el) { el.value = grad; }
-                });
-                menux_liveStylePreview();
-            }
-            </script>
-        </div>
         </div><!-- end tab colors -->
 
         <!-- ===== TAB: TIPOGRAFIA ===== -->
@@ -341,16 +285,6 @@ function menux_render_style_panel($style) {
             </tr>
             <tr><td style="<?php echo $td;?>">Horizontal padding (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[sticky_padding_x]" value="<?php echo esc_attr($s['sticky_padding_x'] ?? '');?>" min="0" max="200" style="width:80px;" placeholder="auto" oninput="menux_liveStylePreview()"></td></tr>
             <tr><td style="<?php echo $td;?>">Vertical padding (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[sticky_padding_y]" value="<?php echo esc_attr($s['sticky_padding_y'] ?? '');?>" min="0" max="100" style="width:80px;" placeholder="auto" oninput="menux_liveStylePreview()"></td></tr>
-            <tr>
-                <td style="<?php echo $td;?>">Background gradient</td>
-                <td style="<?php echo $tv;?>">
-                    <input type="text" name="menux_style[sticky_bg_gradient]" value="<?php echo esc_attr($s['sticky_bg_gradient'] ?? '');?>"
-                           placeholder="linear-gradient(135deg, #667eea, #764ba2)"
-                           style="width:100%;max-width:320px;font-size:12px;padding:6px 10px;border:1px solid #d1d5db;border-radius:6px;"
-                           oninput="menux_liveStylePreview()">
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Overrides solid background when menu is sticky. Leave empty to use the color above.</p>
-                </td>
-            </tr>
             <tr>
                 <td style="<?php echo $td;?>">Transition duration (s)</td>
                 <td style="<?php echo $tv;?>">
@@ -653,197 +587,6 @@ function menux_render_style_panel($style) {
         </div><!-- end tab mobile -->
 
         <!-- ===== TAB: LOGO ===== -->
-        <div id="bm-tab-logo" class="bm-tab-pane" style="display:none;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-        <div>
-            <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr>
-                <td style="<?php echo $td;?>">Image</td>
-                <td style="<?php echo $tv;?>">
-                    <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
-                        <input type="text" name="menux_style[logo_url]" id="bm-logo-url-input" value="<?php echo esc_attr($s['logo_url']);?>" placeholder="https://..." style="flex:1;min-width:200px;max-width:320px;" oninput="menux_liveStylePreview()">
-                        <button type="button" class="button button-secondary" onclick="menux_openLogoUploader()">📁 Choose</button>
-                    </div>
-                    <?php if (!empty($s['logo_url'])): ?>
-                    <div style="margin-top:8px;"><img src="<?php echo esc_url($s['logo_url']);?>" style="max-height:48px;max-width:180px;border:1px solid #ddd;border-radius:4px;padding:4px;background:#f9f9f9;"></div>
-                    <?php endif; ?>
-                </td>
-            </tr>
-            <tr><td style="<?php echo $td;?>">Width (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[logo_width]" value="<?php echo esc_attr($s['logo_width']);?>" min="20" max="600" style="width:80px;" oninput="menux_liveStylePreview()"></td></tr>
-            <tr><td style="<?php echo $td;?>">Height (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[logo_height]" value="<?php echo esc_attr($s['logo_height']);?>" min="0" max="300" style="width:80px;" placeholder="auto" oninput="menux_liveStylePreview()"></td></tr>
-            <tr><td style="<?php echo $td;?>">Alt text</td><td style="<?php echo $tv;?>"><input type="text" name="menux_style[logo_alt]" value="<?php echo esc_attr($s['logo_alt']);?>" placeholder="Logo" style="width:200px;"></td></tr>
-            <tr>
-                <td style="<?php echo $td;?>">Logo link</td>
-                <td style="<?php echo $tv;?>">
-                    <input type="url" name="menux_style[logo_link]" value="<?php echo esc_attr($s['logo_link']);?>" placeholder="<?php echo esc_attr(home_url());?>" style="width:100%;max-width:280px;">
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Empty = logo not clickable.</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Position</td>
-                <td style="<?php echo $tv;?>">
-                    <select name="menux_style[logo_position]" onchange="menux_liveStylePreview()">
-                        <option value="left"         <?php selected($s['logo_position'],'left');?>>⬅️ Left (logo + items)</option>
-                        <option value="right"        <?php selected($s['logo_position'],'right');?>>➡️ Right (items + logo)</option>
-                        <option value="center-split" <?php selected($s['logo_position'],'center-split');?>>↔️ Absolute center</option>
-                    </select>
-                </td>
-            </tr>
-            </tbody></table>
-        </div>
-        <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:16px;">
-            <div style="font-size:13px;font-weight:600;color:#374151;margin-bottom:8px;">💡 Logo Notes</div>
-            <ul style="font-size:12px;color:#6b7280;margin:0;padding-left:16px;line-height:1.8;">
-                <li>The logo is rendered <strong>before</strong> the hamburger menu on mobile.</li>
-                <li>Use <strong>Position: Left</strong> for the classic logo + items layout.</li>
-                <li>With <strong>Absolute center</strong>, items spread to the sides and the logo is centered.</li>
-                <li>Recommended: transparent PNG or SVG format.</li>
-            </ul>
-        </div>
-        </div>
-        </div><!-- end tab logo -->
-
-        <!-- ===== TAB: ACCESSIBILITY ===== -->
-        <div id="bm-tab-a11y" class="bm-tab-pane" style="display:none;">
-        <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 16px;margin-bottom:20px;">
-            <div style="font-size:13px;font-weight:700;color:#1d4ed8;margin-bottom:4px;">♿ Accessibility Web (WCAG 2.1)</div>
-            <p style="font-size:12px;color:#3b82f6;margin:0;">These settings improve the experience for users with visual, motor, or cognitive disabilities, and help the site comply with WCAG 2.1 guidelines.</p>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-        <div>
-            <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Keyboard navigation</div>
-            <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr>
-                <td style="<?php echo $td;?>">Visible focus</td>
-                <td style="<?php echo $tv;?>">
-                    <label style="display:flex;align-items:center;gap:6px;">
-                        <input type="checkbox" name="menux_style[a11y_focus_visible]" value="1" <?php checked($s['a11y_focus_visible'],'1');?> onchange="menux_liveStylePreview()">
-                        Show outline when navigating with Tab
-                    </label>
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Recommended for WCAG 2.1 compliance, criterion 2.4.7</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Focus outline color</td>
-                <td style="<?php echo $tv;?>">
-                    <input type="color" name="menux_style[a11y_focus_color]" value="<?php echo esc_attr($s['a11y_focus_color']??'#2271b1');?>" onchange="menux_liveStylePreview()" style="width:42px;height:30px;padding:2px;border:1px solid #c3c4c7;border-radius:3px;cursor:pointer;">
-                    <span style="font-size:12px;color:#666;margin-left:6px;"><?php echo esc_html($s['a11y_focus_color']??'#2271b1');?></span>
-                </td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Outline width (px)</td>
-                <td style="<?php echo $tv;?>"><input type="number" name="menux_style[a11y_focus_width]" value="<?php echo esc_attr($s['a11y_focus_width']??'2');?>" min="1" max="6" style="width:70px;" onchange="menux_liveStylePreview()"></td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Outline offset (px)</td>
-                <td style="<?php echo $tv;?>"><input type="number" name="menux_style[a11y_focus_offset]" value="<?php echo esc_attr($s['a11y_focus_offset']??'2');?>" min="0" max="10" style="width:70px;" onchange="menux_liveStylePreview()"></td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Skip link</td>
-                <td style="<?php echo $tv;?>">
-                    <label style="display:flex;align-items:center;gap:6px;">
-                        <input type="checkbox" name="menux_style[a11y_skip_link]" value="1" <?php checked($s['a11y_skip_link'],'1');?>>
-                        Add "Skip to main content"
-                    </label>
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Visible only when navigating with Tab (WCAG 2.4.1)</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">ID target skip link</td>
-                <td style="<?php echo $tv;?>">
-                    <input type="text" name="menux_style[a11y_skip_target]" value="<?php echo esc_attr($s['a11y_skip_target']??'main');?>" placeholder="main" style="width:150px;">
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">HTML ID of the target element. E.g.: <code>main</code>, <code>content</code></p>
-                </td>
-            </tr>
-            </tbody></table>
-
-            <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;">Semantic markup</div>
-            <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr>
-                <td style="<?php echo $td;?>">ARIA nav label</td>
-                <td style="<?php echo $tv;?>">
-                    <input type="text" name="menux_style[a11y_aria_label]" value="<?php echo esc_attr($s['a11y_aria_label']??'Main menu');?>" placeholder="Main menu" style="width:200px;">
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Value of <code>aria-label</code> on the <code>&lt;nav&gt;</code> tag. Useful when there are multiple nav elements on the page.</p>
-                </td>
-            </tr>
-            </tbody></table>
-        </div>
-        <div>
-            <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Visual perception</div>
-            <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr>
-                <td style="<?php echo $td;?>">Link underline</td>
-                <td style="<?php echo $tv;?>">
-                    <label style="display:flex;align-items:center;gap:6px;">
-                        <input type="checkbox" name="menux_style[a11y_link_underline]" value="1" <?php checked($s['a11y_link_underline'],'1');?> onchange="menux_liveStylePreview()">
-                        Force <code>text-decoration: underline</code>
-                    </label>
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Links not distinguishable by color alone should have an additional indicator (WCAG 1.4.1)</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">High contrast</td>
-                <td style="<?php echo $tv;?>">
-                    <label style="display:flex;align-items:center;gap:6px;">
-                        <input type="checkbox" name="menux_style[a11y_high_contrast]" value="1" <?php checked($s['a11y_high_contrast'],'1');?> onchange="menux_liveStylePreview()">
-                        Increase menu contrast
-                    </label>
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Adds <code>filter: contrast(1.5)</code> and support for <code>forced-colors</code></p>
-                </td>
-            </tr>
-            </tbody></table>
-
-            <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;">Motion and interaction</div>
-            <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr>
-                <td style="<?php echo $td;?>">Reduced motion</td>
-                <td style="<?php echo $tv;?>">
-                    <label style="display:flex;align-items:center;gap:6px;">
-                        <input type="checkbox" name="menux_style[a11y_reduced_motion]" value="1" <?php checked($s['a11y_reduced_motion'],'1');?> onchange="menux_liveStylePreview()">
-                        Respect <code>prefers-reduced-motion</code>
-                    </label>
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Disables animations for users who have enabled reduced motion in their OS settings (WCAG 2.3.3)</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Target touch 44×44px</td>
-                <td style="<?php echo $tv;?>">
-                    <label style="display:flex;align-items:center;gap:6px;">
-                        <input type="checkbox" name="menux_style[a11y_min_touch_target]" value="1" <?php checked($s['a11y_min_touch_target'],'1');?> onchange="menux_liveStylePreview()">
-                        Minimum link size on mobile
-                    </label>
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">On touch screens, links will have a minimum tappable area of 44×44px (WCAG 2.5.5)</p>
-                </td>
-            </tr>
-            </tbody></table>
-
-            <!-- Checklist WCAG -->
-            <div style="margin-top:20px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;">
-                <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:10px;">✅ Checklist WCAG 2.1</div>
-                <?php
-                $checks = array(
-                    array('ok' => $s['a11y_focus_visible']==='1',    'label' => '2.4.7 — Visible focus',           'note' => 'Enable "Visible focus"'),
-                    array('ok' => $s['a11y_skip_link']==='1',        'label' => '2.4.1 — Skip link',            'note' => 'Enable "Add skip link"'),
-                    array('ok' => !empty($s['a11y_aria_label']),     'label' => '4.1.2 — Name in markup',          'note' => 'Set "ARIA nav label"'),
-                    array('ok' => $s['a11y_reduced_motion']==='1',   'label' => '2.3.3 — Reduced motion',       'note' => 'Enable "prefers-reduced-motion"'),
-                    array('ok' => $s['a11y_min_touch_target']==='1', 'label' => '2.5.5 — Adequate touch target',   'note' => 'Enable "Target touch 44×44px"'),
-                );
-                foreach ($checks as $c):
-                    $color = $c['ok'] ? '#166534' : '#92400e';
-                    $bg    = $c['ok'] ? '#dcfce7'  : '#fef3c7';
-                    $icon  = $c['ok'] ? '✅' : '⚠️';
-                ?>
-                <div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid rgba(0,0,0,.05);">
-                    <span style="font-size:14px;"><?php echo $icon;?></span>
-                    <span style="font-size:11px;font-weight:600;color:<?php echo $color;?>;"><?php echo esc_html($c['label']);?></span>
-                    <?php if (!$c['ok']): ?><span style="font-size:10px;color:#9ca3af;"><?php echo esc_html($c['note']);?></span><?php endif; ?>
-                </div>
-                <?php endforeach; ?>
-            </div>
-        </div>
-        </div>
-        </div><!-- end tab a11y -->
-
         <!-- ===== TAB: AVANZATO (CSS custom) ===== -->
         <div id="bm-tab-css" class="bm-tab-pane" style="display:none;">
         <div style="display:flex;gap:20px;flex-wrap:wrap;">
@@ -882,52 +625,6 @@ function menux_render_style_panel($style) {
         </div>
         </div>
         </div><!-- end tab css -->
-
-        <!-- ===== TAB: SEARCH ===== -->
-        <div id="bm-tab-search" class="bm-tab-pane" style="display:none;">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
-        <div>
-            <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Search Bar</div>
-            <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr>
-                <td style="<?php echo $td;?>">Enable search</td>
-                <td style="<?php echo $tv;?>">
-                    <label style="display:flex;align-items:center;gap:8px;">
-                        <input type="checkbox" name="menux_style[search_enabled]" value="1" <?php checked($s['search_enabled'] ?? '0','1');?> onchange="menux_liveStylePreview()">
-                        <span>Show magnifying glass icon in the menu</span>
-                    </label>
-                    <p class="description" style="font-size:11px;margin:3px 0 0;">Adds an interactive magnifying glass item. Clicking it expands a search field that filters menu links in real time.</p>
-                </td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Placeholder text</td>
-                <td style="<?php echo $tv;?>"><input type="text" name="menux_style[search_placeholder]" value="<?php echo esc_attr($s['search_placeholder'] ?? 'Search...');?>" placeholder="Search..." style="width:220px;"></td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Icon color / text</td>
-                <td style="<?php echo $tv;?>"><?php menux_color_field('search_color', $s['search_color'] ?? '');?></td>
-            </tr>
-            <tr>
-                <td style="<?php echo $td;?>">Input field background</td>
-                <td style="<?php echo $tv;?>"><?php menux_color_field('search_bg', $s['search_bg'] ?? '');?></td>
-            </tr>
-            </tbody></table>
-        </div>
-        <div>
-            <div style="background:#e0f2fe;border:1px solid #7dd3fc;border-radius:10px;padding:16px;">
-                <div style="font-size:13px;font-weight:700;color:#0369a1;margin-bottom:10px;">ℹ️ How search works</div>
-                <ul style="margin:0;padding:0 0 0 16px;font-size:12px;color:#0c4a6e;line-height:1.8;">
-                    <li>The 🔍 icon appears at the end of the menu, on the right</li>
-                    <li>Clicking it expands a text field with a smooth animation</li>
-                    <li>Typing 2+ characters shows matching menu links</li>
-                    <li>Results appear in a dropdown with highlighted matching text</li>
-                    <li>Press <kbd>Esc</kbd> or click outside to close</li>
-                    <li>Works on mobile too with an adaptive search field</li>
-                </ul>
-            </div>
-        </div>
-        </div>
-        </div><!-- end tab search -->
 
         <!-- ===== TAB: DARK MODE ===== -->
         <div id="bm-tab-darkmode" class="bm-tab-pane" style="display:none;">

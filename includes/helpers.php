@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Helper Functions
+ * MenuX Free — Helper Functions
  * @package MenuX
  */
 

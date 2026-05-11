@@ -1,17 +1,10 @@
 <?php
 /**
- * MenuX Pro — CSS Generator
+ * MenuX Free — CSS Generator
  * @package MenuX
  */
 
 if ( ! defined( 'ABSPATH' ) ) exit;
-
-function menux_sanitize_gradient($val) {
-    $val = trim(wp_strip_all_tags((string) $val));
-    if (empty($val)) return '';
-    if (!preg_match('/^(linear|radial|conic)-gradient\s*\(/i', $val)) return '';
-    return $val;
-}
 
 function menux_generate_css($style) {
     $s = wp_parse_args((array) $style, menux_style_defaults());
@@ -29,10 +22,6 @@ function menux_generate_css($style) {
     // Container
     $cr = '';
     if ($s['container_bg'] !== '')     $cr .= 'background:' . sanitize_hex_color($s['container_bg']) . ';';
-    if (!empty($s['container_bg_gradient'])) {
-        $cg = menux_sanitize_gradient($s['container_bg_gradient']);
-        if ($cg) $cr .= 'background:' . $cg . ';';
-    }
     if ($s['container_border'] !== '') $cr .= 'border-bottom:1px solid ' . sanitize_hex_color($s['container_border']) . ';';
     if (!empty($s['google_font']))     $cr .= "font-family:'" . sanitize_text_field($s['google_font']) . "', sans-serif;";
     elseif (!empty($s['font_family'])) $cr .= 'font-family:' . sanitize_text_field($s['font_family']) . ';';
@@ -46,31 +35,9 @@ function menux_generate_css($style) {
         $css .= '@media(prefers-color-scheme:dark){.menux-container{color-scheme:dark;}}';
     }
 
-    // Logo
-    if (!empty($s['logo_url'])) {
-        $lw  = !empty($s['logo_width'])  ? intval($s['logo_width'])  : 120;
-        $lh  = !empty($s['logo_height']) ? 'height:'.intval($s['logo_height']).'px;' : 'height:auto;';
-        $pos = $s['logo_position'] ?? 'left';
-        $css .= '.menux-logo{display:inline-flex;align-items:center;flex-shrink:0;text-decoration:none;line-height:0;}';
-        $css .= '.menux-logo img{width:'.$lw.'px;'.$lh.'display:block;max-height:80px;object-fit:contain;}';
-        if ($pos === 'right') {
-            $css .= '.menux-container{flex-direction:row;}.menux-list{flex:1;}.menux-logo{margin-left:auto;}';
-        } elseif ($pos === 'center-split') {
-            $css .= '.menux-logo{position:absolute;left:50%;transform:translateX(-50%);top:50%;margin-top:0;transform:translate(-50%,-50%);}';
-        } else {
-            // left: logo + flex list
-            $css .= '.menux-container{flex-direction:row;}.menux-logo{margin-right:16px;flex-shrink:0;}';
-        }
-    }
-
     // Sticky
     if ($s['sticky'] === '1') {
-        $sbg    = '';
-        if (!empty($s['sticky_bg_gradient'])) {
-            $sg = menux_sanitize_gradient($s['sticky_bg_gradient']);
-            if ($sg) $sbg = 'background:' . $sg . ';';
-        }
-        if (empty($sbg) && !empty($s['sticky_bg'])) $sbg = 'background:' . sanitize_hex_color($s['sticky_bg']) . ';';
+        $sbg = !empty($s['sticky_bg']) ? 'background:' . sanitize_hex_color($s['sticky_bg']) . ';' : '';
         $sshad  = $s['sticky_shadow'] !== '0'  ? 'box-shadow:0 2px 12px rgba(0,0,0,.12);' : '';
         $sz     = !empty($s['sticky_z_index']) ? intval($s['sticky_z_index']) : 9999;
         $sjust  = !empty($s['sticky_justify'])      ? esc_attr($s['sticky_justify'])      : 'flex-start';
@@ -176,10 +143,6 @@ function menux_generate_css($style) {
     $hr = '';
     if ($s['link_hover_color'] !== '') $hr .= 'color:' . sanitize_hex_color($s['link_hover_color']) . ';';
     if (!empty($s['link_hover_bg']))   $hr .= 'background:' . sanitize_hex_color($s['link_hover_bg']) . ';';
-    if (!empty($s['link_hover_bg_gradient'])) {
-        $hg = menux_sanitize_gradient($s['link_hover_bg_gradient']);
-        if ($hg) $hr .= 'background:' . $hg . ';';
-    }
     if ($anim_css && $anim !== 'underline') $hr .= $anim_css;
     if ($hr) $css .= '.menux-list > li > a.menux-link:hover{' . $hr . '}';
 
@@ -189,10 +152,6 @@ function menux_generate_css($style) {
     if ($s['link_active_border'] !== '')      $ar .= 'border-bottom:2px solid ' . sanitize_hex_color($s['link_active_border']) . ';';
     if (!empty($s['link_active_font_weight'])) $ar .= 'font-weight:' . esc_attr($s['link_active_font_weight']) . '!important;';
     if (!empty($s['link_active_bg']))          $ar .= 'background:' . sanitize_hex_color($s['link_active_bg']) . ';';
-    if (!empty($s['link_active_bg_gradient'])) {
-        $ag = menux_sanitize_gradient($s['link_active_bg_gradient']);
-        if ($ag) $ar .= 'background:' . $ag . ';';
-    }
     if ($ar) $css .= '.menux-list > li > a.menux-link.active{' . $ar . '}';
 
     // Push last item to the right
@@ -219,79 +178,6 @@ function menux_generate_css($style) {
     // ──── FEATURE 5: Auto-hide on scroll ────
     $css .= '.menux-sticky-fixed.menux-autohide{transition:transform .3s cubic-bezier(.4,0,.2,1);}';
     $css .= '.menux-sticky-fixed.menux-autohide.menux-hidden{transform:translateY(-100%);pointer-events:none;}';
-
-    // Search modal
-    if (!empty($s['search_enabled']) && $s['search_enabled'] === '1') {
-        $sc  = !empty($s['search_color'])  ? sanitize_hex_color($s['search_color'])  : '';
-        $css .= '.menux-search-wrap{display:inline-flex;align-items:center;margin-left:auto;position:relative;}';
-        $css .= '.menux-search-btn{background:none;border:none;cursor:pointer;padding:8px 10px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:background .2s ease,transform .15s ease;'.($sc?'color:'.$sc.';':'').'}';
-        $css .= '.menux-search-btn:hover{background:rgba(0,0,0,.07);transform:scale(1.08);}';
-        $css .= '.menux-search-btn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}';
-
-        // Modal overlay
-        $css .= '#menux-search-modal{display:none;position:fixed;inset:0;z-index:99999;align-items:flex-start;justify-content:center;padding-top:80px;}';
-        $css .= '#menux-search-modal.bm-sm-open{display:flex;}';
-        $css .= '#menux-search-backdrop{position:absolute;inset:0;background:rgba(15,23,42,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);animation:bmSmBackdropIn .2s ease;}';
-        $css .= '@keyframes bmSmBackdropIn{from{opacity:0}to{opacity:1}}';
-
-        // Modal box
-        $css .= '#menux-search-box{position:relative;background:#fff;border-radius:16px;box-shadow:0 32px 80px rgba(0,0,0,.25),0 0 0 1px rgba(0,0,0,.08);width:min(680px,92vw);max-height:72vh;display:flex;flex-direction:column;overflow:hidden;animation:bmSmBoxIn .22s cubic-bezier(.34,1.56,.64,1);}';
-        $css .= '@keyframes bmSmBoxIn{from{opacity:0;transform:translateY(-20px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}';
-
-        // Search input area
-        $css .= '#menux-search-box .bm-sm-header{display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:1px solid #f1f5f9;}';
-        $css .= '#menux-search-box .bm-sm-icon{color:#94a3b8;flex-shrink:0;}';
-        $css .= '#menux-search-box .bm-sm-icon svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round;}';
-        $css .= '#menux-search-input-modal{flex:1;border:none;outline:none;font-size:18px;color:#0f172a;background:none;caret-color:#6366f1;}';
-        $css .= '#menux-search-input-modal::placeholder{color:#cbd5e1;}';
-        $css .= '#menux-search-close{background:none;border:1px solid #e2e8f0;color:#94a3b8;width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:14px;transition:all .15s;flex-shrink:0;}';
-        $css .= '#menux-search-close:hover{background:#f1f5f9;color:#0f172a;}';
-
-        // Tabs
-        $css .= '#menux-search-box .bm-sm-tabs{display:flex;gap:0;padding:0 20px;border-bottom:1px solid #f1f5f9;background:#fafafa;}';
-        $css .= '#menux-search-box .bm-sm-tab{padding:10px 14px;font-size:12px;font-weight:600;color:#94a3b8;border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .15s;white-space:nowrap;}';
-        $css .= '#menux-search-box .bm-sm-tab.active{color:#6366f1;border-bottom-color:#6366f1;}';
-
-        // Results body
-        $css .= '#menux-search-box .bm-sm-body{overflow-y:auto;flex:1;padding:8px 0;}';
-        $css .= '#menux-search-box .bm-sm-body::-webkit-scrollbar{width:5px;}';
-        $css .= '#menux-search-box .bm-sm-body::-webkit-scrollbar-thumb{background:#e2e8f0;border-radius:10px;}';
-
-        // Result items
-        $css .= '.bm-sm-result{display:flex;align-items:center;gap:12px;padding:10px 20px;text-decoration:none;color:#1e293b;font-size:14px;transition:background .1s;cursor:pointer;}';
-        $css .= '.bm-sm-result:hover,.bm-sm-result.bm-sm-focused{background:#f0f4ff;}';
-        $css .= '.bm-sm-result-icon{width:36px;height:36px;border-radius:10px;background:#f1f5f9;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:15px;color:#64748b;}';
-        $css .= '.bm-sm-result-title{font-weight:500;color:#0f172a;line-height:1.3;}';
-        $css .= '.bm-sm-result-sub{font-size:11px;color:#94a3b8;margin-top:1px;}';
-        $css .= '.bm-sm-result mark{background:#fef08a;color:#0f172a;border-radius:2px;padding:0 1px;font-style:normal;}';
-
-        // Page hit items (highlight in page)
-        $css .= '.bm-sm-page-hit{display:flex;flex-direction:column;padding:10px 20px;border-bottom:1px solid #f8fafc;color:#374151;font-size:13px;cursor:pointer;transition:background .1s;}';
-        $css .= '.bm-sm-page-hit:hover,.bm-sm-page-hit.bm-sm-focused{background:#f0f4ff;}';
-        $css .= '.bm-sm-page-hit .bm-sm-ph-ctx{color:#64748b;font-size:12px;margin-top:3px;line-height:1.5;}';
-        $css .= '.bm-sm-page-hit .bm-sm-ph-pos{font-size:10px;color:#a0aec0;margin-top:2px;}';
-        $css .= '.bm-sm-page-hit mark{background:#fef08a;color:#0f172a;border-radius:2px;padding:0 2px;font-weight:600;}';
-
-        // Highlight on page
-        $css .= '.menux-highlight{background:#fef08a!important;color:#0f172a!important;border-radius:2px;padding:0 2px;box-shadow:0 0 0 2px #fde047;}';
-        $css .= '.menux-highlight-current{background:#fb923c!important;color:#fff!important;box-shadow:0 0 0 3px #fdba74;}';
-
-        // Empty / footer
-        $css .= '.bm-sm-empty{padding:40px 20px;text-align:center;color:#94a3b8;}';
-        $css .= '.bm-sm-empty svg{width:40px;height:40px;stroke:#e2e8f0;fill:none;stroke-width:1.5;margin:0 auto 12px;display:block;}';
-        $css .= '.bm-sm-footer{padding:10px 20px;border-top:1px solid #f1f5f9;background:#fafafa;display:flex;align-items:center;gap:16px;flex-shrink:0;}';
-        $css .= '.bm-sm-kbd{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:#94a3b8;}';
-        $css .= '.bm-sm-kbd kbd{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:4px;padding:2px 6px;font-family:monospace;font-size:10px;color:#475569;}';
-        $css .= '.bm-sm-count{margin-left:auto;font-size:11px;color:#94a3b8;}';
-
-        // Nav highlight bar
-        $css .= '#bm-search-nav-bar{display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:8px 16px;border-radius:24px;z-index:99998;align-items:center;gap:12px;font-size:13px;box-shadow:0 8px 24px rgba(0,0,0,.3);animation:bmNavBarIn .25s ease;}';
-        $css .= '#bm-search-nav-bar.show{display:flex;}';
-        $css .= '@keyframes bmNavBarIn{from{opacity:0;transform:translateX(-50%) translateY(10px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}';
-        $css .= '#bm-search-nav-bar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:4px 10px;border-radius:12px;cursor:pointer;font-size:12px;transition:background .15s;}';
-        $css .= '#bm-search-nav-bar button:hover{background:rgba(255,255,255,.25);}';
-        $css .= '#bm-search-nav-bar .bm-snb-close{background:none;padding:4px 8px;opacity:.7;}';
-    }
 
     // Submenu
     $smbc  = !empty($s['submenu_bg'])         ? sanitize_hex_color($s['submenu_bg'])         : '#ffffff';
@@ -492,35 +378,6 @@ function menux_generate_css($style) {
         . '.menux-hamburger.open span:nth-child(2){opacity:0;}'
         . '.menux-hamburger.open span:nth-child(3){transform:translateY(calc(-'.$h_gap.' - '.$h_height.')) rotate(-45deg);}'
         . $media_close;
-
-    // Accessibility
-    if ($s['a11y_focus_visible'] === '1') {
-        $fc  = !empty($s['a11y_focus_color'])  ? sanitize_hex_color($s['a11y_focus_color'])  : '#2271b1';
-        $fw  = !empty($s['a11y_focus_width'])  ? intval($s['a11y_focus_width'])               : 2;
-        $fo  = !empty($s['a11y_focus_offset']) ? intval($s['a11y_focus_offset'])              : 2;
-        $css .= '.menux-container a:focus-visible{outline:'.$fw.'px solid '.$fc.'!important;outline-offset:'.$fo.'px!important;border-radius:2px;}';
-        $css .= '.menux-container a:focus:not(:focus-visible){outline:none;}';
-    }
-    if ($s['a11y_link_underline'] === '1') {
-        $css .= '.menux-container a.menux-link{text-decoration:underline;}';
-    }
-    if ($s['a11y_min_touch_target'] === '1') {
-        $css .= '@media(max-width:'.$bp.'px){.menux-container a.menux-link{min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;}}';
-        if ($bp_mode === 'auto') {
-            $css .= '.menux-is-mobile .menux-container a.menux-link{min-height:44px;min-width:44px;display:flex;align-items:center;justify-content:center;}';
-        }
-    }
-    if ($s['a11y_high_contrast'] === '1') {
-        $css .= '.menux-container{filter:contrast(1.5);}';
-        $css .= '@media(forced-colors:active){.menux-container a.menux-link{color:LinkText;}.menux-container a.menux-link:hover,.menux-container a.menux-link:focus{color:LinkText;text-decoration:underline;}}';
-    }
-    if ($s['a11y_reduced_motion'] === '1') {
-        $css .= '@media(prefers-reduced-motion:reduce){.menux-container *{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;}}';
-    }
-    if ($s['a11y_skip_link'] === '1') {
-        $css .= '.menux-skip-link{position:absolute;top:-100px;left:0;background:#000;color:#fff;padding:8px 16px;z-index:99999;font-size:14px;font-weight:600;text-decoration:none;border-radius:0 0 4px 0;transition:top .2s;}';
-        $css .= '.menux-skip-link:focus{top:0;}';
-    }
 
     // CSS personalizzato
     if (!empty($s['custom_css'])) $css .= "\n" . wp_unslash($s['custom_css']);

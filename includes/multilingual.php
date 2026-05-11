@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Multilingual Support
+ * MenuX Free — Multilingual Support
  * Auto-detects WPML, Polylang, TranslatePress, Multilingual Press.
  * @package MenuX
  */

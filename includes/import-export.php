@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Import / Export
+ * MenuX Free — Import / Export
  * @package MenuX
  */
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Menu Builder
+ * MenuX Free — Menu Builder
  * Drag-and-drop menu item builder for the admin panel.
  * @package MenuX
  */

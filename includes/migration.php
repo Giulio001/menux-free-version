@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Data Migration
+ * MenuX Free — Data Migration
  * @package MenuX
  */
 

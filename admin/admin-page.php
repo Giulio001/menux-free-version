@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Admin Page
+ * MenuX Free — Admin Page
  * Registers admin menu and renders the main configuration page.
  * @package MenuX
  */
@@ -10,7 +10,6 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 add_action('admin_menu', 'menux_register_admin_page');
 function menux_register_admin_page() {
     add_menu_page('MenuX', 'MenuX', 'manage_options', 'menux', 'menux_render_admin_html', 'dashicons-menu-alt3', 100);
-    add_submenu_page('menux', 'MenuX - Statistics', '📊 Statistics', 'manage_options', 'menux-stats', 'menux_render_stats_page');
 }
 
 function menux_render_admin_html() {
@@ -207,33 +206,9 @@ function menux_render_admin_html() {
         $saved_style['sticky_padding_y']        = isset($raw_style['sticky_padding_y']) && $raw_style['sticky_padding_y'] !== '' ? intval($raw_style['sticky_padding_y']) : '';
         // Dark mode
         $saved_style['dark_mode']               = in_array($raw_style['dark_mode'] ?? 'light', array('light','dark','auto'), true) ? $raw_style['dark_mode'] : 'light';
-        // Search
-        $saved_style['search_enabled']          = isset($raw_style['search_enabled'])          ? '1' : '0';
-        $saved_style['search_placeholder']      = isset($raw_style['search_placeholder'])      ? sanitize_text_field($raw_style['search_placeholder']) : 'Search...';
-        $saved_style['search_color']            = (!empty($use_flags['search_color']) && !empty($raw_style['search_color'])) ? sanitize_hex_color($raw_style['search_color']) : '';
-        $saved_style['search_bg']               = (!empty($use_flags['search_bg'])    && !empty($raw_style['search_bg']))    ? sanitize_hex_color($raw_style['search_bg'])    : '';
-        // Logo
-        $saved_style['logo_url']                = isset($raw_style['logo_url'])           ? esc_url_raw($raw_style['logo_url'])                   : '';
-        $saved_style['logo_width']              = isset($raw_style['logo_width'])         ? intval($raw_style['logo_width'])                      : '120';
-        $saved_style['logo_height']             = isset($raw_style['logo_height'])        && $raw_style['logo_height'] !== '' ? intval($raw_style['logo_height']) : '';
-        $saved_style['logo_alt']                = isset($raw_style['logo_alt'])           ? sanitize_text_field($raw_style['logo_alt'])           : '';
-        $saved_style['logo_link']               = isset($raw_style['logo_link'])          ? esc_url_raw($raw_style['logo_link'])                  : '';
-        $saved_style['logo_position']           = in_array($raw_style['logo_position'] ?? 'left', array('left','right','center-split'), true) ? $raw_style['logo_position'] : 'left';
         // Submenu
         $saved_style['submenu_shadow']          = isset($raw_style['submenu_shadow'])     ? '1' : '0';
         $saved_style['submenu_animation']       = in_array($raw_style['submenu_animation'] ?? 'fade', array('fade','slide','none'), true) ? $raw_style['submenu_animation'] : 'fade';
-        // Accessibility
-        $saved_style['a11y_focus_visible']    = isset($raw_style['a11y_focus_visible'])    ? '1' : '0';
-        $saved_style['a11y_focus_color']      = !empty($raw_style['a11y_focus_color'])     ? sanitize_hex_color($raw_style['a11y_focus_color'])       : '#2271b1';
-        $saved_style['a11y_focus_width']      = isset($raw_style['a11y_focus_width'])      ? intval($raw_style['a11y_focus_width'])                   : '2';
-        $saved_style['a11y_focus_offset']     = isset($raw_style['a11y_focus_offset'])     ? intval($raw_style['a11y_focus_offset'])                  : '2';
-        $saved_style['a11y_skip_link']        = isset($raw_style['a11y_skip_link'])        ? '1' : '0';
-        $saved_style['a11y_skip_target']      = isset($raw_style['a11y_skip_target'])      ? sanitize_html_class($raw_style['a11y_skip_target'])      : 'main';
-        $saved_style['a11y_reduced_motion']   = isset($raw_style['a11y_reduced_motion'])   ? '1' : '0';
-        $saved_style['a11y_aria_label']       = isset($raw_style['a11y_aria_label'])       ? sanitize_text_field($raw_style['a11y_aria_label'])       : 'Main menu';
-        $saved_style['a11y_min_touch_target'] = isset($raw_style['a11y_min_touch_target']) ? '1' : '0';
-        $saved_style['a11y_link_underline']   = isset($raw_style['a11y_link_underline'])   ? '1' : '0';
-        $saved_style['a11y_high_contrast']    = isset($raw_style['a11y_high_contrast'])    ? '1' : '0';
         
         update_option('menux_style', $saved_style);
         // Invalida font cache
@@ -296,7 +271,6 @@ function menux_render_admin_html() {
                     <span class="bm-topbar-title">MenuX</span>
                 </div>
                 <div class="bm-topbar-actions">
-                    <a href="<?php echo admin_url('admin.php?page=menux-stats'); ?>" class="bm-topbar-btn bm-topbar-btn-ghost">📊 Stats</a>
                     <button type="button" onclick="menuxWizard.open()" class="bm-topbar-btn bm-topbar-btn-ghost">✨ Wizard</button>
                     <input type="submit" name="menux_save_all" class="bm-topbar-btn bm-topbar-btn-save" value="💾 Save Menu">
                 </div>
@@ -361,10 +335,7 @@ function menux_render_admin_html() {
                             <button type="button" class="bm-sidebar-item" data-section="typo"     onclick="menuxGoSection('typo')">🔤 Typography</button>
                             <button type="button" class="bm-sidebar-item" data-section="layout"   onclick="menuxGoSection('layout')">📐 Layout</button>
                             <button type="button" class="bm-sidebar-item" data-section="mobile"   onclick="menuxGoSection('mobile')">📱 Mobile</button>
-                            <button type="button" class="bm-sidebar-item" data-section="logo"     onclick="menuxGoSection('logo')">🖼️ Logo</button>
-                            <button type="button" class="bm-sidebar-item" data-section="search"   onclick="menuxGoSection('search')">🔍 Search</button>
                             <button type="button" class="bm-sidebar-item" data-section="darkmode" onclick="menuxGoSection('darkmode')">🌙 Dark Mode</button>
-                            <button type="button" class="bm-sidebar-item" data-section="a11y"     onclick="menuxGoSection('a11y')">♿ Accessibility</button>
                             <button type="button" class="bm-sidebar-item" data-section="css"      onclick="menuxGoSection('css')">⚙️ Advanced</button>
                         </div>
                         <div class="bm-sidebar-group">
@@ -1255,7 +1226,7 @@ function menux_render_admin_html() {
         return html;
     }
 
-    var menuxStyleSections = ['colors','typo','layout','mobile','logo','search','darkmode','a11y','css'];
+    var menuxStyleSections = ['colors','typo','layout','mobile','darkmode','css'];
 
     function menuxGoSection(section) {
         // Hide all panels

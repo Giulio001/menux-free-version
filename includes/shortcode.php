@@ -1,6 +1,6 @@
 <?php
 /**
- * MenuX Pro — Frontend Shortcode
+ * MenuX Free — Frontend Shortcode
  * Renders the [menux] shortcode on the frontend.
  * @package MenuX
  */
