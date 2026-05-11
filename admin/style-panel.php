@@ -8,23 +8,23 @@
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 function menux_color_field($field, $value) {
-    $has = ($value !== '' && $value !== null);
-    $hex = $has ? esc_attr($value) : '#333333';
+    $has     = ($value !== '' && $value !== null);
+    $hex     = $has ? $value : '#333333';
     $opacity = $has ? '1' : '0.35';
     echo '<div class="menux-color-row" style="display:flex;align-items:center;gap:8px;">';
     echo '<input type="checkbox" name="menux_style_use[' . esc_attr($field) . ']" value="1"'
         . ($has ? ' checked' : '') . ' onchange="menux_toggleColor(this)">';
-    echo '<input type="color" name="menux_style[' . esc_attr($field) . ']" value="' . $hex . '"'
-        . ' style="cursor:pointer;opacity:' . $opacity . ';width:42px;height:30px;padding:2px;border:1px solid #c3c4c7;border-radius:3px;"'
+    echo '<input type="color" name="menux_style[' . esc_attr($field) . ']" value="' . esc_attr($hex) . '"'
+        . ' style="cursor:pointer;opacity:' . esc_attr($opacity) . ';width:42px;height:30px;padding:2px;border:1px solid #c3c4c7;border-radius:3px;"'
         . ' onchange="menux_liveStylePreview()">';
-    echo '<span style="color:#999;font-size:12px;">' . ($has ? esc_attr($value) : 'not set') . '</span>';
+    echo '<span style="color:#999;font-size:12px;">' . ($has ? esc_html($value) : 'not set') . '</span>';
     echo '</div>';
 }
 
 function menux_render_style_panel($style) {
     $s  = wp_parse_args((array) $style, menux_style_defaults());
-    $td = 'padding:7px 12px 7px 0; font-size:13px; font-weight:500; width:200px; vertical-align:top;';
-    $tv = 'padding:7px 0;';
+    $td = esc_attr( 'padding:7px 12px 7px 0; font-size:13px; font-weight:500; width:200px; vertical-align:top;' );
+    $tv = esc_attr( 'padding:7px 0;' );
     $tabs = array(
         'colors'    => '🎨 Colors',
         'typo'      => '🔤 Typography',
@@ -46,9 +46,9 @@ function menux_render_style_panel($style) {
         <!-- TAB NAV -->
         <div id="bm-style-tabs" class="bm-tabs-nav">
             <?php foreach ($tabs as $key => $label): ?>
-            <button type="button" class="bm-tab-btn" data-tab="bm-tab-<?php echo $key; ?>"
-                onclick="menux_switchTab('bm-tab-<?php echo $key; ?>')">
-                <?php echo $label; ?>
+            <button type="button" class="bm-tab-btn" data-tab="bm-tab-<?php echo esc_attr( $key ); ?>"
+                onclick="menux_switchTab('bm-tab-<?php echo esc_js( $key ); ?>')">
+                <?php echo esc_html( $label ); ?>
             </button>
             <?php endforeach; ?>
         </div>
@@ -62,30 +62,30 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Container</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <?php foreach (array('container_bg'=>'Background','container_border'=>'Bottom border') as $f=>$l): ?>
-            <tr><td style="<?php echo $td;?>"><?php echo $l;?></td><td style="<?php echo $tv;?>"><?php menux_color_field($f,$s[$f]);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>"><?php echo esc_html( $l );?></td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field($f,$s[$f]);?></td></tr>
             <?php endforeach; ?>
             </tbody></table>
 
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;">Normal links</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr><td style="<?php echo $td;?>">Text color</td><td style="<?php echo $tv;?>"><?php menux_color_field('link_color',$s['link_color']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Text color</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('link_color',$s['link_color']);?></td></tr>
             </tbody></table>
 
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;">Links on hover</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr><td style="<?php echo $td;?>">Text color</td><td style="<?php echo $tv;?>"><?php menux_color_field('link_hover_color',$s['link_hover_color']);?></td></tr>
-            <tr><td style="<?php echo $td;?>">Background</td><td style="<?php echo $tv;?>"><?php menux_color_field('link_hover_bg',$s['link_hover_bg']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Text color</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('link_hover_color',$s['link_hover_color']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Background</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('link_hover_bg',$s['link_hover_bg']);?></td></tr>
             </tbody></table>
         </div>
         <div>
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Active link (current page)</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr><td style="<?php echo $td;?>">Text color</td><td style="<?php echo $tv;?>"><?php menux_color_field('link_active_color',$s['link_active_color']);?></td></tr>
-            <tr><td style="<?php echo $td;?>">Background</td><td style="<?php echo $tv;?>"><?php menux_color_field('link_active_bg',$s['link_active_bg']);?></td></tr>
-            <tr><td style="<?php echo $td;?>">Bottom border</td><td style="<?php echo $tv;?>"><?php menux_color_field('link_active_border',$s['link_active_border']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Text color</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('link_active_color',$s['link_active_color']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Background</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('link_active_bg',$s['link_active_bg']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Bottom border</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('link_active_border',$s['link_active_border']);?></td></tr>
             <tr>
-                <td style="<?php echo $td;?>">Active font weight</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Active font weight</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[link_active_font_weight]" onchange="menux_liveStylePreview()">
                         <option value="" <?php selected($s['link_active_font_weight'],'');?>>Inherit</option>
                         <option value="400" <?php selected($s['link_active_font_weight'],'400');?>>Regular (400)</option>
@@ -101,12 +101,12 @@ function menux_render_style_panel($style) {
             <p style="font-size:11px;color:#6b7280;margin:0 0 8px;">Useful for a "Logout" button or final CTA.</p>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Push right</td>
-                <td style="<?php echo $tv;?>"><label><input type="checkbox" name="menux_style[push_last_item]" value="1" <?php checked($s['push_last_item'],'1');?> onchange="menux_liveStylePreview()"> <code>margin-left: auto</code></label></td>
+                <td style="<?php echo esc_attr( $td );?>">Push right</td>
+                <td style="<?php echo esc_attr( $tv );?>"><label><input type="checkbox" name="menux_style[push_last_item]" value="1" <?php checked($s['push_last_item'],'1');?> onchange="menux_liveStylePreview()"> <code>margin-left: auto</code></label></td>
             </tr>
-            <tr><td style="<?php echo $td;?>">Text color</td><td style="<?php echo $tv;?>"><?php menux_color_field('last_item_color',$s['last_item_color']);?></td></tr>
-            <tr><td style="<?php echo $td;?>">Hover color</td><td style="<?php echo $tv;?>"><?php menux_color_field('last_item_hover_color',$s['last_item_hover_color']);?></td></tr>
-            <tr><td style="<?php echo $td;?>">Background</td><td style="<?php echo $tv;?>"><?php menux_color_field('last_item_bg',$s['last_item_bg']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Text color</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('last_item_color',$s['last_item_color']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Hover color</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('last_item_hover_color',$s['last_item_hover_color']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Background</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('last_item_bg',$s['last_item_bg']);?></td></tr>
             </tbody></table>
         </div>
         </div>
@@ -116,7 +116,7 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Submenu</div>
             <div style="display:flex;gap:20px;flex-wrap:wrap;">
             <?php foreach (array('submenu_bg'=>'Background','submenu_border'=>'Border','submenu_link_color'=>'Link color') as $f=>$l): ?>
-            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:#374151;min-width:90px;"><?php echo $l;?></span><?php menux_color_field($f,$s[$f]);?></div>
+            <div style="display:flex;align-items:center;gap:8px;"><span style="font-size:12px;color:#374151;min-width:90px;"><?php echo esc_html( $l );?></span><?php menux_color_field($f,$s[$f]);?></div>
             <?php endforeach; ?>
             </div>
         </div>
@@ -130,26 +130,26 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Font</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Google Font</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Google Font</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="text" name="menux_style[google_font]" value="<?php echo esc_attr($s['google_font']);?>" placeholder="es. Inter, Nunito, Playfair Display…" style="width:100%;max-width:260px;" oninput="menux_liveStylePreview()">
                     <p class="description" style="font-size:11px;margin:3px 0 0;">Trova il nome su <a href="https://fonts.google.com" target="_blank">fonts.google.com</a></p>
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Font fallback</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Font fallback</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="text" name="menux_style[font_family]" value="<?php echo esc_attr($s['font_family']);?>" placeholder="es. Arial, sans-serif" style="width:100%;max-width:260px;" oninput="menux_liveStylePreview()">
                     <p class="description" style="font-size:11px;margin:3px 0 0;">Used if Google Font is empty.</p>
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Size (px)</td>
-                <td style="<?php echo $tv;?>"><input type="number" name="menux_style[font_size]" value="<?php echo esc_attr($s['font_size']);?>" min="8" max="48" style="width:80px;" onchange="menux_liveStylePreview()"></td>
+                <td style="<?php echo esc_attr( $td );?>">Size (px)</td>
+                <td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[font_size]" value="<?php echo esc_attr($s['font_size']);?>" min="8" max="48" style="width:80px;" onchange="menux_liveStylePreview()"></td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Weight (font-weight)</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Weight (font-weight)</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[font_weight]" onchange="menux_liveStylePreview()">
                         <option value="" <?php selected($s['font_weight'],'');?>>Normal</option>
                         <option value="300" <?php selected($s['font_weight'],'300');?>>Light (300)</option>
@@ -161,12 +161,12 @@ function menux_render_style_panel($style) {
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Letter spacing (px)</td>
-                <td style="<?php echo $tv;?>"><input type="number" name="menux_style[letter_spacing]" value="<?php echo esc_attr($s['letter_spacing']);?>" step="0.5" min="-2" max="10" style="width:80px;" oninput="menux_liveStylePreview()"></td>
+                <td style="<?php echo esc_attr( $td );?>">Letter spacing (px)</td>
+                <td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[letter_spacing]" value="<?php echo esc_attr($s['letter_spacing']);?>" step="0.5" min="-2" max="10" style="width:80px;" oninput="menux_liveStylePreview()"></td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Text transform</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Text transform</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[text_transform]" onchange="menux_liveStylePreview()">
                         <option value="none"       <?php selected($s['text_transform'],'none');?>>None</option>
                         <option value="uppercase"  <?php selected($s['text_transform'],'uppercase');?>>UPPERCASE</option>
@@ -181,8 +181,8 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Animations &amp; Transitions</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Hover effect</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Hover effect</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[link_animation]" onchange="menux_liveStylePreview()">
                         <option value="none"      <?php selected($s['link_animation'],'none');?>>None</option>
                         <option value="lift"      <?php selected($s['link_animation'],'lift');?>>🚀 Lift</option>
@@ -196,8 +196,8 @@ function menux_render_style_panel($style) {
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Transition duration (s)</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Transition duration (s)</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="number" name="menux_style[link_transition]" value="<?php echo esc_attr($s['link_transition'] ?? '0.3');?>" step="0.1" min="0" max="2" style="width:80px;" oninput="menux_liveStylePreview()">
                     <p class="description" style="font-size:11px;margin:3px 0 0;">Hover animation speed (e.g. 0.3 = 300ms)</p>
                 </td>
@@ -208,7 +208,7 @@ function menux_render_style_panel($style) {
                 <div style="font-size:12px;font-weight:700;color:#0369a1;margin-bottom:8px;">⚡ Quick fonts</div>
                 <div style="display:flex;flex-wrap:wrap;gap:6px;">
                     <?php foreach (array('Inter','Roboto','Nunito','Montserrat','Lato','Poppins','Open Sans','Raleway','Playfair Display','Source Sans Pro') as $gf): ?>
-                    <button type="button" class="button button-small" style="font-size:11px;" onclick="document.querySelector('[name=\"menux_style[google_font]\"]').value='<?php echo $gf;?>';menux_liveStylePreview();"><?php echo $gf;?></button>
+                    <button type="button" class="button button-small" style="font-size:11px;" onclick="document.querySelector('[name=\"menux_style[google_font]\"]').value='<?php echo esc_js( $gf );?>';menux_liveStylePreview();"><?php echo esc_html( $gf );?></button>
                     <?php endforeach; ?>
                 </div>
             </div>
@@ -223,8 +223,8 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Spacing</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Items alignment</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Items alignment</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[nav_justify]" onchange="menux_liveStylePreview()">
                         <option value="flex-start"   <?php selected($s['nav_justify'] ?? 'flex-start','flex-start');?>>⬅️ Left</option>
                         <option value="center"       <?php selected($s['nav_justify'] ?? 'flex-start','center');?>>↔️ Center</option>
@@ -234,18 +234,18 @@ function menux_render_style_panel($style) {
                     </select>
                 </td>
             </tr>
-            <tr><td style="<?php echo $td;?>">Item gap (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[gap]" value="<?php echo esc_attr($s['gap']);?>" min="0" style="width:80px;" onchange="menux_liveStylePreview()"></td></tr>
-            <tr><td style="<?php echo $td;?>">Link horizontal padding (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[padding_x]" value="<?php echo esc_attr($s['padding_x']);?>" min="0" style="width:80px;" onchange="menux_liveStylePreview()"></td></tr>
-            <tr><td style="<?php echo $td;?>">Link vertical padding (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[padding_y]" value="<?php echo esc_attr($s['padding_y']);?>" min="0" style="width:80px;" onchange="menux_liveStylePreview()"></td></tr>
-            <tr><td style="<?php echo $td;?>">Link border radius (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[link_border_radius]" value="<?php echo esc_attr($s['link_border_radius'] ?? '');?>" min="0" max="50" placeholder="0" style="width:80px;" onchange="menux_liveStylePreview()"><p class="description" style="font-size:11px;margin:3px 0 0;">E.g. 20 for pill, 8 for rounded tab</p></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Item gap (px)</td><td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[gap]" value="<?php echo esc_attr($s['gap']);?>" min="0" style="width:80px;" onchange="menux_liveStylePreview()"></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Link horizontal padding (px)</td><td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[padding_x]" value="<?php echo esc_attr($s['padding_x']);?>" min="0" style="width:80px;" onchange="menux_liveStylePreview()"></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Link vertical padding (px)</td><td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[padding_y]" value="<?php echo esc_attr($s['padding_y']);?>" min="0" style="width:80px;" onchange="menux_liveStylePreview()"></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Link border radius (px)</td><td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[link_border_radius]" value="<?php echo esc_attr($s['link_border_radius'] ?? '');?>" min="0" max="50" placeholder="0" style="width:80px;" onchange="menux_liveStylePreview()"><p class="description" style="font-size:11px;margin:3px 0 0;">E.g. 20 for pill, 8 for rounded tab</p></td></tr>
             </tbody></table>
 
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;">Submenu</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr><td style="<?php echo $td;?>">Shadow</td><td style="<?php echo $tv;?>"><label><input type="checkbox" name="menux_style[submenu_shadow]" value="1" <?php checked($s['submenu_shadow'],'1');?> onchange="menux_liveStylePreview()"> Enable</label></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Shadow</td><td style="<?php echo esc_attr( $tv );?>"><label><input type="checkbox" name="menux_style[submenu_shadow]" value="1" <?php checked($s['submenu_shadow'],'1');?> onchange="menux_liveStylePreview()"> Enable</label></td></tr>
             <tr>
-                <td style="<?php echo $td;?>">Open animation</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Open animation</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[submenu_animation]" onchange="menux_liveStylePreview()">
                         <option value="fade"  <?php selected($s['submenu_animation'],'fade');?>>Fade + Slide</option>
                         <option value="slide" <?php selected($s['submenu_animation'],'slide');?>>Slide accordion</option>
@@ -258,13 +258,13 @@ function menux_render_style_panel($style) {
         <div>
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Sticky Menu</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
-            <tr><td style="<?php echo $td;?>">Enable sticky</td><td style="<?php echo $tv;?>"><label><input type="checkbox" name="menux_style[sticky]" value="1" <?php checked($s['sticky'],'1');?> onchange="menux_liveStylePreview()"> Keep menu fixed at top on scroll</label></td></tr>
-            <tr><td style="<?php echo $td;?>">Sticky background</td><td style="<?php echo $tv;?>"><?php menux_color_field('sticky_bg',$s['sticky_bg']);?></td></tr>
-            <tr><td style="<?php echo $td;?>">Shadow sticky</td><td style="<?php echo $tv;?>"><label><input type="checkbox" name="menux_style[sticky_shadow]" value="1" <?php checked($s['sticky_shadow'],'1');?> onchange="menux_liveStylePreview()"> Enable</label></td></tr>
-            <tr><td style="<?php echo $td;?>">Z-Index</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[sticky_z_index]" value="<?php echo esc_attr($s['sticky_z_index']);?>" min="100" max="99999" style="width:90px;" oninput="menux_liveStylePreview()"></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Enable sticky</td><td style="<?php echo esc_attr( $tv );?>"><label><input type="checkbox" name="menux_style[sticky]" value="1" <?php checked($s['sticky'],'1');?> onchange="menux_liveStylePreview()"> Keep menu fixed at top on scroll</label></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Sticky background</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('sticky_bg',$s['sticky_bg']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Shadow sticky</td><td style="<?php echo esc_attr( $tv );?>"><label><input type="checkbox" name="menux_style[sticky_shadow]" value="1" <?php checked($s['sticky_shadow'],'1');?> onchange="menux_liveStylePreview()"> Enable</label></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Z-Index</td><td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[sticky_z_index]" value="<?php echo esc_attr($s['sticky_z_index']);?>" min="100" max="99999" style="width:90px;" oninput="menux_liveStylePreview()"></td></tr>
             <tr>
-                <td style="<?php echo $td;?>">Horizontal alignment</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Horizontal alignment</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[sticky_justify]" onchange="menux_liveStylePreview()">
                         <option value="flex-start"    <?php selected($s['sticky_justify'] ?? 'flex-start','flex-start');?>>⬅️ Left</option>
                         <option value="center"        <?php selected($s['sticky_justify'] ?? 'flex-start','center');?>>↔️ Center</option>
@@ -274,8 +274,8 @@ function menux_render_style_panel($style) {
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Vertical alignment</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Vertical alignment</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[sticky_align_items]" onchange="menux_liveStylePreview()">
                         <option value="flex-start" <?php selected($s['sticky_align_items'] ?? 'center','flex-start');?>>⬆️ Top</option>
                         <option value="center"     <?php selected($s['sticky_align_items'] ?? 'center','center');?>>⏺️ Center</option>
@@ -283,18 +283,18 @@ function menux_render_style_panel($style) {
                     </select>
                 </td>
             </tr>
-            <tr><td style="<?php echo $td;?>">Horizontal padding (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[sticky_padding_x]" value="<?php echo esc_attr($s['sticky_padding_x'] ?? '');?>" min="0" max="200" style="width:80px;" placeholder="auto" oninput="menux_liveStylePreview()"></td></tr>
-            <tr><td style="<?php echo $td;?>">Vertical padding (px)</td><td style="<?php echo $tv;?>"><input type="number" name="menux_style[sticky_padding_y]" value="<?php echo esc_attr($s['sticky_padding_y'] ?? '');?>" min="0" max="100" style="width:80px;" placeholder="auto" oninput="menux_liveStylePreview()"></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Horizontal padding (px)</td><td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[sticky_padding_x]" value="<?php echo esc_attr($s['sticky_padding_x'] ?? '');?>" min="0" max="200" style="width:80px;" placeholder="auto" oninput="menux_liveStylePreview()"></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Vertical padding (px)</td><td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[sticky_padding_y]" value="<?php echo esc_attr($s['sticky_padding_y'] ?? '');?>" min="0" max="100" style="width:80px;" placeholder="auto" oninput="menux_liveStylePreview()"></td></tr>
             <tr>
-                <td style="<?php echo $td;?>">Transition duration (s)</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Transition duration (s)</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="number" name="menux_style[sticky_transition]" value="<?php echo esc_attr($s['sticky_transition'] ?? '0.3');?>" min="0" max="2" step="0.05" style="width:80px;" oninput="menux_liveStylePreview()">
                     <span style="font-size:11px;color:#6b7280;margin-left:6px;">Smooth background + shadow fade when menu becomes sticky</span>
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Shrink on sticky</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Shrink on sticky</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <label style="display:flex;align-items:center;gap:6px;">
                         <input type="checkbox" name="menux_style[sticky_shrink]" value="1" <?php checked($s['sticky_shrink'] ?? '0','1');?> onchange="menux_liveStylePreview()">
                         Reduce height, font size and logo when sticky
@@ -307,8 +307,8 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:16px 0 10px;">📊 Scroll Progress Bar</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Enable</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Enable</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <label style="display:flex;align-items:center;gap:6px;">
                         <input type="checkbox" name="menux_style[progress_bar_enabled]" value="1" <?php checked($s['progress_bar_enabled'] ?? '0','1');?> onchange="menux_liveStylePreview()">
                         Show page reading progress bar on the menu
@@ -316,16 +316,16 @@ function menux_render_style_panel($style) {
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Color</td>
-                <td style="<?php echo $tv;?>"><?php menux_color_field('progress_bar_color', $s['progress_bar_color'] ?? '#667eea');?></td>
+                <td style="<?php echo esc_attr( $td );?>">Color</td>
+                <td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('progress_bar_color', $s['progress_bar_color'] ?? '#667eea');?></td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Height (px)</td>
-                <td style="<?php echo $tv;?>"><input type="number" name="menux_style[progress_bar_height]" value="<?php echo esc_attr($s['progress_bar_height'] ?? '3');?>" min="1" max="10" style="width:70px;" oninput="menux_liveStylePreview()"></td>
+                <td style="<?php echo esc_attr( $td );?>">Height (px)</td>
+                <td style="<?php echo esc_attr( $tv );?>"><input type="number" name="menux_style[progress_bar_height]" value="<?php echo esc_attr($s['progress_bar_height'] ?? '3');?>" min="1" max="10" style="width:70px;" oninput="menux_liveStylePreview()"></td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Position</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Position</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[progress_bar_position]" onchange="menux_liveStylePreview()">
                         <option value="bottom" <?php selected($s['progress_bar_position'] ?? 'bottom','bottom');?>>Bottom of menu</option>
                         <option value="top"    <?php selected($s['progress_bar_position'] ?? 'bottom','top');?>>Top of menu</option>
@@ -353,29 +353,29 @@ function menux_render_style_panel($style) {
             );
             $cur_entrance = $s['entrance_animation'] ?? 'none';
             foreach ($entrance_opts as $val => $opt): ?>
-                <label style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 8px;border:2px solid <?php echo $cur_entrance===$val ? '#667eea' : '#e5e7eb'; ?>;border-radius:10px;cursor:pointer;background:<?php echo $cur_entrance===$val ? '#eef2ff' : '#fff'; ?>;transition:all .15s;font-size:12px;text-align:center;" class="bm-entrance-card">
+                <label style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:10px 8px;border:2px solid <?php echo esc_attr( $cur_entrance===$val ? '#667eea' : '#e5e7eb' ); ?>;border-radius:10px;cursor:pointer;background:<?php echo esc_attr( $cur_entrance===$val ? '#eef2ff' : '#fff' ); ?>;transition:all .15s;font-size:12px;text-align:center;" class="bm-entrance-card">
                     <input type="radio" name="menux_style[entrance_animation]" value="<?php echo esc_attr($val); ?>" <?php checked($cur_entrance, $val); ?> style="display:none;" onchange="menux_updateEntranceCard(this); menux_liveStylePreview();">
-                    <span style="font-size:20px;"><?php echo $opt['icon']; ?></span>
+                    <span style="font-size:20px;"><?php echo esc_html( $opt['icon'] ); ?></span>
                     <span style="font-weight:500;color:#374151;"><?php echo esc_html($opt['label']); ?></span>
                 </label>
             <?php endforeach; ?>
             </div>
             <table style="border-collapse:collapse;width:100%;max-width:420px;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Duration (s)</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Duration (s)</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="number" name="menux_style[entrance_duration]" value="<?php echo esc_attr($s['entrance_duration'] ?? '0.5'); ?>" min="0.1" max="3" step="0.1" style="width:80px;" oninput="menux_liveStylePreview()">
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Delay (s)</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Delay (s)</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="number" name="menux_style[entrance_delay]" value="<?php echo esc_attr($s['entrance_delay'] ?? '0'); ?>" min="0" max="5" step="0.1" style="width:80px;" oninput="menux_liveStylePreview()">
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Stagger items (s)</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Stagger items (s)</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="number" name="menux_style[entrance_stagger]" value="<?php echo esc_attr($s['entrance_stagger'] ?? '0'); ?>" min="0" max="1" step="0.05" style="width:80px;" oninput="menux_liveStylePreview()">
                     <span style="font-size:11px;color:#6b7280;margin-left:6px;">Each item animates with this extra delay</span>
                 </td>
@@ -398,8 +398,8 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">🍔 Hamburger</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Icon style</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Icon style</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[hamburger_style]" onchange="menux_liveStylePreview()">
                         <option value="classic" <?php selected($s['hamburger_style'],'classic');?>>Classic (3 lines)</option>
                         <option value="modern"  <?php selected($s['hamburger_style'],'modern');?>>Modern (rounded)</option>
@@ -408,8 +408,8 @@ function menux_render_style_panel($style) {
                 </td>
             </tr>
             <tr>
-                <td style="<?php echo $td;?>">Alignment</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Alignment</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[hamburger_align]" onchange="menux_liveStylePreview()">
                         <option value="flex-start" <?php selected($s['hamburger_align'],'flex-start');?>>Left</option>
                         <option value="center"     <?php selected($s['hamburger_align'],'center');?>>Center</option>
@@ -417,24 +417,24 @@ function menux_render_style_panel($style) {
                     </select>
                 </td>
             </tr>
-            <tr><td style="<?php echo $td;?>">Icon color</td><td style="<?php echo $tv;?>"><?php menux_color_field('hamburger_color',$s['hamburger_color']);?></td></tr>
-            <tr><td style="<?php echo $td;?>">Button background</td><td style="<?php echo $tv;?>"><?php menux_color_field('hamburger_bg',$s['hamburger_bg']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Icon color</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('hamburger_color',$s['hamburger_color']);?></td></tr>
+            <tr><td style="<?php echo esc_attr( $td );?>">Button background</td><td style="<?php echo esc_attr( $tv );?>"><?php menux_color_field('hamburger_bg',$s['hamburger_bg']);?></td></tr>
             </tbody></table>
 
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin:18px 0 10px;">📐 When it appears</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Breakpoint mode</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Breakpoint mode</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <div style="display:flex;flex-direction:column;gap:8px;margin-top:2px;">
-                        <label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:2px solid <?php echo ($s['mobile_breakpoint_mode']??'manual')==='auto'?'#667eea':'#e5e7eb'; ?>;border-radius:8px;cursor:pointer;background:<?php echo ($s['mobile_breakpoint_mode']??'manual')==='auto'?'#f0f4ff':'#fff'; ?>;">
+                        <label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:2px solid <?php echo esc_attr( ($s['mobile_breakpoint_mode']??'manual')==='auto'?'#667eea':'#e5e7eb' ); ?>;border-radius:8px;cursor:pointer;background:<?php echo esc_attr( ($s['mobile_breakpoint_mode']??'manual')==='auto'?'#f0f4ff':'#fff' ); ?>;">
                             <input type="radio" name="menux_style[mobile_breakpoint_mode]" value="auto" <?php checked($s['mobile_breakpoint_mode']??'manual','auto'); ?> onchange="menux_liveStylePreview();bmToggleBreakpointMode(this.value)" style="margin-top:3px;flex-shrink:0;">
                             <div>
                                 <strong style="font-size:13px;color:#111827;">✨ Automatic</strong>
                                 <p style="font-size:11px;color:#6b7280;margin:2px 0 0;">The hamburger appears when items no longer fit in the row. No px to choose.</p>
                             </div>
                         </label>
-                        <label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:2px solid <?php echo ($s['mobile_breakpoint_mode']??'manual')==='manual'?'#667eea':'#e5e7eb'; ?>;border-radius:8px;cursor:pointer;background:<?php echo ($s['mobile_breakpoint_mode']??'manual')==='manual'?'#f0f4ff':'#fff'; ?>;">
+                        <label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:2px solid <?php echo esc_attr( ($s['mobile_breakpoint_mode']??'manual')==='manual'?'#667eea':'#e5e7eb' ); ?>;border-radius:8px;cursor:pointer;background:<?php echo esc_attr( ($s['mobile_breakpoint_mode']??'manual')==='manual'?'#f0f4ff':'#fff' ); ?>;">
                             <input type="radio" name="menux_style[mobile_breakpoint_mode]" value="manual" <?php checked($s['mobile_breakpoint_mode']??'manual','manual'); ?> onchange="menux_liveStylePreview();bmToggleBreakpointMode(this.value)" style="margin-top:3px;flex-shrink:0;">
                             <div>
                                 <strong style="font-size:13px;color:#111827;">🎚️ Manual</strong>
@@ -444,9 +444,9 @@ function menux_render_style_panel($style) {
                     </div>
                 </td>
             </tr>
-            <tr id="bm-bp-manual-row" style="<?php echo ($s['mobile_breakpoint_mode']??'manual')==='auto'?'display:none':''; ?>">
-                <td style="<?php echo $td;?>">Breakpoint (px)</td>
-                <td style="<?php echo $tv;?>">
+            <tr id="bm-bp-manual-row" style="<?php echo esc_attr( ($s['mobile_breakpoint_mode']??'manual')==='auto'?'display:none':'' ); ?>">
+                <td style="<?php echo esc_attr( $td );?>">Breakpoint (px)</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <input type="number" name="menux_style[mobile_breakpoint]" value="<?php echo esc_attr($s['mobile_breakpoint']);?>" min="320" max="2560" style="width:90px;" onchange="menux_liveStylePreview()">
                     <p class="description" style="font-size:11px;margin:3px 0 0;">Below this px → hamburger. Typical: 768 or 1024.</p>
                 </td>
@@ -469,11 +469,11 @@ function menux_render_style_panel($style) {
             ?>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
             <?php foreach ($open_styles as $val => $info): ?>
-                <label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:2px solid <?php echo $cur_open===$val?'#667eea':'#e5e7eb'; ?>;border-radius:8px;cursor:pointer;background:<?php echo $cur_open===$val?'#f0f4ff':'#fff'; ?>;" onclick="this.querySelector('input').click()">
-                    <input type="radio" name="menux_style[mobile_open_style]" value="<?php echo $val; ?>" <?php checked($cur_open,$val); ?> onchange="menux_liveStylePreview();bmToggleOpenStyle(this.value)" style="margin-top:3px;flex-shrink:0;">
+                <label style="display:flex;align-items:flex-start;gap:8px;padding:10px 12px;border:2px solid <?php echo esc_attr( $cur_open===$val?'#667eea':'#e5e7eb' ); ?>;border-radius:8px;cursor:pointer;background:<?php echo esc_attr( $cur_open===$val?'#f0f4ff':'#fff' ); ?>;" onclick="this.querySelector('input').click()">
+                    <input type="radio" name="menux_style[mobile_open_style]" value="<?php echo esc_attr( $val ); ?>" <?php checked($cur_open,$val); ?> onchange="menux_liveStylePreview();bmToggleOpenStyle(this.value)" style="margin-top:3px;flex-shrink:0;">
                     <div>
-                        <strong style="font-size:13px;color:#111827;"><?php echo $info['icon'].' '.$info['label']; ?></strong>
-                        <p style="font-size:11px;color:#6b7280;margin:2px 0 0;"><?php echo $info['desc']; ?></p>
+                        <strong style="font-size:13px;color:#111827;"><?php echo esc_html( $info['icon'] ) . ' ' . esc_html( $info['label'] ); ?></strong>
+                        <p style="font-size:11px;color:#6b7280;margin:2px 0 0;"><?php echo esc_html( $info['desc'] ); ?></p>
                     </div>
                 </label>
             <?php endforeach; ?>
@@ -483,7 +483,7 @@ function menux_render_style_panel($style) {
             <div style="border:1px solid #e5e7eb;border-radius:10px;padding:14px;background:#fafbfc;">
 
                 <!-- Comuni a fullscreen + drawer -->
-                <div id="bm-mob-overlay-opts" style="<?php echo $cur_open==='dropdown'?'display:none':''; ?>">
+                <div id="bm-mob-overlay-opts" style="<?php echo esc_attr( $cur_open==='dropdown'?'display:none':'' ); ?>">
                     <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Background overlay</div>
                     <table style="border-collapse:collapse;width:100%;margin-bottom:10px;"><tbody>
                     <tr><td style="font-size:12px;color:#374151;padding:4px 12px 4px 0;width:130px;">Color</td><td style="padding:4px 0;"><?php menux_color_field('mobile_overlay_bg',$s['mobile_overlay_bg']??'#000000');?></td></tr>
@@ -494,7 +494,7 @@ function menux_render_style_panel($style) {
                                 value="<?php echo esc_attr($s['mobile_overlay_opacity']??'0.5'); ?>"
                                 oninput="this.nextElementSibling.textContent=Math.round(this.value*100)+'%';menux_liveStylePreview()"
                                 style="width:120px;vertical-align:middle;">
-                            <span style="font-size:12px;color:#6b7280;margin-left:6px;"><?php echo round(($s['mobile_overlay_opacity']??0.5)*100); ?>%</span>
+                            <span style="font-size:12px;color:#6b7280;margin-left:6px;"><?php echo absint( round( ($s['mobile_overlay_opacity']??0.5)*100 ) ); ?>%</span>
                         </td>
                     </tr>
                     <tr>
@@ -505,7 +505,7 @@ function menux_render_style_panel($style) {
                 </div>
 
                 <!-- Solo fullscreen -->
-                <div id="bm-mob-fullscreen-opts" style="<?php echo $cur_open!=='fullscreen'?'display:none':''; ?>">
+                <div id="bm-mob-fullscreen-opts" style="<?php echo esc_attr( $cur_open!=='fullscreen'?'display:none':'' ); ?>">
                     <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Fullscreen</div>
                     <table style="border-collapse:collapse;width:100%;"><tbody>
                     <tr>
@@ -523,7 +523,7 @@ function menux_render_style_panel($style) {
                 </div>
 
                 <!-- Solo drawer -->
-                <div id="bm-mob-drawer-opts" style="<?php echo !in_array($cur_open,array('drawer-left','drawer-right'))?'display:none':''; ?>">
+                <div id="bm-mob-drawer-opts" style="<?php echo esc_attr( !in_array($cur_open,array('drawer-left','drawer-right'),true)?'display:none':'' ); ?>">
                     <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Drawer</div>
                     <table style="border-collapse:collapse;width:100%;"><tbody>
                     <tr>
@@ -535,7 +535,7 @@ function menux_render_style_panel($style) {
                 </div>
 
                 <!-- Dropdown opzioni -->
-                <div id="bm-mob-dropdown-opts" style="<?php echo $cur_open!=='dropdown'?'display:none':''; ?>">
+                <div id="bm-mob-dropdown-opts" style="<?php echo esc_attr( $cur_open!=='dropdown'?'display:none':'' ); ?>">
                     <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Dropdown</div>
                     <table style="border-collapse:collapse;width:100%;"><tbody>
                     <tr><td style="font-size:12px;color:#374151;padding:4px 12px 4px 0;width:130px;">Dropdown background</td><td style="padding:4px 0;"><?php menux_color_field('mobile_menu_bg',$s['mobile_menu_bg']);?></td></tr>
@@ -633,8 +633,8 @@ function menux_render_style_panel($style) {
             <div style="font-size:12px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Color Mode</div>
             <table style="border-collapse:collapse;width:100%;"><tbody>
             <tr>
-                <td style="<?php echo $td;?>">Color theme</td>
-                <td style="<?php echo $tv;?>">
+                <td style="<?php echo esc_attr( $td );?>">Color theme</td>
+                <td style="<?php echo esc_attr( $tv );?>">
                     <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
                         <?php
                         $dm_options = array(
@@ -645,12 +645,12 @@ function menux_render_style_panel($style) {
                         $curr_dm = $s['dark_mode'] ?? 'light';
                         foreach ($dm_options as $val => $opt):
                         ?>
-                        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:2px solid <?php echo $curr_dm === $val ? '#2271b1' : '#e5e7eb'; ?>;border-radius:8px;cursor:pointer;background:<?php echo $curr_dm === $val ? '#f0f6fc' : '#fff'; ?>;">
-                            <input type="radio" name="menux_style[dark_mode]" value="<?php echo $val;?>" <?php checked($curr_dm,$val);?> style="margin-top:2px;" onchange="this.closest('.bm-tab-pane').querySelectorAll('label').forEach(function(l){l.style.borderColor='#e5e7eb';l.style.background='#fff';}); this.closest('label').style.borderColor='#2271b1'; this.closest('label').style.background='#f0f6fc';">
+                        <label style="display:flex;align-items:flex-start;gap:10px;padding:12px;border:2px solid <?php echo esc_attr( $curr_dm === $val ? '#2271b1' : '#e5e7eb' ); ?>;border-radius:8px;cursor:pointer;background:<?php echo esc_attr( $curr_dm === $val ? '#f0f6fc' : '#fff' ); ?>;">
+                            <input type="radio" name="menux_style[dark_mode]" value="<?php echo esc_attr( $val );?>" <?php checked($curr_dm,$val);?> style="margin-top:2px;" onchange="this.closest('.bm-tab-pane').querySelectorAll('label').forEach(function(l){l.style.borderColor='#e5e7eb';l.style.background='#fff';}); this.closest('label').style.borderColor='#2271b1'; this.closest('label').style.background='#f0f6fc';">
                             <span>
-                                <span style="font-size:16px;"><?php echo $opt['icon'];?></span>
-                                <strong style="font-size:13px;margin-left:4px;"><?php echo $opt['label'];?></strong>
-                                <p style="margin:4px 0 0;font-size:11px;color:#6b7280;"><?php echo $opt['desc'];?></p>
+                                <span style="font-size:16px;"><?php echo esc_html( $opt['icon'] );?></span>
+                                <strong style="font-size:13px;margin-left:4px;"><?php echo esc_html( $opt['label'] );?></strong>
+                                <p style="margin:4px 0 0;font-size:11px;color:#6b7280;"><?php echo wp_kses_post( $opt['desc'] );?></p>
                             </span>
                         </label>
                         <?php endforeach; ?>
@@ -671,8 +671,8 @@ function menux_render_style_panel($style) {
                 <?php $curr_dm = $s['dark_mode'] ?? 'light'; ?>
                 <code style="display:block;padding:10px;background:#1e1e1e;color:#9cdcfe;border-radius:6px;font-size:12px;line-height:1.5;">
                     &lt;nav <?php
-                    if ($curr_dm === 'dark') echo 'data-bs-theme="dark"';
-                    elseif ($curr_dm === 'light') echo 'data-bs-theme="light"';
+                    if ($curr_dm === 'dark') echo esc_html( 'data-bs-theme="dark"' );
+                    elseif ($curr_dm === 'light') echo esc_html( 'data-bs-theme="light"' );
                     else echo '<em style="color:#ce9178;">// no attribute (auto)</em>';
                     ?>&gt;
                 </code>

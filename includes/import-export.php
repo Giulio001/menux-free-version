@@ -24,7 +24,7 @@ function menux_ajax_import_config() {
     if (!current_user_can('manage_options')) wp_die('Unauthorized');
     check_ajax_referer('menux_import_config_nonce', 'nonce');
 
-    $raw = isset($_POST['config']) ? base64_decode(sanitize_text_field($_POST['config'])) : '';
+    $raw = isset($_POST['config']) ? base64_decode( sanitize_text_field( wp_unslash( $_POST['config'] ) ) ) : '';
     if (empty($raw)) { wp_send_json_error('No data received.'); }
 
     $config = json_decode($raw, true);

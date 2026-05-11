@@ -6,7 +6,7 @@
  * Version:     2.1.1
  * Author:      giuliomax
  * Author URI:  https://profiles.wordpress.org/giuliomax/
- * Text Domain: menux
+ * Text Domain: menux-free
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * License:     GPL-2.0-or-later

@@ -45,7 +45,7 @@ function menux_render_shortcode($atts = array()) {
     }
     $current_page_id = get_queried_object_id();
     $current_hour_min = current_time('H:i');
-    $current_utm = isset($_GET['utm_source']) ? sanitize_text_field($_GET['utm_source']) : '';
+    $current_utm = isset($_GET['utm_source']) ? sanitize_text_field( wp_unslash( $_GET['utm_source'] ) ) : ''; // phpcs:ignore WordPress.Security.NonceVerification.Recommended
     $is_mobile_device = wp_is_mobile();
 
     // ──── FEATURE 4+10: Funzione di filtraggio item ────
@@ -261,9 +261,8 @@ function menux_render_shortcode($atts = array()) {
     }
 
     // Sticky spacer height viene calcolato via JS
-    $sticky_attrs = $is_sticky ? ' data-menux-sticky="1"' : '';
-    $aria_label   = !empty($s['a11y_aria_label']) ? esc_attr($s['a11y_aria_label']) : 'Main menu';
-    $skip_target  = !empty($s['a11y_skip_target']) ? esc_attr($s['a11y_skip_target']) : 'main';
+    $aria_label  = 'Main menu';
+    $skip_target = 'main';
 
     // ──── Variabili necessarie nell'HTML del nav ────
     $open_style = $s['mobile_open_style']      ?? 'dropdown';
@@ -272,46 +271,43 @@ function menux_render_shortcode($atts = array()) {
 
     ob_start();
     ?>
-    <?php if ($s['a11y_skip_link'] === '1'): ?>
-    <a class="menux-skip-link" href="#<?php echo $skip_target; ?>"><?php echo esc_html__('Skip to main content', 'menux'); ?></a>
-    <?php endif; ?>
     <?php if ($is_sticky): ?><div class="menux-sticky-spacer" id="menux-spacer" style="display:none;"></div><?php endif; ?>
 
     <?php /* ──── Overlay backdrop per fullscreen / drawer ──── */ ?>
-    <?php if (in_array($open_style, array('fullscreen','drawer-left','drawer-right'))): ?>
+    <?php if (in_array($open_style, array('fullscreen','drawer-left','drawer-right'), true)): ?>
     <div class="menux-overlay" id="menux-overlay" aria-hidden="true"></div>
     <?php endif; ?>
 
     <?php /* ──── Pulsante close (X) — fuori dal nav, position:fixed, hidden di default ──── */ ?>
-    <?php if (in_array($open_style, array('fullscreen','drawer-left','drawer-right'))): ?>
+    <?php if (in_array($open_style, array('fullscreen','drawer-left','drawer-right'), true)): ?>
     <button type="button" class="menux-close-btn" id="menux-close-btn" aria-label="Close menu">×</button>
     <?php endif; ?>
 
-    <nav class="menux-container <?php echo esc_attr($nav_class); ?>"<?php echo $sticky_attrs; ?><?php echo $dm_attr; ?> id="menux-nav-main"
-         role="navigation" aria-label="<?php echo $aria_label; ?>"
+    <nav class="menux-container <?php echo esc_attr($nav_class); ?>"<?php if ($is_sticky) echo ' data-menux-sticky="1"'; ?><?php if ($dark_mode === 'dark') echo ' data-bs-theme="dark" data-bm-theme="dark"'; elseif ($dark_mode === 'light') echo ' data-bs-theme="light"'; ?> id="menux-nav-main"
+         role="navigation" aria-label="<?php echo esc_attr($aria_label); ?>"
          data-mobile-open-style="<?php echo esc_attr($open_style); ?>"
          data-mobile-bp-mode="<?php echo esc_attr($bp_mode); ?>"
          data-mobile-bp="<?php echo intval($bp); ?>">
         <?php if (!empty($s['progress_bar_enabled']) && $s['progress_bar_enabled'] === '1'): ?>
         <div class="menux-progress-bar" id="menux-progress-bar" aria-hidden="true"></div>
         <?php endif; ?>
-        <?php if (!empty($logo_html) && in_array($s['logo_position'] ?? 'left', array('left','center-split'))): ?>
-            <?php echo $logo_html; ?>
+        <?php if (!empty($logo_html) && in_array($s['logo_position'] ?? 'left', array('left','center-split'), true)): ?>
+            <?php echo wp_kses_post( $logo_html ); ?>
         <?php endif; ?>
-        <div class="menux-hamburger" aria-expanded="false" aria-controls="menux-list-main" aria-label="<?php esc_attr_e('Open/close menu', 'menux'); ?>">
+        <div class="menux-hamburger" aria-expanded="false" aria-controls="menux-list-main" aria-label="<?php esc_attr_e('Open/close menu', 'menux-free'); ?>">
             <span></span><span></span><span></span>
         </div>
         <ul class="menux-list" id="menux-list-main" role="menubar">
-            <?php foreach ($menu_items as $raw): echo $render_item_html($raw, 0); endforeach; ?>
+            <?php foreach ($menu_items as $raw): echo wp_kses_post( $render_item_html($raw, 0) ); endforeach; ?>
         </ul>
         <?php if (!empty($logo_html) && ($s['logo_position'] ?? 'left') === 'right'): ?>
-            <?php echo $logo_html; ?>
+            <?php echo wp_kses_post( $logo_html ); ?>
         <?php endif; ?>
-        <?php echo $search_html; ?>
+        <?php echo wp_kses_post( $search_html ); ?>
     </nav>
 
     <style>
-        <?php echo menux_generate_css($menux_style); ?>
+        <?php echo wp_strip_all_tags( menux_generate_css( $menux_style ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
     </style>
 
     <script>

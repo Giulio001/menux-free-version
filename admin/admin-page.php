@@ -23,7 +23,7 @@ function menux_render_admin_html() {
 
         $menu_items = array();
         if (!empty($_POST['menu_items']) && is_array($_POST['menu_items'])) {
-            foreach ($_POST['menu_items'] as $item) {
+            foreach ( wp_unslash( $_POST['menu_items'] ) as $item ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
                 $type = sanitize_text_field($item['type']);
                 $visibility = sanitize_text_field($item['visibility'] ?? 'all');
                 // Accept 'all', 'logged_in', 'logged_out', or any valid WP role slug
@@ -141,8 +141,8 @@ function menux_render_admin_html() {
         update_option('menux_menu_items', $menu_items);
 
         // Salva stile
-        $raw_style  = isset($_POST['menux_style']) && is_array($_POST['menux_style']) ? $_POST['menux_style'] : array();
-        $use_flags  = isset($_POST['menux_style_use']) && is_array($_POST['menux_style_use']) ? $_POST['menux_style_use'] : array();
+        $raw_style  = isset($_POST['menux_style']) && is_array($_POST['menux_style']) ? wp_unslash( $_POST['menux_style'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        $use_flags  = isset($_POST['menux_style_use']) && is_array($_POST['menux_style_use']) ? wp_unslash( $_POST['menux_style_use'] ) : array(); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
         
         $color_keys = array(
             'container_bg', 'container_border',
@@ -177,7 +177,7 @@ function menux_render_admin_html() {
         $saved_style['mobile_fullscreen_align']  = in_array($raw_style['mobile_fullscreen_align'] ?? 'center', array('center','flex-start','flex-end'), true) ? $raw_style['mobile_fullscreen_align'] : 'center';
         $saved_style['mobile_drawer_width']      = isset($raw_style['mobile_drawer_width'])    ? intval($raw_style['mobile_drawer_width'])     : '280';
         $saved_style['mobile_open_animation']    = in_array($raw_style['mobile_open_animation'] ?? 'fade', array('fade','slide','scale'), true) ? $raw_style['mobile_open_animation'] : 'fade';
-        $saved_style['custom_css']              = isset($raw_style['custom_css'])         ? wp_unslash(strip_tags($raw_style['custom_css']))       : '';
+        $saved_style['custom_css']              = isset($raw_style['custom_css'])         ? wp_strip_all_tags( $raw_style['custom_css'] )       : '';
         // Typography avanzata
         $saved_style['google_font']             = isset($raw_style['google_font'])        ? sanitize_text_field($raw_style['google_font'])        : '';
         $saved_style['font_family']             = isset($raw_style['font_family'])        ? sanitize_text_field($raw_style['font_family'])        : '';
@@ -308,7 +308,7 @@ function menux_render_admin_html() {
                             </div>
                             <div class="bm-preview-frame">
                                 <div id="menux-preview-wrap" class="bm-preview-canvas">
-                                    <?php echo menux_get_preview_markup($menu_items, $supported_langs); ?>
+                                    <?php echo wp_kses_post( menux_get_preview_markup( $menu_items, $supported_langs ) ); ?>
                                 </div>
                             </div>
                         </div>
@@ -1214,9 +1214,9 @@ function menux_render_admin_html() {
         return html;
     }
     var menux_all_pages = <?php echo json_encode(array_map(function($p){ return array('id'=>$p->ID,'title'=>$p->post_title); }, $all_wp_pages)); ?>;
-    var menux_reload_langs_nonce  = '<?php echo wp_create_nonce('menux_reload_languages_nonce'); ?>';
-    var menux_export_config_nonce = '<?php echo wp_create_nonce('menux_export_config_nonce'); ?>';
-    var menux_import_config_nonce = '<?php echo wp_create_nonce('menux_import_config_nonce'); ?>';
+    var menux_reload_langs_nonce  = '<?php echo esc_js( wp_create_nonce( 'menux_reload_languages_nonce' ) ); ?>';
+    var menux_export_config_nonce = '<?php echo esc_js( wp_create_nonce( 'menux_export_config_nonce' ) ); ?>';
+    var menux_import_config_nonce = '<?php echo esc_js( wp_create_nonce( 'menux_import_config_nonce' ) ); ?>';
 
     function menux_buildPageOptions() {
         var html = '<option value="">📄 WP Page...</option>';
