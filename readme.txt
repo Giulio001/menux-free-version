@@ -1,5 +1,5 @@
 === MenuX Free ===
-Contributors: maxsoftware
+Contributors: giuliomax
 Tags: menu, navigation, hamburger menu, responsive menu, shortcode
 Requires at least: 5.8
 Tested up to: 6.7
