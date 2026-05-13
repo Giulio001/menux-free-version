@@ -1,12 +1,12 @@
 <?php
 /**
- * Plugin Name: MenuX Free
+ * Plugin Name: Giuliomax Menu Builder
  * Plugin URI:  https://github.com/Giulio001/menux-free-version
  * Description: Menu management via Shortcode [menux]. Supports hamburger style, icons, role-based visibility, multilingual (WPML, Polylang, TranslatePress) and advanced layouts.
  * Version:     2.1.1
  * Author:      giuliomax
  * Author URI:  https://profiles.wordpress.org/giuliomax/
- * Text Domain: menux-free
+ * Text Domain: giuliomax-menu-builder
  * Requires at least: 5.8
  * Requires PHP:      7.4
  * License:     GPL-2.0-or-later

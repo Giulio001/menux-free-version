@@ -1,4 +1,4 @@
-=== MenuX Free ===
+=== Giuliomax Menu Builder ===
 Contributors: giuliomax
 Tags: menu, navigation, hamburger menu, responsive menu, shortcode
 Requires at least: 5.8
@@ -12,7 +12,7 @@ A powerful and easy-to-use menu plugin. Build any menu via the [menux] shortcode
 
 == Description ==
 
-**MenuX Free** lets you create fully customized navigation menus and embed them anywhere using the `[menux]` shortcode. Build your menu visually from the WordPress admin, style it with colors and typography, and it works perfectly on desktop, tablet and mobile.
+**Giuliomax Menu Builder** lets you create fully customized navigation menus and embed them anywhere using the `[menux]` shortcode. Build your menu visually from the WordPress admin, style it with colors and typography, and it works perfectly on desktop, tablet and mobile.
 
 = ✨ Main Features =
 
@@ -44,14 +44,14 @@ A powerful and easy-to-use menu plugin. Build any menu via the [menux] shortcode
 
 = 🔌 Usage =
 
-1. Go to **MenuX** in the WordPress admin sidebar
+1. Go to **Giuliomax Menu Builder** in the WordPress admin sidebar
 2. Build your menu items
 3. Configure colors and style
 4. Place `[menux]` in any page, post, widget or template
 
 = 🚀 Pro Version =
 
-The **MenuX Pro** version adds:
+The **Pro** version adds:
 
 * 📊 **Click statistics** — track which items users click, by device, role and date
 * 🖼️ **Logo** — add and position a logo image inside the menu
@@ -61,7 +61,7 @@ The **MenuX Pro** version adds:
 
 == Installation ==
 
-1. Upload the `menux-free` folder to `/wp-content/plugins/`
+1. Upload the plugin folder to `/wp-content/plugins/`
 2. Activate the plugin from **Plugins → Installed Plugins**
 3. Go to **MenuX** in the admin menu
 4. Build your menu and copy the shortcode `[menux]`
@@ -96,7 +96,7 @@ In the menu builder, each item has an icon field. Type the FA class name, e.g. `
 
 = Is it compatible with WPML / Polylang / TranslatePress? =
 
-Yes. MenuX Free automatically detects installed multilingual plugins and lets you set a label per language for each menu item.
+Yes. This plugin automatically detects installed multilingual plugins and lets you set a label per language for each menu item.
 
 = Where is the mobile breakpoint? =
 
@@ -130,7 +130,7 @@ Font Awesome icons are bundled locally within the plugin and do **not** load fro
 == Changelog ==
 
 = 2.1.1 =
-* Initial release of MenuX Free
+* Initial release of Giuliomax Menu Builder
 * Includes all core features: builder, 4 mobile modes, sticky, scroll progress bar, entrance animations, import/export, multilingual
 
 == Upgrade Notice ==
