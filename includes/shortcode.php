@@ -309,13 +309,7 @@ function menux_render_shortcode($atts = array()) {
 
     <?php
     /* Enqueue frontend script and inject dynamic config via WP APIs (no inline <script>/<style>) */
-    static $menux_css_added   = false;
     static $menux_script_done = false;
-
-    if ( ! $menux_css_added ) {
-        wp_add_inline_style( 'menux-fa6', wp_strip_all_tags( menux_generate_css( $menux_style ) ) );
-        $menux_css_added = true;
-    }
 
     if ( ! $menux_script_done ) {
         wp_enqueue_script( 'menux-frontend' );

@@ -17,6 +17,10 @@ function menux_enqueue_frontend() {
     }
     wp_enqueue_style( 'menux-fa6', MENUX_URL . 'assets/fa6/css/all.min.css', array(), '6.5.2' );
 
+    // Dynamic CSS generated from saved options — must run here, before wp_head(), not inside the shortcode callback.
+    $generated_css = menux_generate_css( $style );
+    wp_add_inline_style( 'menux-fa6', wp_strip_all_tags( $generated_css ) );
+
     wp_register_script( 'menux-frontend', MENUX_URL . 'assets/js/frontend.js', array(), MENUX_VERSION, true );
 }
 
