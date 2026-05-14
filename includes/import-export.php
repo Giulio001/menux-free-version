@@ -68,7 +68,6 @@ function menux_ajax_import_config() {
         $ss['hamburger_align']    = isset($rs['hamburger_align'])    ? sanitize_text_field($rs['hamburger_align']) : 'flex-end';
         $ss['mobile_menu_pad']    = isset($rs['mobile_menu_pad'])    ? intval($rs['mobile_menu_pad'])             : '0';
         $ss['mobile_menu_shadow'] = isset($rs['mobile_menu_shadow']) ? sanitize_text_field($rs['mobile_menu_shadow']) : '0';
-        $ss['custom_css']         = isset($rs['custom_css'])         ? wp_strip_all_tags($rs['custom_css'])       : '';
         $ss['dark_mode']          = in_array($rs['dark_mode'] ?? 'light', array('light','dark','auto'), true) ? $rs['dark_mode'] : 'light';
         $ss['search_enabled']     = isset($rs['search_enabled'])     ? ($rs['search_enabled'] === '1' ? '1' : '0') : '0';
         $ss['search_placeholder'] = isset($rs['search_placeholder']) ? sanitize_text_field($rs['search_placeholder']) : 'Search...';

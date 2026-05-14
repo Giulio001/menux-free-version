@@ -379,8 +379,5 @@ function menux_generate_css($style) {
         . '.menux-hamburger.open span:nth-child(3){transform:translateY(calc(-'.$h_gap.' - '.$h_height.')) rotate(-45deg);}'
         . $media_close;
 
-    // CSS personalizzato
-    if (!empty($s['custom_css'])) $css .= "\n" . wp_unslash($s['custom_css']);
-
     return $css;
 }

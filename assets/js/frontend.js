@@ -171,27 +171,6 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    // Click tracking
-    var bmCountryCode = '';
-    try {
-        fetch('https://ipapi.co/json/', {mode:'cors'}).then(function(r){return r.json()}).then(function(d){
-            if (d && d.country_code) bmCountryCode = d.country_code;
-        }).catch(function(){});
-    } catch(e){}
-
-    document.querySelectorAll("a.menux-link[data-item-key]").forEach(function(a) {
-        a.addEventListener("click", function() {
-            var key   = a.getAttribute('data-item-key')   || '';
-            var label = a.getAttribute('data-item-label') || '';
-            var url   = a.getAttribute('data-item-url')   || a.getAttribute('href') || '';
-            var lang  = document.documentElement.getAttribute('lang') || defaultCode;
-            var params = { action:'menux_track_click', nonce:trackNonce, item_key:key, item_label:label, item_url:url, user_lang:lang, is_logged_in:isLoggedIn, country:bmCountryCode };
-            navigator.sendBeacon
-                ? navigator.sendBeacon(ajaxUrl, new URLSearchParams(params))
-                : fetch(ajaxUrl, { method:'POST', body: new URLSearchParams(params) });
-        });
-    });
-
     // Sticky
     if (isSticky) {
         var nav = document.getElementById('menux-nav-main');

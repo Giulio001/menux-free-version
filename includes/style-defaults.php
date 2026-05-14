@@ -38,7 +38,6 @@ function menux_style_defaults() {
         'mobile_fullscreen_align'=> 'center',
         'mobile_drawer_width'   => '280',
         'mobile_open_animation' => 'fade',
-        'custom_css'            => '',
         // Typography
         'google_font'           => '',
         'font_family'           => '',

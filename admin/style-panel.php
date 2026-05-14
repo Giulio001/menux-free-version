@@ -31,7 +31,6 @@ function menux_render_style_panel($style) {
         'layout'    => '📐 Layout',
         'mobile'    => '📱 Mobile',
         'darkmode'  => '🌙 Dark Mode',
-        'css'       => '⚙️ Advanced',
     );
     ?>
     <div class="bm-card menux-style-panel">
@@ -560,46 +559,6 @@ function menux_render_style_panel($style) {
         <?php /* bmToggleBreakpointMode() and bmToggleOpenStyle() are in admin/js/admin.js */ ?>
 
         </div><!-- end tab mobile -->
-
-        <!-- ===== TAB: LOGO ===== -->
-        <!-- ===== TAB: AVANZATO (CSS custom) ===== -->
-        <div id="bm-tab-css" class="bm-tab-pane" style="display:none;">
-        <div style="display:flex;gap:20px;flex-wrap:wrap;">
-        <div style="flex:1;min-width:300px;display:flex;flex-direction:column;">
-            <label style="font-weight:600;font-size:13px;margin-bottom:6px;">
-                Custom CSS
-                <span style="font-weight:normal;color:#666;display:block;font-size:11px;margin-top:2px;">Add your custom CSS rules here.</span>
-            </label>
-            <textarea name="menux_style[custom_css]" rows="20" style="width:100%;font-family:'Consolas','Monaco',monospace;font-size:12px;line-height:1.5;resize:vertical;background:#1e1e1e;color:#d4d4d4;border:1px solid #333;border-radius:4px;padding:10px;" oninput="menux_liveStylePreview()"><?php echo esc_textarea(wp_unslash($s['custom_css']));?></textarea>
-        </div>
-        <div style="flex:0 0 260px;">
-            <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:14px;margin-bottom:14px;">
-                <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:8px;">⚡ Quick snippets</div>
-                <div style="display:flex;flex-direction:column;gap:6px;">
-                    <?php
-                    $snippets = array(
-                        'Centered items'        => '.menux-list{justify-content:center;}',
-                        'Logo auto-push'        => '.menux-logo{margin-right:auto;}',
-                        'Push last right'  => '.menux-list>li:last-child{margin-left:auto;}',
-                        'Red logout'          => ".menux-list>li:last-child>a{color:#dc2626!important;}\n.menux-list>li:last-child>a:hover{color:#fca5a5!important;}",
-                        'Vertical dividers'    => '.menux-list li{border-right:1px solid rgba(0,0,0,.1);}',
-                        'Links with border-radius'=> '.menux-list li a.menux-link{border-radius:6px;}',
-                        'Active bold'      => '.menux-list li a.menux-link.active{font-weight:600!important;}',
-                    );
-                    foreach ($snippets as $label => $code):
-                    ?>
-                    <button type="button" class="button button-small" style="font-size:11px;text-align:left;"
-                        onclick="menux_appendCSS(<?php echo json_encode($code);?>)"><?php echo esc_html($label);?></button>
-                    <?php endforeach; ?>
-                </div>
-            </div>
-            <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:8px;padding:12px;">
-                <div style="font-size:12px;font-weight:700;color:#856404;margin-bottom:6px;">📋 Your current CSS</div>
-                <p style="font-size:11px;color:#6b7280;margin:0;">Paste your existing CSS here to maintain and manage it from this panel without modifying the theme.</p>
-            </div>
-        </div>
-        </div>
-        </div><!-- end tab css -->
 
         <!-- ===== TAB: DARK MODE ===== -->
         <div id="bm-tab-darkmode" class="bm-tab-pane" style="display:none;">

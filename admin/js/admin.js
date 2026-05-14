@@ -39,10 +39,6 @@
     // Inizializza la prima tab
     document.addEventListener('DOMContentLoaded', function() { menux_switchTab('bm-tab-colors'); });
 
-    function menux_appendCSS(snippet) {
-        var ta = document.querySelector('[name="menux_style[custom_css]"]');
-        if (ta) { ta.value = (ta.value.trim() ? ta.value.trim() + '\n' : '') + snippet; menux_liveStylePreview(); }
-    }
     function menux_openLogoUploader() {
         if (typeof wp === 'undefined' || !wp.media) { alert('Media uploader non disponibile.'); return; }
         var frame = wp.media({ title:'Choose a Logo', button:{text:'Use this image'}, multiple:false });
@@ -724,7 +720,7 @@
                 snap.colors['use_'+f] = cb ? cb.checked : false;
                 snap.colors[f]        = cp ? cp.value   : '';
             });
-            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','custom_css','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius'].forEach(function(f) {
+            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius'].forEach(function(f) {
                 var el = document.querySelector('[name="menux_style['+f+']"]');
                 snap.vals[f] = el ? el.value : '';
             });
@@ -741,7 +737,7 @@
                 if (cb) { cb.checked = snap.colors['use_'+f]; menux_toggleColor(cb); }
                 if (cp) cp.value = snap.colors[f];
             });
-            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','custom_css','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius'].forEach(function(f) {
+            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius'].forEach(function(f) {
                 var el = document.querySelector('[name="menux_style['+f+']"]');
                 if (el) el.value = snap.vals[f];
             });
@@ -1572,9 +1568,6 @@
         css += '.menux-close-btn{display:none;position:fixed;top:16px;right:20px;background:none;border:none;font-size:32px;cursor:pointer;color:inherit;opacity:.7;z-index:100000;padding:8px;}';
         css += '.menux-close-btn.visible{display:block;}';
         css += '.menux-close-btn:hover{opacity:1;}';
-
-        var customEl = document.querySelector('[name="menux_style[custom_css]"]');
-        if (customEl && customEl.value.trim()) css += customEl.value;
 
         var tag = document.getElementById('menux-live-style');
         if (!tag) { tag = document.createElement('style'); tag.id = 'menux-live-style'; document.head.appendChild(tag); }

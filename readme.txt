@@ -4,7 +4,7 @@ Tags: menu, navigation, hamburger menu, responsive menu, shortcode
 Requires at least: 5.8
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 2.1.1
+Stable tag: 2.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -120,20 +120,29 @@ Yes, use the **Style → Advanced** tab for custom CSS rules. Quick-snippets are
 This plugin may connect to the following external service:
 
 **Google Fonts** (optional)
-If you configure a Google Font in the Style panel (Typography tab), the plugin loads the font stylesheet from Google's servers:
-`https://fonts.googleapis.com`
 
-This request is made only when a Google Font is explicitly selected by the site administrator. No data is sent by default. By using this feature you agree to Google's privacy policy: https://policies.google.com/privacy
+If a Google Font name is entered in the Style panel (Typography tab), the plugin loads that font's stylesheet from Google's servers at `https://fonts.googleapis.com`. This request is made only when a Google Font is explicitly configured by the site administrator. The font name and the visitor's IP address are sent to Google as part of the standard HTTP request.
+
+* Terms of service: https://developers.google.com/terms
+* Privacy policy: https://policies.google.com/privacy
 
 Font Awesome icons are bundled locally within the plugin and do **not** load from any external server.
 
 == Changelog ==
+
+= 2.1.2 =
+* Removed Custom CSS textarea from the Style panel to comply with WordPress.org plugin guidelines
+* Removed ipapi.co external call (click-tracking country detection is a Pro-only feature)
+* Updated External Services documentation in readme with Terms of Service and Privacy Policy links
 
 = 2.1.1 =
 * Initial release of Giuliomax Menu Builder
 * Includes all core features: builder, 4 mobile modes, sticky, scroll progress bar, entrance animations, import/export, multilingual
 
 == Upgrade Notice ==
+
+= 2.1.2 =
+Compliance update: removes the Custom CSS textarea and an undisclosed external service call. No data loss; previously saved custom CSS will no longer be applied.
 
 = 2.1.1 =
 First public release. No upgrade needed.

@@ -177,7 +177,6 @@ function menux_render_admin_html() {
         $saved_style['mobile_fullscreen_align']  = in_array($raw_style['mobile_fullscreen_align'] ?? 'center', array('center','flex-start','flex-end'), true) ? $raw_style['mobile_fullscreen_align'] : 'center';
         $saved_style['mobile_drawer_width']      = isset($raw_style['mobile_drawer_width'])    ? intval($raw_style['mobile_drawer_width'])     : '280';
         $saved_style['mobile_open_animation']    = in_array($raw_style['mobile_open_animation'] ?? 'fade', array('fade','slide','scale'), true) ? $raw_style['mobile_open_animation'] : 'fade';
-        $saved_style['custom_css']              = isset($raw_style['custom_css'])         ? wp_strip_all_tags( $raw_style['custom_css'] )       : '';
         // Typography avanzata
         $saved_style['google_font']             = isset($raw_style['google_font'])        ? sanitize_text_field($raw_style['google_font'])        : '';
         $saved_style['font_family']             = isset($raw_style['font_family'])        ? sanitize_text_field($raw_style['font_family'])        : '';
