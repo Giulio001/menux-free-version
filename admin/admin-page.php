@@ -229,37 +229,6 @@ function menux_render_admin_html() {
     <div class="wrap bm-admin-modern">
         <h1 class="wp-heading-inline" style="display:none;">MenuX Configuration</h1>
 
-        <!-- ===================== WIZARD OVERLAY ===================== -->
-        <div id="bw-overlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,.55); z-index:99999; align-items:center; justify-content:center;">
-            <div id="bw-modal" style="background:#fff; border-radius:16px; box-shadow:0 24px 60px rgba(0,0,0,.3); width:min(680px,96vw); max-height:90vh; display:flex; flex-direction:column; overflow:hidden; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-
-                <!-- Header modale -->
-                <div id="bw-header" style="background:linear-gradient(135deg,#667eea,#764ba2); padding:20px 24px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0;">
-                    <div>
-                        <div style="color:rgba(255,255,255,.7); font-size:11px; font-weight:600; letter-spacing:1px; text-transform:uppercase; margin-bottom:2px;">Setup Wizard</div>
-                        <div id="bw-step-title" style="color:#fff; font-size:17px; font-weight:700;"></div>
-                    </div>
-                    <button onclick="menuxWizard.close()" style="background:rgba(255,255,255,.2); border:none; color:#fff; width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:18px; line-height:1; display:flex; align-items:center; justify-content:center;">&times;</button>
-                </div>
-
-                <!-- Progress bar -->
-                <div style="height:4px; background:#e5e7eb; flex-shrink:0;">
-                    <div id="bw-progress" style="height:100%; background:linear-gradient(90deg,#667eea,#764ba2); transition:width .4s ease; width:0%;"></div>
-                </div>
-
-                <!-- Corpo step -->
-                <div id="bw-body" style="padding:28px 28px 16px; overflow-y:auto; flex:1;"></div>
-
-                <!-- Footer navigatezione -->
-                <div style="padding:16px 28px 20px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid #f0f0f0; flex-shrink:0; background:#fafafa; border-radius:0 0 16px 16px;">
-                    <button id="bw-btn-back" onclick="menuxWizard.prev()" style="background:#fff; border:1px solid #d1d5db; color:#374151; padding:9px 22px; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer;">← Back</button>
-                    <div id="bw-dots" style="display:flex; gap:7px;"></div>
-                    <button id="bw-btn-next" onclick="menuxWizard.next()" style="background:linear-gradient(135deg,#667eea,#764ba2); border:none; color:#fff; padding:9px 24px; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; box-shadow:0 2px 8px rgba(102,126,234,.35);">Next →</button>
-                </div>
-            </div>
-        </div>
-        <!-- ============== FINE WIZARD OVERLAY ============== -->
-
         <form method="POST" id="menux-form">
             <?php wp_nonce_field('menux_save_action', 'menux_nonce'); ?>
 
@@ -270,7 +239,6 @@ function menux_render_admin_html() {
                     <span class="bm-topbar-title">MenuX</span>
                 </div>
                 <div class="bm-topbar-actions">
-                    <button type="button" onclick="menuxWizard.open()" class="bm-topbar-btn bm-topbar-btn-ghost">✨ Wizard</button>
                     <input type="submit" name="menux_save_all" class="bm-topbar-btn bm-topbar-btn-save" value="💾 Save Menu">
                 </div>
             </div>

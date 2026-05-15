@@ -30,7 +30,6 @@ A powerful and easy-to-use menu plugin. Build any menu via the [menux] shortcode
 * **Scroll progress bar** — reading progress indicator on the sticky menu
 * **Entrance animations** — Fade, Slide, Zoom, Flip and more
 * **Link animations** — Pulse, Shake, Bounce, Glow, Lift, Scale, Underline on hover
-* **Custom CSS** — write your own CSS rules directly from the panel
 * **Import / Export** — backup and restore your menu configuration as JSON
 * **Multilingual** — native support for WPML, Polylang and TranslatePress
 * **Live preview** — real-time desktop/tablet/mobile preview in the admin
@@ -58,6 +57,8 @@ The **Pro** version adds:
 * 🔍 **Search bar** — instant full-text search modal with keyboard navigation
 * ♿ **Accessibility panel** — WCAG 2.1 tools (focus outline, skip link, reduced motion, high contrast, ARIA labels)
 * 🌈 **Gradients** — CSS gradient backgrounds for container, hover and active states
+* 🎨 **Custom CSS** — write your own CSS rules directly from the admin panel
+* 📄 **Multiple menus** — create and manage independent menu configurations for different pages or locations
 
 == Installation ==
 
@@ -80,7 +81,7 @@ Use the shortcode `[menux]` in any page, post, widget or block. The same menu is
 
 = Can I have different menus for different pages? =
 
-Not in the free version. Use the Custom CSS panel or role-based visibility to adapt the menu per context.
+Not in the free version. Use role-based visibility or per-item device/page conditionals to adapt the menu per context. Full multiple-menu support is available in the Pro version.
 
 = Does it work with page builders? =
 
@@ -104,7 +105,7 @@ Go to **MenuX → Style → Layout → Sticky & Advanced** and set your preferre
 
 = Can I use custom CSS? =
 
-Yes, use the **Style → Advanced** tab for custom CSS rules. Quick-snippets are provided as shortcuts for the most common tweaks.
+Custom CSS editing is available in the Pro version. In the free version you can rely on WordPress theme CSS or child-theme stylesheets to target the `.menux-container` wrapper and its child elements.
 
 == Screenshots ==
 
