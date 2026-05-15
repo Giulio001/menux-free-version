@@ -16,23 +16,22 @@ A powerful and easy-to-use menu plugin. Build any menu via the [menux] shortcode
 
 = ✨ Main Features =
 
-* **Visual menu builder** — drag-and-drop interface to add pages, custom links and submenus (up to 3 levels deep)
-* **Hamburger mobile menu** — automatic hamburger button below the breakpoint you choose
+* **Visual menu builder** — drag-and-drop interface to add pages, custom links, icons, badges, notification dots and submenus up to 3 levels
+* **Page + custom link support** — use existing WP pages or external URLs, with target controls and role visibility
+* **Advanced item targeting** — show/hide items by user role, login state, device, current page, schedule, time range or UTM source
+* **Menu location assignment** — tag items for Primary, Footer, Sidebar or Mobile and render with `[menux location="..."]`
+* **Responsive mobile menu** — automatic fit-based breakpoint or manual pixel threshold
 * **4 mobile opening modes** — Dropdown, Fullscreen overlay, Drawer left, Drawer right
-* **Font Awesome icons** — add any FA icon to each menu item
-* **Role-based visibility** — show/hide items for guests, logged-in users or specific WordPress roles
-* **Scheduled items** — set a start and end date/time for each menu item
-* **Badges** — add colored badge labels to items (e.g. "New", "Hot")
-* **Notification dot** — animated red dot indicator on any item
-* **Submenus** — nested menus up to 3 levels with smooth animations
+* **Hamburger style controls** — classic, modern or minimal icon appearance, alignment and colors
+* **Sticky header** — fixed menu on scroll with background, shadow, alignment, shrink and auto-hide behavior
+* **Scroll progress bar** — page reading indicator that works on sticky or normal menus
 * **Dark mode support** — Light, Dark or Auto (follows OS preference)
-* **Sticky menu** — keep the menu fixed at the top on scroll, with optional shrink effect
-* **Scroll progress bar** — reading progress indicator on the sticky menu
-* **Entrance animations** — Fade, Slide, Zoom, Flip and more
-* **Link animations** — Pulse, Shake, Bounce, Glow, Lift, Scale, Underline on hover
-* **Import / Export** — backup and restore your menu configuration as JSON
-* **Multilingual** — native support for WPML, Polylang and TranslatePress
-* **Live preview** — real-time desktop/tablet/mobile preview in the admin
+* **Typography & layout** — Google Fonts, fallback font, size, weight, spacing and text transform
+* **Link animations** — hover effects like Lift, Scale, Pulse, Bounce, Shake, Glow and Underline
+* **Entrance animations** — Fade, Slide, Zoom, Flip with duration, delay and stagger controls
+* **Import / Export** — save and restore menu configurations as JSON
+* **Multilingual ready** — WPML, Polylang and TranslatePress support with language-specific item labels
+* **Live preview** — desktop/tablet/mobile preview while building the menu
 
 = 🎨 Style Options =
 
