@@ -76,7 +76,7 @@
 
             var overlay = document.createElement('div');
             overlay.id = 'bm-icon-picker-modal';
-            overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:999998;align-items:center;justify-content:center;padding:16px;';
+            overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000010;align-items:center;justify-content:center;padding:16px;';
 
             var html = '<div style="background:#fff;border-radius:14px;box-shadow:0 24px 60px rgba(0,0,0,.3);width:min(760px,96vw);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;font-family:-apple-system,sans-serif;">'
                 // Header
