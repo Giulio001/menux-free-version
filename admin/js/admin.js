@@ -808,7 +808,9 @@
             });
             ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius','container_bg_gradient','link_hover_bg_gradient','link_active_bg_gradient','mobile_open_style','mobile_open_animation','entrance_animation','entrance_duration','submenu_animation','submenu_shadow','dark_mode','nav_justify'].forEach(function(f) {
                 var el = document.querySelector('[name="menux_style['+f+']"]');
-                snap.vals[f] = el ? el.value : '';
+                if (!el) { snap.vals[f] = ''; return; }
+                if (el.type === 'radio') { var ch = document.querySelector('[name="menux_style['+f+']"]:checked'); snap.vals[f] = ch ? ch.value : ''; }
+                else { snap.vals[f] = el.value; }
             });
             var ms = document.querySelector('[name="menux_style[mobile_menu_shadow]"]');
             snap.vals.mobile_menu_shadow = ms ? ms.checked : false;
@@ -825,7 +827,9 @@
             });
             ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius','container_bg_gradient','link_hover_bg_gradient','link_active_bg_gradient','mobile_open_style','mobile_open_animation','entrance_animation','entrance_duration','submenu_animation','submenu_shadow','dark_mode','nav_justify'].forEach(function(f) {
                 var el = document.querySelector('[name="menux_style['+f+']"]');
-                if (el) el.value = snap.vals[f];
+                if (!el) return;
+                if (el.type === 'radio') { document.querySelectorAll('[name="menux_style['+f+']"]').forEach(function(r){r.checked=(r.value===snap.vals[f]);}); }
+                else { el.value = snap.vals[f]; }
             });
             var ms = document.querySelector('[name="menux_style[mobile_menu_shadow]"]');
             if (ms) ms.checked = snap.vals.mobile_menu_shadow;

@@ -191,7 +191,7 @@ function menux_render_admin_html() {
         // Animazioni
         $saved_style['link_animation']          = in_array($raw_style['link_animation'] ?? 'none', array('none','pulse','shake','bounce','glow','lift','scale','underline'), true) ? $raw_style['link_animation'] : 'none';
         // Layout avanzato
-        $saved_style['nav_justify']             = in_array($raw_style['nav_justify'] ?? 'flex-start', array('flex-start','center','flex-end','space-between','space-evenly'), true) ? $raw_style['nav_justify'] : 'flex-start';
+        $saved_style['nav_justify']             = in_array($raw_style['nav_justify'] ?? 'flex-end', array('flex-start','center','flex-end','space-between','space-evenly'), true) ? $raw_style['nav_justify'] : 'flex-end';
         $saved_style['push_last_item']          = isset($raw_style['push_last_item'])     ? '1' : '0';
         // Entrance animation
         $saved_style['entrance_animation']      = in_array($raw_style['entrance_animation'] ?? 'none', array('none','fadeIn','slideDown','slideUp','slideLeft','slideRight','zoomIn','flipX'), true) ? $raw_style['entrance_animation'] : 'none';

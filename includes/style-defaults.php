@@ -50,7 +50,7 @@ function menux_style_defaults() {
         'link_animation'        => 'none',
         'link_transition'       => '0.3',
         // Layout
-        'nav_justify'           => 'flex-start',
+        'nav_justify'           => 'flex-end',
         'push_last_item'        => '0',
         'last_item_color'       => '',
         'last_item_hover_color' => '',

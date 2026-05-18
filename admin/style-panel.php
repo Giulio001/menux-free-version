@@ -230,11 +230,11 @@ function menux_render_style_panel($style) {
                 <td style="<?php echo esc_attr( $td );?>">Items alignment</td>
                 <td style="<?php echo esc_attr( $tv );?>">
                     <select name="menux_style[nav_justify]" onchange="menux_liveStylePreview()">
-                        <option value="flex-start"   <?php selected($s['nav_justify'] ?? 'flex-start','flex-start');?>>⬅️ Left</option>
-                        <option value="center"       <?php selected($s['nav_justify'] ?? 'flex-start','center');?>>↔️ Center</option>
-                        <option value="flex-end"     <?php selected($s['nav_justify'] ?? 'flex-start','flex-end');?>>➡️ Right</option>
-                        <option value="space-between"<?php selected($s['nav_justify'] ?? 'flex-start','space-between');?>>⟺ Space between</option>
-                        <option value="space-evenly" <?php selected($s['nav_justify'] ?? 'flex-start','space-evenly');?>>⠿ Space evenly</option>
+                        <option value="flex-start"   <?php selected($s['nav_justify'] ?? 'flex-end','flex-start');?>>⬅️ Left</option>
+                        <option value="center"       <?php selected($s['nav_justify'] ?? 'flex-end','center');?>>↔️ Center</option>
+                        <option value="flex-end"     <?php selected($s['nav_justify'] ?? 'flex-end','flex-end');?>>➡️ Right</option>
+                        <option value="space-between"<?php selected($s['nav_justify'] ?? 'flex-end','space-between');?>>⟺ Space between</option>
+                        <option value="space-evenly" <?php selected($s['nav_justify'] ?? 'flex-end','space-evenly');?>>⠿ Space evenly</option>
                     </select>
                 </td>
             </tr>
