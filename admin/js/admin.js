@@ -1567,21 +1567,31 @@
         // Stile Voci di Menu
         var lc = color('link_color'), fs = val('font_size'), fw = val('font_weight');
         var px = val('padding_x') || '0', py = val('padding_y') || '0';
+        var br = val('link_border_radius');
         var lr = 'text-decoration:none; display:inline-flex; align-items:center; font-weight:bold; color:#333; transition:0.3s;';
         if (lc) lr += 'color:' + lc + ' !important;';
         if (fs) lr += 'font-size:' + fs + 'px;';
         if (fw) lr += 'font-weight:' + fw + ' !important;';
         if (parseInt(px) || parseInt(py)) lr += 'padding:' + py + 'px ' + px + 'px !important;';
         else lr += 'padding:8px 12px;';
+        if (br !== '') lr += 'border-radius:' + br + 'px;';
         css += '#menux-preview-nav .menux-list li a.menux-link{' + lr + '}';
 
         // Hover / Active
-        var hc = color('link_hover_color'), ac = color('link_active_color'), ab = color('link_active_border');
-        if (hc) css += '#menux-preview-nav .menux-list li a.menux-link:hover{color:' + hc + ' !important;}';
-        if (ac || ab) {
+        var hc = color('link_hover_color'), hbg = val('link_hover_bg_gradient') || color('link_hover_bg');
+        var ac = color('link_active_color'), ab = color('link_active_border');
+        var abg = val('link_active_bg_gradient') || color('link_active_bg');
+        var afw = val('link_active_font_weight');
+        var hoverCss = '';
+        if (hc)  hoverCss += 'color:' + hc + ' !important;';
+        if (hbg) hoverCss += 'background:' + hbg + ' !important;';
+        if (hoverCss) css += '#menux-preview-nav .menux-list li a.menux-link:hover{' + hoverCss + '}';
+        if (ac || ab || abg || afw) {
             css += '#menux-preview-nav .menux-list li a.menux-link.active{';
-            if (ac) css += 'color:' + ac + ' !important;';
-            if (ab) css += 'border-bottom:2px solid ' + ab + ';';
+            if (ac)  css += 'color:' + ac + ' !important;';
+            if (ab)  css += 'border-bottom:2px solid ' + ab + ';';
+            if (abg) css += 'background:' + abg + ' !important;';
+            if (afw) css += 'font-weight:' + afw + ' !important;';
             css += '}';
         }
 
