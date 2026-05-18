@@ -216,20 +216,6 @@ function menux_render_admin_html() {
         // Invalida font cache
         delete_transient('menux_gfont_loaded');
 
-        // Save WP Nav replacements
-        $raw_replacements = isset( $_POST['menux_wp_nav_replacements'] ) && is_array( $_POST['menux_wp_nav_replacements'] )
-            ? wp_unslash( $_POST['menux_wp_nav_replacements'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-            : array();
-        $saved_replacements = array();
-        foreach ( $raw_replacements as $theme_loc => $menux_loc ) {
-            $theme_loc  = sanitize_key( $theme_loc );
-            $menux_loc  = sanitize_key( $menux_loc );
-            if ( $theme_loc && $menux_loc ) {
-                $saved_replacements[ $theme_loc ] = $menux_loc;
-            }
-        }
-        update_option( 'menux_wp_nav_replacements', $saved_replacements );
-
         echo '<div class="notice notice-success is-dismissible"><p>Settings saved successfully!</p></div>';
     }
 
@@ -324,7 +310,6 @@ function menux_render_admin_html() {
                         </div>
                         <div class="bm-sidebar-group">
                             <div class="bm-sidebar-group-label">Tools</div>
-                            <button type="button" class="bm-sidebar-item" data-section="wpnav" onclick="menuxGoSection('wpnav')">🔗 WP Integration</button>
                             <button type="button" class="bm-sidebar-item" data-section="import-export" onclick="menuxGoSection('import-export')">📦 Import / Export</button>
                             <?php if (!empty($supported_langs)): ?>
                             <button type="button" class="bm-sidebar-item" data-section="multilingual" onclick="menuxGoSection('multilingual')">🌐 Multilingual</button>
@@ -350,110 +335,7 @@ function menux_render_admin_html() {
                         <?php menux_render_style_panel($menux_style); ?>
                     </div>
 
-                    <!-- Panel: WP Nav Integration -->
-                    <div id="panel-wpnav" class="bm-panel" style="display:none;">
-                        <?php
-                        $theme_locations     = get_registered_nav_menus();
-                        $saved_replacements  = get_option( 'menux_wp_nav_replacements', array() );
 
-                        // Collect unique MenuX location slugs + item counts
-                        $menux_locations = array( 'primary' );
-                        $menux_loc_counts = array( 'primary' => 0 );
-                        foreach ( get_option( 'menux_menu_items', array() ) as $item ) {
-                            $loc = ! empty( $item['menu_location'] ) ? $item['menu_location'] : 'primary';
-                            if ( ! in_array( $loc, $menux_locations, true ) ) {
-                                $menux_locations[] = $loc;
-                                $menux_loc_counts[ $loc ] = 0;
-                            }
-                            $menux_loc_counts[ $loc ] = ( $menux_loc_counts[ $loc ] ?? 0 ) + 1;
-                        }
-                        ?>
-                        <div class="bm-card">
-                            <div class="bm-card-header">
-                                <span class="bm-card-icon">🔗</span>
-                                <div class="bm-card-titles">
-                                    <h2 class="bm-card-title">WP Menu Integration</h2>
-                                    <p class="bm-card-subtitle">Replace your theme's native menus with MenuX — no shortcode or template editing needed</p>
-                                </div>
-                            </div>
-                            <div class="bm-card-body">
-                                <?php if ( empty( $theme_locations ) ) : ?>
-                                    <p style="color:#6b7280;font-size:13px;">No theme menu locations are registered on this site. Your active theme must call <code>register_nav_menus()</code> for this feature to work.</p>
-                                <?php else : ?>
-                                <p style="color:#6b7280;font-size:13px;margin-bottom:16px;">
-                                    For each WordPress theme location, choose which MenuX location should replace it.
-                                    Leave a row set to <em>— Don't replace —</em> to keep the theme's original menu.
-                                </p>
-                                <table style="width:100%;border-collapse:collapse;">
-                                    <thead>
-                                        <tr>
-                                            <th style="text-align:left;padding:8px 12px 8px 0;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #e5e7eb;">Theme Location</th>
-                                            <th style="text-align:left;padding:8px 0;font-size:12px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #e5e7eb;">Replace with MenuX location</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?php foreach ( $theme_locations as $slug => $label ) :
-                                            $current = $saved_replacements[ $slug ] ?? '';
-                                        ?>
-                                        <tr>
-                                            <td style="padding:10px 12px 10px 0;font-size:13px;font-weight:500;vertical-align:middle;border-bottom:1px solid #f3f4f6;">
-                                                <code><?php echo esc_html( $slug ); ?></code>
-                                                <span style="display:block;color:#9ca3af;font-size:11px;margin-top:2px;"><?php echo esc_html( $label ); ?></span>
-                                            </td>
-                                            <td style="padding:10px 0;vertical-align:middle;border-bottom:1px solid #f3f4f6;">
-                                                <select name="menux_wp_nav_replacements[<?php echo esc_attr( $slug ); ?>]" class="bm-select" style="min-width:180px;">
-                                                    <option value="">— Don't replace —</option>
-                                                    <?php foreach ( $menux_locations as $mloc ) :
-                                                        $count = $menux_loc_counts[ $mloc ] ?? 0;
-                                                        $label = $mloc . ( $count > 0 ? ' (' . $count . ' items)' : ' ⚠ no items' );
-                                                    ?>
-                                                    <option value="<?php echo esc_attr( $mloc ); ?>"<?php selected( $current, $mloc ); ?>>
-                                                        <?php echo esc_html( $label ); ?>
-                                                    </option>
-                                                    <?php endforeach; ?>
-                                                </select>
-                                            </td>
-                                        </tr>
-                                        <?php endforeach; ?>
-                                    </tbody>
-                                </table>
-                                <p style="margin-top:14px;font-size:12px;color:#9ca3af;">
-                                    Save the menu after making changes. The replacement takes effect immediately on the frontend.
-                                    A location marked <strong>⚠ no items</strong> will keep the original theme menu (safe fallback).
-                                </p>
-                                <?php
-                                // Warn if a saved mapping points to an empty location
-                                foreach ( $saved_replacements as $tloc => $mloc ) {
-                                    if ( $mloc && ( ( $menux_loc_counts[ $mloc ] ?? 0 ) === 0 ) ) {
-                                        echo '<p style="margin-top:8px;font-size:12px;color:#b45309;background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;">⚠ Theme location <strong>' . esc_html( $tloc ) . '</strong> is mapped to <strong>' . esc_html( $mloc ) . '</strong>, but that MenuX location has no items. Add items to it first.</p>';
-                                    }
-                                }
-                                ?>
-                                <?php endif; ?>
-
-                                <!-- Diagnostic: active replacements in DB -->
-                                <div style="margin-top:20px;padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
-                                    <p style="font-size:12px;font-weight:600;color:#374151;margin:0 0 8px;">🔍 Currently saved in database</p>
-                                    <?php if ( empty( $saved_replacements ) ) : ?>
-                                        <p style="font-size:12px;color:#9ca3af;margin:0;">No replacements saved yet. Select a mapping above and click <strong>Save</strong>.</p>
-                                    <?php else : ?>
-                                        <?php foreach ( $saved_replacements as $tloc => $mloc ) :
-                                            $count = $menux_loc_counts[ $mloc ] ?? 0;
-                                            $ok = $count > 0;
-                                        ?>
-                                        <p style="font-size:12px;margin:4px 0;color:<?php echo $ok ? '#065f46' : '#b45309'; ?>;">
-                                            <?php echo $ok ? '✅' : '⚠'; ?>
-                                            Theme <code><?php echo esc_html($tloc); ?></code>
-                                            → MenuX <code><?php echo esc_html($mloc); ?></code>
-                                            (<?php echo $ok ? $count . ' items — active' : 'no items — will NOT replace'; ?>)
-                                        </p>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                    <p style="font-size:11px;color:#9ca3af;margin:8px 0 0;">If this shows "No replacements saved" after saving, check that your theme calls <code>wp_nav_menu()</code> and is not a block/FSE theme.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
                     <!-- Panel: Import / Export -->
                     <div id="panel-import-export" class="bm-panel" style="display:none;">

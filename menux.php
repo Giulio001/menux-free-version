@@ -29,7 +29,6 @@ require_once MENUX_DIR . 'includes/css-generator.php';
 require_once MENUX_DIR . 'includes/assets.php';
 require_once MENUX_DIR . 'includes/import-export.php';
 require_once MENUX_DIR . 'includes/shortcode.php';
-require_once MENUX_DIR . 'includes/wp-nav-integration.php';
 
 if ( is_admin() ) {
     require_once MENUX_DIR . 'admin/admin-page.php';
