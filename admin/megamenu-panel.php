@@ -26,13 +26,17 @@ function menux_render_megamenu_panel( $menu_items ) {
 		}
 	}
 
-	$s          = get_option( 'menux_style', array() );
-	$mega_bg    = ! empty( $s['mega_bg'] )         ? $s['mega_bg']         : '#ffffff';
-	$mega_pad_y = isset( $s['mega_padding_y'] )    ? (int) $s['mega_padding_y']  : 24;
-	$mega_pad_x = isset( $s['mega_padding_x'] )    ? (int) $s['mega_padding_x']  : 32;
-	$mega_max_w = isset( $s['mega_max_width'] )    ? (int) $s['mega_max_width']  : 0;
-	$mega_gap   = isset( $s['mega_col_gap'] )      ? (int) $s['mega_col_gap']    : 16;
-	$mega_mob   = ( $s['mega_mobile_disable'] ?? '0' ) === '1';
+	$s               = get_option( 'menux_style', array() );
+	$mega_bg         = ! empty( $s['mega_bg'] )           ? $s['mega_bg']                  : '#ffffff';
+	$mega_pad_y      = isset( $s['mega_padding_y'] )      ? (int) $s['mega_padding_y']     : 24;
+	$mega_pad_x      = isset( $s['mega_padding_x'] )      ? (int) $s['mega_padding_x']     : 32;
+	$mega_max_w      = isset( $s['mega_max_width'] )      ? (int) $s['mega_max_width']     : 0;
+	$mega_gap        = isset( $s['mega_col_gap'] )        ? (int) $s['mega_col_gap']       : 16;
+	$mega_mob        = ( $s['mega_mobile_disable'] ?? '0' ) === '1';
+	$mega_radius     = isset( $s['mega_border_radius'] )  ? (int) $s['mega_border_radius'] : 14;
+	$mega_link_color = ! empty( $s['mega_link_color'] )   ? $s['mega_link_color']          : '#374151';
+	$mega_head_color = ! empty( $s['mega_heading_color'] )? $s['mega_heading_color']       : '#9ca3af';
+	$mega_accent     = ! empty( $s['mega_accent_color'] ) ? $s['mega_accent_color']        : '#667eea';
 	?>
 	<div class="bm-card">
 		<div class="bm-card-header">
@@ -75,6 +79,35 @@ function menux_render_megamenu_panel( $menu_items ) {
 				<div>
 					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Column Gap (px)</label>
 					<input type="number" id="bm-mega-setting-gap" name="menux_style[mega_col_gap]" value="<?php echo esc_attr( $mega_gap ); ?>" min="0" max="80" class="bm-input" style="width:100%;">
+				</div>
+
+				<div>
+					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Border Radius (px)</label>
+					<input type="number" name="menux_style[mega_border_radius]" value="<?php echo esc_attr( $mega_radius ); ?>" min="0" max="40" class="bm-input" style="width:100%;">
+				</div>
+
+				<div>
+					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Link Color</label>
+					<div style="display:flex;align-items:center;gap:6px;">
+						<input type="checkbox" name="menux_style_use[mega_link_color]" value="1" id="bm-mega-link-color-use" <?php checked( ! empty( $s['mega_link_color'] ) ); ?>>
+						<input type="color" name="menux_style[mega_link_color]" value="<?php echo esc_attr( $mega_link_color ); ?>" style="width:40px;height:28px;padding:1px;border:1px solid #d1d5db;border-radius:5px;cursor:pointer;">
+					</div>
+				</div>
+
+				<div>
+					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Heading Color</label>
+					<div style="display:flex;align-items:center;gap:6px;">
+						<input type="checkbox" name="menux_style_use[mega_heading_color]" value="1" id="bm-mega-head-color-use" <?php checked( ! empty( $s['mega_heading_color'] ) ); ?>>
+						<input type="color" name="menux_style[mega_heading_color]" value="<?php echo esc_attr( $mega_head_color ); ?>" style="width:40px;height:28px;padding:1px;border:1px solid #d1d5db;border-radius:5px;cursor:pointer;">
+					</div>
+				</div>
+
+				<div>
+					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Accent / Icon Color</label>
+					<div style="display:flex;align-items:center;gap:6px;">
+						<input type="checkbox" name="menux_style_use[mega_accent_color]" value="1" id="bm-mega-accent-color-use" <?php checked( ! empty( $s['mega_accent_color'] ) ); ?>>
+						<input type="color" name="menux_style[mega_accent_color]" value="<?php echo esc_attr( $mega_accent ); ?>" style="width:40px;height:28px;padding:1px;border:1px solid #d1d5db;border-radius:5px;cursor:pointer;">
+					</div>
 				</div>
 
 				<div style="display:flex;align-items:flex-end;padding-bottom:4px;">

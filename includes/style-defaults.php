@@ -87,5 +87,16 @@ function menux_style_defaults() {
         'progress_bar_color'    => '#667eea',
         'progress_bar_height'   => '3',
         'progress_bar_position' => 'bottom',
+        // Mega Menu panel appearance
+        'mega_bg'             => '',
+        'mega_padding_y'      => 24,
+        'mega_padding_x'      => 32,
+        'mega_max_width'      => 0,
+        'mega_col_gap'        => 16,
+        'mega_mobile_disable' => '0',
+        'mega_border_radius'  => 14,
+        'mega_link_color'     => '',
+        'mega_heading_color'  => '',
+        'mega_accent_color'   => '',
     );
 }
