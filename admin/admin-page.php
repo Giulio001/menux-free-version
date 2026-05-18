@@ -246,7 +246,7 @@ function menux_render_admin_html() {
     <div class="wrap bm-admin-modern">
         <h1 class="wp-heading-inline" style="display:none;">MenuX Configuration</h1>
 
-        <form method="POST" id="menux-form">
+        <form method="POST" id="menux-form" novalidate>
             <?php wp_nonce_field('menux_save_action', 'menux_nonce'); ?>
 
             <!-- ============== TOPBAR ============== -->
