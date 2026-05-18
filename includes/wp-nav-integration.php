@@ -15,7 +15,10 @@ function menux_pre_wp_nav_menu( $output, $args ) {
 
     $theme_location = isset( $args->theme_location ) ? $args->theme_location : '';
     if ( $theme_location && ! empty( $replacements[ $theme_location ] ) ) {
-        return menux_render_shortcode( array( 'location' => $replacements[ $theme_location ] ) );
+        $html = menux_render_shortcode( array( 'location' => $replacements[ $theme_location ] ) );
+        // Only replace if MenuX produced actual output — avoids hiding the original menu
+        // when the mapped location has no items configured yet.
+        if ( $html !== '' ) return $html;
     }
 
     return $output;

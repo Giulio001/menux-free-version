@@ -356,13 +356,16 @@ function menux_render_admin_html() {
                         $theme_locations     = get_registered_nav_menus();
                         $saved_replacements  = get_option( 'menux_wp_nav_replacements', array() );
 
-                        // Collect unique MenuX location slugs from saved items
+                        // Collect unique MenuX location slugs + item counts
                         $menux_locations = array( 'primary' );
+                        $menux_loc_counts = array( 'primary' => 0 );
                         foreach ( get_option( 'menux_menu_items', array() ) as $item ) {
                             $loc = ! empty( $item['menu_location'] ) ? $item['menu_location'] : 'primary';
                             if ( ! in_array( $loc, $menux_locations, true ) ) {
                                 $menux_locations[] = $loc;
+                                $menux_loc_counts[ $loc ] = 0;
                             }
+                            $menux_loc_counts[ $loc ] = ( $menux_loc_counts[ $loc ] ?? 0 ) + 1;
                         }
                         ?>
                         <div class="bm-card">
@@ -400,9 +403,12 @@ function menux_render_admin_html() {
                                             <td style="padding:10px 0;vertical-align:middle;border-bottom:1px solid #f3f4f6;">
                                                 <select name="menux_wp_nav_replacements[<?php echo esc_attr( $slug ); ?>]" class="bm-select" style="min-width:180px;">
                                                     <option value="">— Don't replace —</option>
-                                                    <?php foreach ( $menux_locations as $mloc ) : ?>
+                                                    <?php foreach ( $menux_locations as $mloc ) :
+                                                        $count = $menux_loc_counts[ $mloc ] ?? 0;
+                                                        $label = $mloc . ( $count > 0 ? ' (' . $count . ' items)' : ' ⚠ no items' );
+                                                    ?>
                                                     <option value="<?php echo esc_attr( $mloc ); ?>"<?php selected( $current, $mloc ); ?>>
-                                                        <?php echo esc_html( $mloc ); ?>
+                                                        <?php echo esc_html( $label ); ?>
                                                     </option>
                                                     <?php endforeach; ?>
                                                 </select>
@@ -413,7 +419,16 @@ function menux_render_admin_html() {
                                 </table>
                                 <p style="margin-top:14px;font-size:12px;color:#9ca3af;">
                                     Save the menu after making changes. The replacement takes effect immediately on the frontend.
+                                    A location marked <strong>⚠ no items</strong> will keep the original theme menu (safe fallback).
                                 </p>
+                                <?php
+                                // Warn if a saved mapping points to an empty location
+                                foreach ( $saved_replacements as $tloc => $mloc ) {
+                                    if ( $mloc && ( ( $menux_loc_counts[ $mloc ] ?? 0 ) === 0 ) ) {
+                                        echo '<p style="margin-top:8px;font-size:12px;color:#b45309;background:#fefce8;border:1px solid #fde68a;border-radius:6px;padding:8px 12px;">⚠ Theme location <strong>' . esc_html( $tloc ) . '</strong> is mapped to <strong>' . esc_html( $mloc ) . '</strong>, but that MenuX location has no items. Add items to it first.</p>';
+                                    }
+                                }
+                                ?>
                                 <?php endif; ?>
                             </div>
                         </div>
