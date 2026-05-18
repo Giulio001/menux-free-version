@@ -21,7 +21,8 @@ function menux_generate_css($style) {
 
     // Container
     $cr = '';
-    if ($s['container_bg'] !== '')     $cr .= 'background:' . sanitize_hex_color($s['container_bg']) . ';';
+    if (!empty($s['container_bg_gradient'])) $cr .= 'background:' . wp_strip_all_tags($s['container_bg_gradient']) . ';';
+    elseif ($s['container_bg'] !== '')       $cr .= 'background:' . sanitize_hex_color($s['container_bg']) . ';';
     if ($s['container_border'] !== '') $cr .= 'border-bottom:1px solid ' . sanitize_hex_color($s['container_border']) . ';';
     if (!empty($s['google_font']))     $cr .= "font-family:'" . sanitize_text_field($s['google_font']) . "', sans-serif;";
     elseif (!empty($s['font_family'])) $cr .= 'font-family:' . sanitize_text_field($s['font_family']) . ';';
@@ -142,7 +143,8 @@ function menux_generate_css($style) {
     // Hover
     $hr = '';
     if ($s['link_hover_color'] !== '') $hr .= 'color:' . sanitize_hex_color($s['link_hover_color']) . ';';
-    if (!empty($s['link_hover_bg']))   $hr .= 'background:' . sanitize_hex_color($s['link_hover_bg']) . ';';
+    if (!empty($s['link_hover_bg_gradient']))  $hr .= 'background:' . wp_strip_all_tags($s['link_hover_bg_gradient']) . ';';
+    elseif (!empty($s['link_hover_bg']))       $hr .= 'background:' . sanitize_hex_color($s['link_hover_bg']) . ';';
     if ($anim_css && $anim !== 'underline') $hr .= $anim_css;
     if ($hr) $css .= '.menux-list > li > a.menux-link:hover{' . $hr . '}';
 
@@ -151,7 +153,8 @@ function menux_generate_css($style) {
     if ($s['link_active_color'] !== '')       $ar .= 'color:' . sanitize_hex_color($s['link_active_color']) . ';';
     if ($s['link_active_border'] !== '')      $ar .= 'border-bottom:2px solid ' . sanitize_hex_color($s['link_active_border']) . ';';
     if (!empty($s['link_active_font_weight'])) $ar .= 'font-weight:' . esc_attr($s['link_active_font_weight']) . '!important;';
-    if (!empty($s['link_active_bg']))          $ar .= 'background:' . sanitize_hex_color($s['link_active_bg']) . ';';
+    if (!empty($s['link_active_bg_gradient']))  $ar .= 'background:' . wp_strip_all_tags($s['link_active_bg_gradient']) . ';';
+    elseif (!empty($s['link_active_bg']))       $ar .= 'background:' . sanitize_hex_color($s['link_active_bg']) . ';';
     if ($ar) $css .= '.menux-list > li > a.menux-link.active{' . $ar . '}';
 
     // Push last item to the right

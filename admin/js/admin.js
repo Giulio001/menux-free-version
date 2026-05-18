@@ -835,7 +835,7 @@
         function applyTheme(key) {
             var p = bmThemes[key].data;
             function setC(n,v){var cb=document.querySelector('input[name="menux_style_use['+n+']"]');var cp=document.querySelector('input[name="menux_style['+n+']"]');if(cb){cb.checked=(v!=='');menux_toggleColor(cb);}if(cp&&v!=='')cp.value=v;}
-            function setV(n,v){var el=document.querySelector('[name="menux_style['+n+']"]');if(el){if(el.type==='checkbox')el.checked=(v==='1');else el.value=v;}}
+            function setV(n,v){var el=document.querySelector('[name="menux_style['+n+']"]');if(!el)return;if(el.type==='checkbox'){el.checked=(v==='1');}else if(el.type==='radio'){document.querySelectorAll('[name="menux_style['+n+']"]').forEach(function(r){r.checked=(r.value===v);});}else{el.value=v;}}
             setC('container_bg',p.container_bg);setC('container_border',p.container_border);
             setC('link_color',p.link_color);setC('link_hover_color',p.link_hover_color);setC('link_hover_bg',p.link_hover_bg);
             setC('link_active_color',p.link_active_color);setC('link_active_border',p.link_active_border);setC('link_active_bg',p.link_active_bg);

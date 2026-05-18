@@ -120,6 +120,11 @@ function menux_render_style_panel($style) {
             </div>
         </div>
 
+        <!-- Hidden fields for gradient values — set by applyTheme(), posted with the form -->
+        <input type="hidden" name="menux_style[container_bg_gradient]"   value="<?php echo esc_attr( $s['container_bg_gradient']   ?? '' ); ?>">
+        <input type="hidden" name="menux_style[link_hover_bg_gradient]"  value="<?php echo esc_attr( $s['link_hover_bg_gradient']  ?? '' ); ?>">
+        <input type="hidden" name="menux_style[link_active_bg_gradient]" value="<?php echo esc_attr( $s['link_active_bg_gradient'] ?? '' ); ?>">
+
         </div><!-- end tab colors -->
 
         <!-- ===== TAB: TIPOGRAFIA ===== -->

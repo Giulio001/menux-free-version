@@ -157,6 +157,9 @@ function menux_render_admin_html() {
         foreach ($color_keys as $k) {
             $saved_style[$k] = (!empty($use_flags[$k]) && !empty($raw_style[$k])) ? sanitize_hex_color($raw_style[$k]) : '';
         }
+        $saved_style['container_bg_gradient']   = isset( $raw_style['container_bg_gradient'] )   ? sanitize_text_field( $raw_style['container_bg_gradient'] )   : '';
+        $saved_style['link_hover_bg_gradient']  = isset( $raw_style['link_hover_bg_gradient'] )  ? sanitize_text_field( $raw_style['link_hover_bg_gradient'] )  : '';
+        $saved_style['link_active_bg_gradient'] = isset( $raw_style['link_active_bg_gradient'] ) ? sanitize_text_field( $raw_style['link_active_bg_gradient'] ) : '';
         $saved_style['font_size']               = isset($raw_style['font_size'])          && $raw_style['font_size']         !== '' ? intval($raw_style['font_size'])              : '';
         $saved_style['font_weight']             = isset($raw_style['font_weight'])        && $raw_style['font_weight']       !== '' ? sanitize_text_field($raw_style['font_weight']) : '';
         $saved_style['gap']                     = isset($raw_style['gap'])                && $raw_style['gap']               !== '' ? intval($raw_style['gap'])                    : '20';
