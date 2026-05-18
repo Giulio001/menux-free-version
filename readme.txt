@@ -167,6 +167,7 @@ Custom CSS editing is available in the Pro version. In the free version you can 
 7. Live preview with desktop/tablet/mobile switcher
 8. Frontend result — desktop view with mega menu open
 9. Frontend result — mobile fullscreen menu open
+10. Mega Menu showcase — real-world examples with gradients, icons and multi-column layouts
 
 == External Services ==
 
