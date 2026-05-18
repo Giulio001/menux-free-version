@@ -122,27 +122,73 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
-        // ── Mega Menu: toggle on click/tap on mobile ──
-        nav.querySelectorAll(".menux-has-mega > a.menux-link").forEach(function(a) {
-            a.addEventListener("click", function(e) {
-                var isMobile = bpMode === 'auto'
-                    ? nav.classList.contains('menux-is-mobile')
-                    : window.innerWidth <= bpPx;
-                if (isMobile) {
-                    e.preventDefault();
-                    a.parentElement.classList.toggle('menux-open');
-                    a.setAttribute('aria-expanded', a.parentElement.classList.contains('menux-open') ? 'true' : 'false');
-                }
-            });
+        // ── Mega Menu: desktop hover + mobile click ──
+        nav.querySelectorAll('.menux-has-mega').forEach(function(li) {
+            var closeTimer = null;
+            var panel      = li.querySelector('.menux-mega-panel');
+            var link       = li.querySelector(':scope > a.menux-link');
+
+            function isDesktop() {
+                return bpMode === 'auto'
+                    ? !nav.classList.contains('menux-is-mobile')
+                    : window.innerWidth > bpPx;
+            }
+            function megaOpen() {
+                clearTimeout(closeTimer); closeTimer = null;
+                // Close sibling panels first.
+                nav.querySelectorAll('.menux-has-mega.menux-open').forEach(function(other) {
+                    if (other !== li) {
+                        other.classList.remove('menux-open');
+                        var ol = other.querySelector(':scope > a.menux-link');
+                        if (ol) ol.setAttribute('aria-expanded', 'false');
+                    }
+                });
+                li.classList.add('menux-open');
+                if (link) link.setAttribute('aria-expanded', 'true');
+            }
+            function megaClose() {
+                clearTimeout(closeTimer);
+                closeTimer = setTimeout(function() {
+                    li.classList.remove('menux-open');
+                    if (link) link.setAttribute('aria-expanded', 'false');
+                }, 200);
+            }
+
+            // Desktop: hover open/close with gap-bridging delay.
+            li.addEventListener('mouseenter', function() { if (isDesktop()) megaOpen(); });
+            li.addEventListener('mouseleave', function() { if (isDesktop()) megaClose(); });
+            // The panel is absolutely positioned outside the <li> hit-box, so it
+            // needs its own enter/leave to cancel the close timer.
+            if (panel) {
+                panel.addEventListener('mouseenter', function() {
+                    if (isDesktop()) { clearTimeout(closeTimer); closeTimer = null; }
+                });
+                panel.addEventListener('mouseleave', function() { if (isDesktop()) megaClose(); });
+            }
+
+            // Mobile: tap to toggle.
+            if (link) {
+                link.addEventListener('click', function(e) {
+                    if (!isDesktop()) {
+                        e.preventDefault();
+                        if (li.classList.contains('menux-open')) {
+                            li.classList.remove('menux-open');
+                            link.setAttribute('aria-expanded', 'false');
+                        } else {
+                            megaOpen();
+                        }
+                    }
+                });
+            }
         });
 
-        // Close mega panels when clicking outside on desktop.
+        // Close mega panels when clicking outside.
         document.addEventListener('click', function(e) {
             nav.querySelectorAll('.menux-has-mega.menux-open').forEach(function(li) {
                 if (!li.contains(e.target)) {
                     li.classList.remove('menux-open');
-                    var link = li.querySelector('a.menux-link');
-                    if (link) link.setAttribute('aria-expanded', 'false');
+                    var l = li.querySelector(':scope > a.menux-link');
+                    if (l) l.setAttribute('aria-expanded', 'false');
                 }
             });
         });

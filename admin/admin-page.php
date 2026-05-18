@@ -223,6 +223,7 @@ function menux_render_admin_html() {
         $saved_style['mega_col_gap']        = isset( $raw_style['mega_col_gap'] )        && is_numeric( $raw_style['mega_col_gap'] )        ? (int) $raw_style['mega_col_gap']        : 16;
         $saved_style['mega_mobile_disable'] = isset( $raw_style['mega_mobile_disable'] ) ? '1' : '0';
         $saved_style['mega_border_radius']  = isset( $raw_style['mega_border_radius'] )  && is_numeric( $raw_style['mega_border_radius'] )  ? (int) $raw_style['mega_border_radius']  : 14;
+        $saved_style['mega_font_size']      = isset( $raw_style['mega_font_size'] )      && is_numeric( $raw_style['mega_font_size'] )      ? (int) $raw_style['mega_font_size']      : 0;
         $saved_style['mega_link_color']     = ! empty( $use_flags['mega_link_color'] )    && ! empty( $raw_style['mega_link_color'] )    ? sanitize_hex_color( $raw_style['mega_link_color'] )    : '';
         $saved_style['mega_heading_color']  = ! empty( $use_flags['mega_heading_color'] ) && ! empty( $raw_style['mega_heading_color'] ) ? sanitize_hex_color( $raw_style['mega_heading_color'] ) : '';
         $saved_style['mega_accent_color']   = ! empty( $use_flags['mega_accent_color'] )  && ! empty( $raw_style['mega_accent_color'] )  ? sanitize_hex_color( $raw_style['mega_accent_color'] )  : '';

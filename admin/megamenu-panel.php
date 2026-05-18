@@ -34,6 +34,7 @@ function menux_render_megamenu_panel( $menu_items ) {
 	$mega_gap        = isset( $s['mega_col_gap'] )        ? (int) $s['mega_col_gap']       : 16;
 	$mega_mob        = ( $s['mega_mobile_disable'] ?? '0' ) === '1';
 	$mega_radius     = isset( $s['mega_border_radius'] )  ? (int) $s['mega_border_radius'] : 14;
+	$mega_font_size  = isset( $s['mega_font_size'] )      ? (int) $s['mega_font_size']      : 0;
 	$mega_link_color = ! empty( $s['mega_link_color'] )   ? $s['mega_link_color']          : '#374151';
 	$mega_head_color = ! empty( $s['mega_heading_color'] )? $s['mega_heading_color']       : '#9ca3af';
 	$mega_accent     = ! empty( $s['mega_accent_color'] ) ? $s['mega_accent_color']        : '#667eea';
@@ -84,6 +85,11 @@ function menux_render_megamenu_panel( $menu_items ) {
 				<div>
 					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Border Radius (px)</label>
 					<input type="number" name="menux_style[mega_border_radius]" value="<?php echo esc_attr( $mega_radius ); ?>" min="0" max="40" class="bm-input" style="width:100%;">
+				</div>
+
+				<div>
+					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Font Size (px)</label>
+					<input type="number" name="menux_style[mega_font_size]" value="<?php echo esc_attr( $mega_font_size ?: '' ); ?>" placeholder="Default" min="10" max="24" class="bm-input" style="width:100%;">
 				</div>
 
 				<div>

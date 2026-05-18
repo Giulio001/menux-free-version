@@ -74,7 +74,9 @@ class Menux_MegaMenu {
 
 			case 'heading':
 				if ( empty( $mega_item['label'] ) ) return '';
-				return '<h3 class="menux-mega-heading">' . esc_html( $mega_item['label'] ) . '</h3>';
+				$icon_h = ! empty( $mega_item['icon'] )
+					? '<i class="' . esc_attr( $mega_item['icon'] ) . '" aria-hidden="true" style="margin-right:5px;"></i>' : '';
+				return '<h3 class="menux-mega-heading">' . $icon_h . esc_html( $mega_item['label'] ) . '</h3>';
 
 			case 'divider':
 				return '<hr class="menux-mega-divider" aria-hidden="true">';
@@ -189,23 +191,25 @@ class Menux_MegaMenu {
 	// ─────────────────────────────────────────────────────────────────
 
 	public static function generate_css( $s = array() ) {
-		$bg         = ! empty( $s['mega_bg'] )           ? sanitize_hex_color( $s['mega_bg'] ) : '#fff';
-		$pad_y      = isset( $s['mega_padding_y'] )       && is_numeric( $s['mega_padding_y'] )  ? (int) $s['mega_padding_y']  : 24;
-		$pad_x      = isset( $s['mega_padding_x'] )       && is_numeric( $s['mega_padding_x'] )  ? (int) $s['mega_padding_x']  : 32;
-		$col_gap    = isset( $s['mega_col_gap'] )         && is_numeric( $s['mega_col_gap'] )     ? (int) $s['mega_col_gap']    : 16;
-		$max_w      = isset( $s['mega_max_width'] )       && is_numeric( $s['mega_max_width'] )   ? (int) $s['mega_max_width']  : 0;
-		$radius     = isset( $s['mega_border_radius'] )   && is_numeric( $s['mega_border_radius'] ) ? (int) $s['mega_border_radius'] : 14;
-		$link_color = ! empty( $s['mega_link_color'] )    ? sanitize_hex_color( $s['mega_link_color'] )    : '#374151';
-		$head_color = ! empty( $s['mega_heading_color'] ) ? sanitize_hex_color( $s['mega_heading_color'] ) : '#9ca3af';
-		$accent     = ! empty( $s['mega_accent_color'] )  ? sanitize_hex_color( $s['mega_accent_color'] )  : '#667eea';
+		$bg         = ! empty( $s['mega_bg'] )            ? sanitize_hex_color( $s['mega_bg'] ) : '#fff';
+		$pad_y      = isset( $s['mega_padding_y'] )        && is_numeric( $s['mega_padding_y'] )    ? (int) $s['mega_padding_y']    : 24;
+		$pad_x      = isset( $s['mega_padding_x'] )        && is_numeric( $s['mega_padding_x'] )    ? (int) $s['mega_padding_x']    : 32;
+		$col_gap    = isset( $s['mega_col_gap'] )          && is_numeric( $s['mega_col_gap'] )       ? (int) $s['mega_col_gap']      : 16;
+		$max_w      = isset( $s['mega_max_width'] )        && is_numeric( $s['mega_max_width'] )     ? (int) $s['mega_max_width']    : 0;
+		$radius     = isset( $s['mega_border_radius'] )    && is_numeric( $s['mega_border_radius'] ) ? (int) $s['mega_border_radius'] : 14;
+		$font_size  = isset( $s['mega_font_size'] )        && is_numeric( $s['mega_font_size'] )     && (int) $s['mega_font_size'] > 0 ? (int) $s['mega_font_size'] : 0;
+		$link_color = ! empty( $s['mega_link_color'] )     ? sanitize_hex_color( $s['mega_link_color'] )    : '#374151';
+		$head_color = ! empty( $s['mega_heading_color'] )  ? sanitize_hex_color( $s['mega_heading_color'] ) : '#9ca3af';
+		$accent     = ! empty( $s['mega_accent_color'] )   ? sanitize_hex_color( $s['mega_accent_color'] )  : '#667eea';
 		$mob_off    = ! empty( $s['mega_mobile_disable'] ) && $s['mega_mobile_disable'] === '1';
-		$breakpoint = isset( $s['mobile_breakpoint'] )    && is_numeric( $s['mobile_breakpoint'] ) ? (int) $s['mobile_breakpoint'] : 768;
+		$breakpoint = isset( $s['mobile_breakpoint'] )     && is_numeric( $s['mobile_breakpoint'] ) ? (int) $s['mobile_breakpoint'] : 768;
 
-		$max_w_rule = $max_w > 0 ? 'max-width:' . $max_w . 'px;margin-left:auto;margin-right:auto;' : '';
+		$max_w_rule    = $max_w > 0 ? 'max-width:' . $max_w . 'px;margin-left:auto;margin-right:auto;' : '';
+		$font_size_rule = $font_size > 0 ? 'font-size:' . $font_size . 'px;' : '';
 
 		// Derive hover colors from accent
-		$hover_bg     = 'rgba(102,126,234,.08)';
-		$hover_color  = $accent;
+		$hover_bg    = 'rgba(102,126,234,.08)';
+		$hover_color = $accent;
 
 		$mobile_css = $mob_off
 			? '@media(max-width:' . $breakpoint . 'px){.menux-mega-panel{display:none!important;}}'
@@ -232,6 +236,7 @@ class Menux_MegaMenu {
 .menux-mega-panel{
   position:absolute;left:0;right:0;top:100%;
   background:' . esc_attr( $bg ) . ';
+  ' . $font_size_rule . '
   box-shadow:0 16px 48px -8px rgba(0,0,0,.18),0 2px 8px rgba(0,0,0,.06);
   border-top:2px solid rgba(0,0,0,.05);
   border-radius:0 0 ' . $radius . 'px ' . $radius . 'px;
@@ -240,7 +245,6 @@ class Menux_MegaMenu {
   transition:opacity .2s ease,visibility .2s ease,transform .2s ease;
   z-index:9990;
 }
-.menux-list > li.menux-has-mega:hover > .menux-mega-panel,
 .menux-list > li.menux-has-mega.menux-open > .menux-mega-panel{
   opacity:1;visibility:visible;pointer-events:auto;transform:none;
 }
@@ -250,7 +254,7 @@ class Menux_MegaMenu {
   ' . $max_w_rule . '
 }
 .menux-mega-col{flex:1;min-width:0;}
-.menux-mega-col+.menux-mega-col{border-left:1px solid rgba(0,0,0,.06);padding-left:' . $col_gap . 'px;}
+.menux-mega-col+.menux-mega-col{padding-left:' . $col_gap . 'px;}
 .menux-mega-heading{
   font-size:10px;font-weight:700;color:' . esc_attr( $head_color ) . ';
   text-transform:uppercase;letter-spacing:.7px;

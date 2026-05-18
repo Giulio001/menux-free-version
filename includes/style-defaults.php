@@ -95,6 +95,7 @@ function menux_style_defaults() {
         'mega_col_gap'        => 16,
         'mega_mobile_disable' => '0',
         'mega_border_radius'  => 14,
+        'mega_font_size'      => 0,
         'mega_link_color'     => '',
         'mega_heading_color'  => '',
         'mega_accent_color'   => '',

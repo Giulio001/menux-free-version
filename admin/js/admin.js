@@ -1807,6 +1807,7 @@
 
         var _activeKey = null;
         var _data      = [];
+        var _drag      = { colIdx: -1, itemIdx: -1 };
 
         function newCol() {
             return { width_pct: '', items: [] };
@@ -1915,13 +1916,15 @@
             _data.forEach(function(col, ci) {
                 var w = (col.width_pct && parseInt(col.width_pct) > 0) ? col.width_pct : null;
                 var flex = w ? '0 0 ' + w + '%;max-width:' + w + '%' : '1';
-                var borderL = ci > 0 ? 'border-left:1px solid #f3f4f6;padding-left:' + gap + 'px;' : '';
-                html += '<div style="flex:' + flex + ';min-width:0;' + borderL + '">';
+                var padL = ci > 0 ? 'padding-left:' + gap + 'px;' : '';
+                html += '<div style="flex:' + flex + ';min-width:0;' + padL + '">';
 
                 (col.items || []).forEach(function(item) {
                     switch (item.type) {
                         case 'heading':
-                            html += '<div style="font-size:8px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.7px;padding-bottom:5px;border-bottom:1px solid #f3f4f6;margin-bottom:6px;">' + (htmlEsc(item.label) || '—') + '</div>';
+                            html += '<div style="font-size:8px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.7px;padding-bottom:5px;border-bottom:1px solid #f3f4f6;margin-bottom:6px;">';
+                            if (item.icon) html += '<i class="' + htmlEsc(item.icon) + '" style="margin-right:3px;font-size:8px;"></i>';
+                            html += (htmlEsc(item.label) || '—') + '</div>';
                             break;
                         case 'divider':
                             html += '<hr style="border:none;border-top:1px solid #f3f4f6;margin:5px 0;">';
@@ -1974,6 +1977,28 @@
             itemsDiv.className = 'bm-mega-col-items';
             (col.items || []).forEach(function(item, itemIdx) {
                 itemsDiv.appendChild(buildItemEl(item, colIdx, itemIdx));
+            });
+            // Drop at end of column (empty column or after last item).
+            itemsDiv.addEventListener('dragover', function(e) {
+                if (!e.target.classList.contains('bm-mega-col-item')) {
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    itemsDiv.classList.add('bm-drag-over-col');
+                }
+            });
+            itemsDiv.addEventListener('dragleave', function(e) {
+                if (!itemsDiv.contains(e.relatedTarget)) itemsDiv.classList.remove('bm-drag-over-col');
+            });
+            itemsDiv.addEventListener('drop', function(e) {
+                if (e.target.classList.contains('bm-mega-col-item')) return;
+                e.preventDefault();
+                itemsDiv.classList.remove('bm-drag-over-col');
+                var srcCol = _drag.colIdx, srcIdx = _drag.itemIdx;
+                if (srcCol === -1) return;
+                var moved = _data[srcCol].items.splice(srcIdx, 1)[0];
+                _data[colIdx].items.push(moved);
+                _drag.colIdx = _drag.itemIdx = -1;
+                render();
             });
             div.appendChild(itemsDiv);
 
@@ -2029,18 +2054,51 @@
             var el = document.createElement('div');
             el.className = 'bm-mega-col-item';
             el.setAttribute('data-item-idx', itemIdx);
+            el.draggable = true;
 
             var typeColors = { link:'#e0e7ff', heading:'#fef3c7', divider:'#f3f4f6', image:'#d1fae5', shortcode:'#fee2e2' };
             var typeColor  = typeColors[item.type] || '#e0e7ff';
 
             var lbl = item.label || (item.type === 'divider' ? '— divider —' : item.type);
-            el.innerHTML = '<span style="cursor:grab;color:#9ca3af;margin-right:2px;">⠿</span>'
+            el.innerHTML = '<span style="cursor:grab;color:#9ca3af;margin-right:2px;user-select:none;">⠿</span>'
                 + '<span class="bm-mega-col-item-type" style="background:' + typeColor + ';color:#374151;">' + item.type + '</span>'
                 + '<span class="bm-mega-col-item-label">' + lbl.substring(0, 40) + '</span>'
                 + '<button type="button" onclick="menuxMegaEditor.editItem(' + colIdx + ',' + itemIdx + ')" '
                 + 'style="background:none;border:1px solid #e5e7eb;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer;color:#374151;margin-left:auto;" title="Edit">Edit</button>'
                 + '<button type="button" onclick="menuxMegaEditor.removeItem(' + colIdx + ',' + itemIdx + ')" '
                 + 'style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:14px;padding:2px 4px;" title="Remove">&times;</button>';
+
+            el.addEventListener('dragstart', function(e) {
+                _drag.colIdx  = colIdx;
+                _drag.itemIdx = itemIdx;
+                e.dataTransfer.effectAllowed = 'move';
+                setTimeout(function() { el.classList.add('bm-dragging'); }, 0);
+            });
+            el.addEventListener('dragend', function() {
+                el.classList.remove('bm-dragging');
+                document.querySelectorAll('.bm-drag-over').forEach(function(x) { x.classList.remove('bm-drag-over'); });
+            });
+            el.addEventListener('dragover', function(e) {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                el.classList.add('bm-drag-over');
+            });
+            el.addEventListener('dragleave', function() {
+                el.classList.remove('bm-drag-over');
+            });
+            el.addEventListener('drop', function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                el.classList.remove('bm-drag-over');
+                var srcCol = _drag.colIdx, srcIdx = _drag.itemIdx;
+                var dstCol = colIdx,       dstIdx = itemIdx;
+                if (srcCol === -1 || (srcCol === dstCol && srcIdx === dstIdx)) return;
+                var moved = _data[srcCol].items.splice(srcIdx, 1)[0];
+                if (srcCol === dstCol && srcIdx < dstIdx) dstIdx--;
+                _data[dstCol].items.splice(dstIdx, 0, moved);
+                _drag.colIdx = _drag.itemIdx = -1;
+                render();
+            });
 
             return el;
         }
@@ -2102,7 +2160,7 @@
 
             var fields = {
                 'link':      ['label','url','icon','desc','target'],
-                'heading':   ['label'],
+                'heading':   ['label','icon'],
                 'divider':   [],
                 'image':     ['label','url','image_url','target'],
                 'shortcode': ['label','content'],

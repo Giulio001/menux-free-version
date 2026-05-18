@@ -921,6 +921,9 @@
             cursor: grab;
         }
         .bm-mega-col-item:hover { border-color: #a5b4fc; background: #f5f3ff; }
+        .bm-mega-col-item.bm-dragging { opacity: 0.35; }
+        .bm-mega-col-item.bm-drag-over { border-top: 2px solid #4f46e5; border-radius: 0 0 6px 6px; background: #eef2ff; }
+        .bm-mega-col-items.bm-drag-over-col { background: #eef2ff; border-radius: 6px; outline: 2px dashed #a78bfa; }
         .bm-mega-col-item-type {
             font-size: 10px;
             background: #e0e7ff;
