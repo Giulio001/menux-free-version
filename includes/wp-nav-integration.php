@@ -50,8 +50,11 @@ function menux_admin_bar_nav_debug() {
         return;
     }
 
-    $replaced = array_filter( $log, fn( $e ) => $e['result'] === 'replaced' );
-    $icon     = ! empty( $replaced ) ? '🟢' : '🟡';
+    $has_replaced = false;
+    foreach ( $log as $e ) {
+        if ( $e['result'] === 'replaced' ) { $has_replaced = true; break; }
+    }
+    $icon = $has_replaced ? '🟢' : '🟡';
     $wp_admin_bar->add_node( array(
         'id'    => 'menux-nav-debug',
         'title' => $icon . ' MenuX WP (' . count( $log ) . ' calls)',
@@ -59,12 +62,10 @@ function menux_admin_bar_nav_debug() {
     ) );
 
     foreach ( $log as $i => $e ) {
-        $label = match ( $e['result'] ) {
-            'replaced'     => '✅ replaced',
-            'empty-output' => '⚠ empty output',
-            default        => '— passthrough',
-        };
-        $loc = $e['location'] !== '' ? $e['location'] : '(no theme_location)';
+        if ( $e['result'] === 'replaced' )          { $label = '✅ replaced'; }
+        elseif ( $e['result'] === 'empty-output' )  { $label = '⚠ empty output'; }
+        else                                         { $label = '— passthrough'; }
+        $loc = ( $e['location'] !== '' ) ? $e['location'] : '(no theme_location)';
         $wp_admin_bar->add_node( array(
             'id'     => 'menux-nav-debug-' . $i,
             'parent' => 'menux-nav-debug',
