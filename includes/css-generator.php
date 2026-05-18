@@ -298,7 +298,7 @@ function menux_generate_css($style) {
     // Hamburger visibile su mobile
     $css .= $media_open
         . '.menux-container{display:flex;flex-direction:row;align-items:center;flex-wrap:wrap;}'
-        . '.menux-hamburger{display:flex;align-self:'.$hamburger_align.';margin-left:auto;}'
+        . '.menux-hamburger{display:flex;' . ( $hamburger_align === 'flex-start' ? 'margin-right:auto;' : ( $hamburger_align === 'center' ? 'margin-left:auto;margin-right:auto;' : 'margin-left:auto;' ) ) . '}'
         . $media_close;
 
     // ════ STILI SPECIFICI PER MODALITÀ ════
