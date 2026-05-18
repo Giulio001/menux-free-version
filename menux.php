@@ -25,6 +25,8 @@ require_once MENUX_DIR . 'includes/helpers.php';
 require_once MENUX_DIR . 'includes/migration.php';
 require_once MENUX_DIR . 'includes/multilingual.php';
 require_once MENUX_DIR . 'includes/style-defaults.php';
+require_once MENUX_DIR . 'includes/logo.php';
+require_once MENUX_DIR . 'includes/megamenu.php';
 require_once MENUX_DIR . 'includes/css-generator.php';
 require_once MENUX_DIR . 'includes/assets.php';
 require_once MENUX_DIR . 'includes/import-export.php';
@@ -35,4 +37,6 @@ if ( is_admin() ) {
     require_once MENUX_DIR . 'admin/admin-page.php';
     require_once MENUX_DIR . 'admin/builder.php';
     require_once MENUX_DIR . 'admin/style-panel.php';
+    require_once MENUX_DIR . 'admin/logo-panel.php';
+    require_once MENUX_DIR . 'admin/megamenu-panel.php';
 }

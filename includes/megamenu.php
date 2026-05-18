@@ -1,0 +1,251 @@
+<?php
+/**
+ * MenuX — Mega Menu System
+ *
+ * Renders mega menu column panels for first-level nav items.
+ * Column data is stored per-item inside menux_menu_items.
+ *
+ * Supported column item types:
+ *   link      — clickable link with icon + optional description
+ *   heading   — non-clickable section label
+ *   divider   — horizontal rule separator
+ *   image     — image block (WP attachment or external URL)
+ *   shortcode — arbitrary shortcode / Gutenberg reusable block
+ *
+ * @package GiuliomaxMenuBuilder
+ */
+
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+class Menux_MegaMenu {
+
+	// ─────────────────────────────────────────────────────────────────
+	// Frontend rendering
+	// ─────────────────────────────────────────────────────────────────
+
+	/**
+	 * Renders the full mega menu panel HTML for one first-level item.
+	 *
+	 * @param array $item  The raw menu item array (must have mega_columns key).
+	 * @return string
+	 */
+	public static function render_panel( $item ) {
+		$cols       = is_array( $item['mega_columns'] ?? null ) ? $item['mega_columns'] : array();
+		$full_width = ( $item['mega_full_width'] ?? '1' ) === '1';
+
+		if ( empty( $cols ) ) {
+			return '';
+		}
+
+		$panel_class = 'menux-mega-panel';
+		if ( $full_width ) {
+			$panel_class .= ' menux-mega-full';
+		}
+
+		$out  = '<div class="' . esc_attr( $panel_class ) . '" role="menu" aria-label="' . esc_attr__( 'Submenu', 'giuliomax-menu-builder' ) . '">';
+		$out .= '<div class="menux-mega-inner">';
+
+		foreach ( $cols as $col ) {
+			$col_items = is_array( $col['items'] ?? null ) ? $col['items'] : array();
+
+			// Column width: explicit % or flex:1 for auto.
+			$col_style = '';
+			if ( ! empty( $col['width_pct'] ) && is_numeric( $col['width_pct'] ) ) {
+				$pct       = min( 100, max( 5, (int) $col['width_pct'] ) );
+				$col_style = 'flex:0 0 ' . $pct . '%;max-width:' . $pct . '%;';
+			}
+
+			$out .= '<div class="menux-mega-col"' . ( $col_style ? ' style="' . esc_attr( $col_style ) . '"' : '' ) . '>';
+			foreach ( $col_items as $mega_item ) {
+				$out .= self::render_col_item( $mega_item );
+			}
+			$out .= '</div>';
+		}
+
+		$out .= '</div></div>';
+		return $out;
+	}
+
+	/** Renders a single column item based on its type. */
+	private static function render_col_item( $mega_item ) {
+		$type = $mega_item['type'] ?? 'link';
+
+		switch ( $type ) {
+
+			case 'heading':
+				if ( empty( $mega_item['label'] ) ) return '';
+				return '<h3 class="menux-mega-heading">' . esc_html( $mega_item['label'] ) . '</h3>';
+
+			case 'divider':
+				return '<hr class="menux-mega-divider" aria-hidden="true">';
+
+			case 'image':
+				return self::render_col_image( $mega_item );
+
+			case 'shortcode':
+				if ( empty( $mega_item['content'] ) ) return '';
+				// do_shortcode is intentionally not wrapped — trusted admin-entered content.
+				return '<div class="menux-mega-widget">' . do_shortcode( $mega_item['content'] ) . '</div>';
+
+			default: // 'link'
+				return self::render_col_link( $mega_item );
+		}
+	}
+
+	private static function render_col_link( $item ) {
+		$url    = ! empty( $item['url'] ) ? esc_url( $item['url'] ) : '#';
+		$label  = esc_html( $item['label'] ?? '' );
+		$target = ( ! empty( $item['target'] ) && $item['target'] === '_blank' )
+			? ' target="_blank" rel="noopener noreferrer"' : '';
+		$icon_html = ! empty( $item['icon'] )
+			? '<i class="' . esc_attr( $item['icon'] ) . '" aria-hidden="true"></i>' : '';
+		$desc_html = ! empty( $item['desc'] )
+			? '<small class="menux-mega-link-desc">' . esc_html( $item['desc'] ) . '</small>' : '';
+
+		return '<a href="' . $url . '" class="menux-mega-link" role="menuitem"' . $target . '>'
+			. $icon_html
+			. '<span class="menux-mega-link-inner">'
+			.   '<span class="menux-mega-link-label">' . $label . '</span>'
+			.   $desc_html
+			. '</span>'
+			. '</a>';
+	}
+
+	private static function render_col_image( $item ) {
+		if ( ! empty( $item['image_id'] ) && (int) $item['image_id'] > 0 ) {
+			$img = wp_get_attachment_image( (int) $item['image_id'], 'medium', false, array( 'loading' => 'lazy' ) );
+		} elseif ( ! empty( $item['image_url'] ) ) {
+			$img = '<img src="' . esc_url( $item['image_url'] ) . '"'
+				. ' alt="' . esc_attr( $item['label'] ?? '' ) . '" loading="lazy">';
+		} else {
+			return '';
+		}
+
+		if ( ! empty( $item['url'] ) ) {
+			$target = ( ! empty( $item['target'] ) && $item['target'] === '_blank' )
+				? ' target="_blank" rel="noopener noreferrer"' : '';
+			return '<div class="menux-mega-image"><a href="' . esc_url( $item['url'] ) . '"' . $target . '>' . $img . '</a></div>';
+		}
+
+		return '<div class="menux-mega-image">' . $img . '</div>';
+	}
+
+	// ─────────────────────────────────────────────────────────────────
+	// Save helper — sanitises raw POST column data
+	// ─────────────────────────────────────────────────────────────────
+
+	/**
+	 * Sanitises and returns a clean mega_columns array from raw JSON input.
+	 *
+	 * @param string $json_raw  Raw JSON string from a hidden form input.
+	 * @return array
+	 */
+	public static function sanitize_columns( $json_raw ) {
+		if ( empty( $json_raw ) ) return array();
+
+		$decoded = json_decode( stripslashes( (string) $json_raw ), true );
+		if ( ! is_array( $decoded ) ) return array();
+
+		$allowed_types = array( 'link', 'heading', 'divider', 'image', 'shortcode' );
+		$clean_cols    = array();
+
+		foreach ( $decoded as $col ) {
+			if ( ! is_array( $col ) ) continue;
+
+			$clean_col = array(
+				'width_pct' => is_numeric( $col['width_pct'] ?? '' ) ? (int) $col['width_pct'] : '',
+				'items'     => array(),
+			);
+
+			foreach ( (array) ( $col['items'] ?? array() ) as $mega_item ) {
+				if ( ! is_array( $mega_item ) ) continue;
+				$item_type = in_array( $mega_item['type'] ?? 'link', $allowed_types, true )
+					? $mega_item['type'] : 'link';
+
+				$clean_col['items'][] = array(
+					'type'      => $item_type,
+					'label'     => sanitize_text_field( $mega_item['label']     ?? '' ),
+					'url'       => ( 'link' === $item_type || 'image' === $item_type )
+									? esc_url_raw( $mega_item['url'] ?? '' ) : '',
+					'icon'      => sanitize_text_field( $mega_item['icon']      ?? '' ),
+					'desc'      => sanitize_text_field( $mega_item['desc']      ?? '' ),
+					'image_id'  => absint( $mega_item['image_id']               ?? 0 ),
+					'image_url' => esc_url_raw( $mega_item['image_url']         ?? '' ),
+					// kses strips unsafe HTML in shortcode content.
+					'content'   => wp_kses_post( $mega_item['content']          ?? '' ),
+					'target'    => in_array( $mega_item['target'] ?? '', array( '', '_blank' ), true )
+								   ? ( $mega_item['target'] ?? '' ) : '',
+				);
+			}
+
+			$clean_cols[] = $clean_col;
+		}
+
+		return $clean_cols;
+	}
+
+	// ─────────────────────────────────────────────────────────────────
+	// CSS generation — called from css-generator.php
+	// ─────────────────────────────────────────────────────────────────
+
+	public static function generate_css() {
+		return '
+/* ── Mega Menu ────────────────────────────────────────── */
+.menux-has-mega{position:static;}
+.menux-mega-panel{
+  position:absolute;left:0;right:0;top:100%;
+  background:#fff;
+  box-shadow:0 8px 32px -4px rgba(0,0,0,.14);
+  border-top:2px solid #f0f4ff;
+  border-radius:0 0 12px 12px;
+  opacity:0;visibility:hidden;pointer-events:none;
+  transform:translateY(-6px);
+  transition:opacity .22s ease,visibility .22s ease,transform .22s ease;
+  z-index:9990;
+}
+.menux-has-mega:hover>.menux-mega-panel,
+.menux-has-mega.menux-open>.menux-mega-panel{
+  opacity:1;visibility:visible;pointer-events:auto;transform:none;
+}
+.menux-mega-full{left:0;right:0;}
+.menux-mega-inner{
+  display:flex;gap:0;padding:24px 32px;
+  max-width:100%;margin:0 auto;
+}
+.menux-mega-col{flex:1;padding:0 16px;border-right:1px solid #f3f4f6;}
+.menux-mega-col:first-child{padding-left:0;}
+.menux-mega-col:last-child{padding-right:0;border-right:none;}
+.menux-mega-heading{
+  font-size:10px;font-weight:700;color:#9ca3af;
+  text-transform:uppercase;letter-spacing:.7px;
+  margin:0 0 10px;padding:0 0 8px;
+  border-bottom:1px solid #f3f4f6;
+}
+.menux-mega-link{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:7px 0;text-decoration:none;color:#374151;
+  border-radius:6px;transition:color .15s;
+}
+.menux-mega-link:hover{color:#667eea;}
+.menux-mega-link i{font-size:16px;flex-shrink:0;margin-top:2px;color:inherit;}
+.menux-mega-link-inner{display:flex;flex-direction:column;}
+.menux-mega-link-label{font-size:13px;font-weight:500;line-height:1.3;}
+.menux-mega-link-desc{font-size:11px;color:#9ca3af;margin-top:2px;line-height:1.4;}
+.menux-mega-divider{border:none;border-top:1px solid #f3f4f6;margin:8px 0;}
+.menux-mega-image img{width:100%;height:auto;border-radius:8px;display:block;}
+.menux-mega-widget{font-size:13px;}
+
+/* Mobile: mega turns into accordion-style list */
+@media(max-width:768px){
+  .menux-mega-panel{
+    position:static;opacity:1;visibility:visible;pointer-events:auto;
+    transform:none;box-shadow:none;border:none;border-radius:0;
+    background:transparent;
+  }
+  .menux-mega-inner{flex-direction:column;padding:0 0 0 16px;gap:0;}
+  .menux-mega-col{border-right:none;padding:0;margin-bottom:8px;}
+  .menux-mega-heading{display:none;}
+}
+';
+	}
+}

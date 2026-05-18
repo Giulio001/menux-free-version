@@ -1719,3 +1719,425 @@
         // Re-run preview with forced breakpoint
         menux_liveStylePreview();
     }
+
+    /* ════════════════════════════════════════════════════════════════
+       LOGO UPLOADER (Advanced — per-slot)
+    ════════════════════════════════════════════════════════════════ */
+
+    function menuxLogoUpload(slotKey) {
+        if (typeof wp === 'undefined' || !wp.media) {
+            alert('WordPress Media Uploader not available.');
+            return;
+        }
+        var frame = wp.media({
+            title: 'Select Logo Image',
+            button: { text: 'Use this image' },
+            multiple: false,
+            library: { type: ['image'] }
+        });
+        frame.on('select', function() {
+            var attachment = frame.state().get('selection').first().toJSON();
+            var attIdInput = document.getElementById('bm-logo-att-' + slotKey);
+            var urlInput   = document.getElementById('bm-logo-url-' + slotKey);
+            var preview    = document.getElementById('bm-logo-preview-' + slotKey);
+
+            if (attIdInput) attIdInput.value = attachment.id;
+            if (urlInput)   urlInput.value   = '';  // clear external URL when using library
+
+            if (preview) {
+                var src  = (attachment.sizes && attachment.sizes.thumbnail)
+                         ? attachment.sizes.thumbnail.url : attachment.url;
+                preview.innerHTML = '<img src="' + src + '" style="max-width:80px;max-height:40px;object-fit:contain;border-radius:4px;" alt="">';
+            }
+
+            // Show the Clear button next time (reload not required — just update text)
+            var slot = document.getElementById('bm-logo-slot-' + slotKey);
+            if (slot) {
+                var uploadBtn = slot.querySelector('.bm-btn-secondary');
+                if (uploadBtn) uploadBtn.textContent = 'Change';
+            }
+        });
+        frame.open();
+    }
+
+    function menuxLogoClear(slotKey) {
+        var attIdInput = document.getElementById('bm-logo-att-' + slotKey);
+        var urlInput   = document.getElementById('bm-logo-url-' + slotKey);
+        var preview    = document.getElementById('bm-logo-preview-' + slotKey);
+
+        if (attIdInput) attIdInput.value = '0';
+        if (urlInput)   urlInput.value   = '';
+        if (preview)    preview.innerHTML = '<span style="color:#9ca3af;font-size:11px;">No image</span>';
+
+        // Update Upload button text
+        var slot = document.getElementById('bm-logo-slot-' + slotKey);
+        if (slot) {
+            var uploadBtn = slot.querySelector('.bm-btn-secondary');
+            if (uploadBtn) uploadBtn.textContent = 'Upload';
+        }
+    }
+
+    function menuxLogoUrlChange(slotKey, val) {
+        // When an external URL is typed, clear the attachment ID.
+        var attIdInput = document.getElementById('bm-logo-att-' + slotKey);
+        var preview    = document.getElementById('bm-logo-preview-' + slotKey);
+        if (attIdInput) attIdInput.value = '0';
+        if (preview && val) {
+            preview.innerHTML = '<img src="' + val + '" style="max-width:80px;max-height:40px;object-fit:contain;border-radius:4px;" alt="" onerror="this.style.display=\'none\'">';
+        } else if (preview) {
+            preview.innerHTML = '<span style="color:#9ca3af;font-size:11px;">No image</span>';
+        }
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       MEGA MENU TOGGLE helpers
+    ════════════════════════════════════════════════════════════════ */
+
+    function menuxMegaToggle(itemKey, enabled) {
+        var editBtn    = document.getElementById('bm-mega-edit-'    + itemKey);
+        var summary    = document.getElementById('bm-mega-summary-' + itemKey);
+        var fullLabel  = document.getElementById('bm-mega-full-'    + itemKey);
+        if (editBtn)   editBtn.style.display   = enabled ? '' : 'none';
+        if (summary)   summary.style.display   = enabled ? '' : 'none';
+        if (fullLabel) fullLabel.style.display  = enabled ? '' : 'none';
+    }
+
+    /* ════════════════════════════════════════════════════════════════
+       MEGA MENU EDITOR
+    ════════════════════════════════════════════════════════════════ */
+
+    var menuxMegaEditor = (function() {
+
+        var _activeKey = null;
+        var _data      = [];   // array of column objects
+
+        /* ─── Column data schema ─── */
+        function newCol() {
+            return { width_pct: '', items: [] };
+        }
+        function newItem(type) {
+            return { type: type || 'link', label: '', url: '', icon: '', desc: '', image_id: 0, image_url: '', content: '', target: '' };
+        }
+
+        /* ─── Open ─── */
+        function open(itemKey) {
+            _activeKey = itemKey;
+
+            // Load existing data from hidden input.
+            var hiddenInput = document.getElementById('mega-json-' + itemKey);
+            _data = [];
+            if (hiddenInput && hiddenInput.value) {
+                try { _data = JSON.parse(hiddenInput.value) || []; } catch(e) {}
+            }
+
+            // Update dialog title.
+            var titleEl = document.getElementById('menux-mega-dialog-title');
+            if (titleEl) {
+                var itemEl = document.getElementById('bm-mega-item-' + itemKey);
+                var labelEl = itemEl ? itemEl.querySelector('.bm-mega-item-label') : null;
+                titleEl.textContent = 'Edit Columns — ' + (labelEl ? labelEl.textContent : itemKey);
+            }
+
+            render();
+
+            var overlay = document.getElementById('menux-mega-overlay');
+            if (overlay) { overlay.style.display = 'flex'; }
+        }
+
+        /* ─── Close ─── */
+        function close() {
+            var overlay = document.getElementById('menux-mega-overlay');
+            if (overlay) overlay.style.display = 'none';
+            _activeKey = null;
+        }
+
+        /* ─── Save to hidden input ─── */
+        function save() {
+            if (!_activeKey) return;
+            collectFromDOM();
+            var hiddenInput = document.getElementById('mega-json-' + _activeKey);
+            if (hiddenInput) {
+                hiddenInput.value = JSON.stringify(_data);
+            }
+            // Update summary badge.
+            var summary = document.getElementById('bm-mega-summary-' + _activeKey);
+            if (summary) {
+                var num = _data.length;
+                summary.innerHTML = num > 0
+                    ? '<span class="bm-mega-info">' + num + ' column(s) configured</span>'
+                    : '<span class="bm-mega-info bm-mega-info-empty">No columns yet — click Edit Columns.</span>';
+            }
+            close();
+        }
+
+        /* ─── Collect data from the DOM before saving ─── */
+        function collectFromDOM() {
+            var wrap = document.getElementById('menux-mega-cols-wrap');
+            if (!wrap) return;
+            var colEls = wrap.querySelectorAll('.bm-mega-col-editor');
+            _data = [];
+            colEls.forEach(function(colEl, colIdx) {
+                var widthInput = colEl.querySelector('.bm-mega-col-width');
+                var col = { width_pct: widthInput ? widthInput.value : '', items: [] };
+                var itemEls = colEl.querySelectorAll('.bm-mega-col-item[data-item-idx]');
+                itemEls.forEach(function(itemEl) {
+                    var idx = parseInt(itemEl.getAttribute('data-item-idx'), 10);
+                    if (!isNaN(idx) && _data[colIdx] && _data[colIdx].items && _data[colIdx].items[idx]) {
+                        col.items.push(_data[colIdx].items[idx]);
+                    }
+                });
+                _data.push(col);
+            });
+        }
+
+        /* ─── Render all columns ─── */
+        function render() {
+            var wrap = document.getElementById('menux-mega-cols-wrap');
+            if (!wrap) return;
+            wrap.innerHTML = '';
+            _data.forEach(function(col, colIdx) {
+                wrap.appendChild(buildColEl(col, colIdx));
+            });
+            if (_data.length === 0) {
+                wrap.innerHTML = '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:13px;padding:40px;">No columns yet. Click "+ Add Column" to start.</div>';
+            }
+        }
+
+        /* ─── Build one column DOM element ─── */
+        function buildColEl(col, colIdx) {
+            var div = document.createElement('div');
+            div.className = 'bm-mega-col-editor';
+
+            // Header
+            var header = document.createElement('div');
+            header.className = 'bm-mega-col-header';
+            header.innerHTML = '<span>Column ' + (colIdx + 1) + '</span>'
+                + '<div style="display:flex;align-items:center;gap:6px;">'
+                + '<input type="number" class="bm-mega-col-width bm-input" value="' + (col.width_pct || '') + '" min="5" max="100" placeholder="auto" style="width:56px;font-size:11px;" title="Width %">'
+                + '<span style="font-size:11px;color:#9ca3af;">%</span>'
+                + '<button type="button" onclick="menuxMegaEditor.removeCol(' + colIdx + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:16px;line-height:1;padding:2px 4px;" title="Remove column">&times;</button>'
+                + '</div>';
+            div.appendChild(header);
+
+            // Items list
+            var itemsDiv = document.createElement('div');
+            itemsDiv.className = 'bm-mega-col-items';
+            (col.items || []).forEach(function(item, itemIdx) {
+                itemsDiv.appendChild(buildItemEl(item, colIdx, itemIdx));
+            });
+            div.appendChild(itemsDiv);
+
+            // Footer — add item
+            var footer = document.createElement('div');
+            footer.className = 'bm-mega-col-footer';
+            footer.style.position = 'relative';
+
+            var addBtn = document.createElement('button');
+            addBtn.type = 'button';
+            addBtn.style.cssText = 'width:100%;background:#f5f3ff;color:#4f46e5;border:1px dashed #a78bfa;padding:7px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;';
+            addBtn.textContent = '+ Add Item';
+
+            var menu = document.createElement('div');
+            menu.className = 'bm-mega-add-item-menu';
+            menu.style.cssText = 'display:none;position:absolute;bottom:100%;left:0;background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);z-index:9999;padding:6px;min-width:160px;';
+            var types = [
+                { type:'link',      label:'🔗 Link' },
+                { type:'heading',   label:'📌 Section heading' },
+                { type:'divider',   label:'➖ Divider' },
+                { type:'image',     label:'🖼️ Image' },
+                { type:'shortcode', label:'⚙️ Shortcode / Widget' },
+            ];
+            types.forEach(function(t) {
+                var btn = document.createElement('button');
+                btn.type = 'button';
+                btn.style.cssText = 'display:block;width:100%;text-align:left;background:none;border:none;padding:7px 10px;font-size:12px;color:#374151;cursor:pointer;border-radius:5px;';
+                btn.textContent = t.label;
+                btn.onmouseenter = function() { this.style.background='#f0f4ff'; this.style.color='#4f46e5'; };
+                btn.onmouseleave = function() { this.style.background=''; this.style.color='#374151'; };
+                btn.onclick = (function(type, ci) {
+                    return function() {
+                        menu.style.display = 'none';
+                        menuxMegaEditor.addItem(ci, type);
+                    };
+                })(t.type, colIdx);
+                menu.appendChild(btn);
+            });
+
+            addBtn.onclick = function(e) {
+                e.stopPropagation();
+                menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+            };
+            document.addEventListener('click', function() { menu.style.display = 'none'; });
+
+            footer.appendChild(addBtn);
+            footer.appendChild(menu);
+            div.appendChild(footer);
+
+            return div;
+        }
+
+        /* ─── Build one item row ─── */
+        function buildItemEl(item, colIdx, itemIdx) {
+            var el = document.createElement('div');
+            el.className = 'bm-mega-col-item';
+            el.setAttribute('data-item-idx', itemIdx);
+
+            var typeColors = { link:'#e0e7ff', heading:'#fef3c7', divider:'#f3f4f6', image:'#d1fae5', shortcode:'#fee2e2' };
+            var typeColor  = typeColors[item.type] || '#e0e7ff';
+
+            var lbl = item.label || (item.type === 'divider' ? '— divider —' : item.type);
+            el.innerHTML = '<span style="cursor:grab;color:#9ca3af;margin-right:2px;">⠿</span>'
+                + '<span class="bm-mega-col-item-type" style="background:' + typeColor + ';color:#374151;">' + item.type + '</span>'
+                + '<span class="bm-mega-col-item-label">' + lbl.substring(0, 40) + '</span>'
+                + '<button type="button" onclick="menuxMegaEditor.editItem(' + colIdx + ',' + itemIdx + ')" '
+                + 'style="background:none;border:1px solid #e5e7eb;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer;color:#374151;margin-left:auto;" title="Edit">✏️</button>'
+                + '<button type="button" onclick="menuxMegaEditor.removeItem(' + colIdx + ',' + itemIdx + ')" '
+                + 'style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:14px;padding:2px 4px;" title="Remove">&times;</button>';
+
+            return el;
+        }
+
+        /* ─── API ─── */
+        function addCol() {
+            _data.push(newCol());
+            render();
+        }
+
+        function removeCol(colIdx) {
+            _data.splice(colIdx, 1);
+            render();
+        }
+
+        function setCols(n) {
+            // Fill up or trim columns to exactly n.
+            while (_data.length < n) _data.push(newCol());
+            _data = _data.slice(0, n);
+            render();
+
+            // Highlight active button.
+            document.querySelectorAll('.bm-mega-col-count-btn').forEach(function(btn) {
+                var active = parseInt(btn.getAttribute('data-cols'), 10) === n;
+                btn.style.borderColor = active ? '#4f46e5' : '#e5e7eb';
+                btn.style.background  = active ? '#eef2ff' : '#fff';
+                btn.style.color       = active ? '#4f46e5' : '#374151';
+            });
+        }
+
+        function addItem(colIdx, type) {
+            if (!_data[colIdx]) return;
+            _data[colIdx].items = _data[colIdx].items || [];
+            var item = newItem(type);
+            _data[colIdx].items.push(item);
+            // Open edit dialog immediately.
+            var newIdx = _data[colIdx].items.length - 1;
+            render();
+            editItem(colIdx, newIdx);
+        }
+
+        function removeItem(colIdx, itemIdx) {
+            if (!_data[colIdx] || !_data[colIdx].items) return;
+            _data[colIdx].items.splice(itemIdx, 1);
+            render();
+        }
+
+        /* ─── Item edit dialog ─── */
+        function editItem(colIdx, itemIdx) {
+            if (!_data[colIdx] || !_data[colIdx].items[itemIdx]) return;
+            var item = _data[colIdx].items[itemIdx];
+
+            var overlay = document.getElementById('menux-mega-item-edit-overlay');
+            if (!overlay) {
+                overlay = document.createElement('div');
+                overlay.id = 'menux-mega-item-edit-overlay';
+                overlay.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000001;align-items:center;justify-content:center;';
+                document.body.appendChild(overlay);
+            }
+
+            var fields = {
+                'link':      ['label','url','icon','desc','target'],
+                'heading':   ['label'],
+                'divider':   [],
+                'image':     ['label','url','image_url','target'],
+                'shortcode': ['label','content'],
+            };
+            var activeFields = fields[item.type] || ['label','url'];
+
+            var formHTML = '<div style="background:#fff;border-radius:12px;padding:24px;width:min(480px,95vw);box-shadow:0 16px 40px rgba(0,0,0,.2);">';
+            formHTML += '<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">';
+            formHTML += '<h3 style="margin:0;font-size:15px;font-weight:700;color:#1f2937;">Edit item — <em>' + item.type + '</em></h3>';
+            formHTML += '<button type="button" onclick="menuxMegaEditor.closeItemEdit()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#6b7280;">&times;</button>';
+            formHTML += '</div>';
+
+            var labelMap = { label:'Label', url:'URL', icon:'Icon class (FA)', desc:'Description', target:'Open in new tab', image_url:'Image URL', content:'Shortcode / Content' };
+
+            activeFields.forEach(function(f) {
+                formHTML += '<div style="margin-bottom:12px;">';
+                formHTML += '<label style="display:block;font-size:12px;font-weight:600;color:#374151;margin-bottom:4px;">' + (labelMap[f] || f) + '</label>';
+                if (f === 'target') {
+                    formHTML += '<label style="display:inline-flex;align-items:center;gap:6px;cursor:pointer;font-size:13px;">'
+                        + '<input type="checkbox" id="mega-edit-' + f + '" ' + (item[f] === '_blank' ? 'checked' : '') + '>'
+                        + ' Open in new tab</label>';
+                } else if (f === 'content') {
+                    formHTML += '<textarea id="mega-edit-' + f + '" rows="4" style="width:100%;font-size:12px;border:1px solid #d1d5db;border-radius:6px;padding:8px;box-sizing:border-box;">' + (item[f] || '') + '</textarea>';
+                } else {
+                    formHTML += '<input type="text" id="mega-edit-' + f + '" value="' + (item[f] || '') + '" style="width:100%;font-size:12px;border:1px solid #d1d5db;border-radius:6px;padding:8px;box-sizing:border-box;">';
+                }
+                formHTML += '</div>';
+            });
+
+            formHTML += '<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px;">';
+            formHTML += '<button type="button" onclick="menuxMegaEditor.closeItemEdit()" style="background:#fff;border:1px solid #d1d5db;color:#374151;padding:8px 18px;border-radius:7px;font-size:13px;cursor:pointer;">Cancel</button>';
+            formHTML += '<button type="button" onclick="menuxMegaEditor.applyItemEdit(' + colIdx + ',' + itemIdx + ')" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;color:#fff;padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">✅ Apply</button>';
+            formHTML += '</div>';
+            formHTML += '</div>';
+
+            overlay.innerHTML = formHTML;
+            overlay.style.display = 'flex';
+        }
+
+        function closeItemEdit() {
+            var overlay = document.getElementById('menux-mega-item-edit-overlay');
+            if (overlay) overlay.style.display = 'none';
+        }
+
+        function applyItemEdit(colIdx, itemIdx) {
+            if (!_data[colIdx] || !_data[colIdx].items[itemIdx]) return;
+            var item   = _data[colIdx].items[itemIdx];
+            var fields = { 'link':['label','url','icon','desc','target'], 'heading':['label'], 'divider':[], 'image':['label','url','image_url','target'], 'shortcode':['label','content'] };
+            var activeFields = fields[item.type] || ['label','url'];
+
+            activeFields.forEach(function(f) {
+                var el = document.getElementById('mega-edit-' + f);
+                if (!el) return;
+                if (f === 'target') {
+                    item[f] = el.checked ? '_blank' : '';
+                } else {
+                    item[f] = el.value || '';
+                }
+            });
+
+            closeItemEdit();
+            render();
+        }
+
+        return {
+            open:          open,
+            close:         close,
+            save:          save,
+            addCol:        addCol,
+            removeCol:     removeCol,
+            setCols:       setCols,
+            addItem:       addItem,
+            removeItem:    removeItem,
+            editItem:      editItem,
+            closeItemEdit: closeItemEdit,
+            applyItemEdit: applyItemEdit,
+        };
+    })();
+
+    // Global shortcuts used directly by inline onclick attributes in PHP templates.
+    function menuxMegaOpen(key)          { menuxMegaEditor.open(key); }
+    function menuxMegaClose()            { menuxMegaEditor.close(); }
+    function menuxMegaSave()             { menuxMegaEditor.save(); }
+    function menuxMegaAddCol()           { menuxMegaEditor.addCol(); }
+    function menuxMegaSetCols(n)         { menuxMegaEditor.setCols(n); }

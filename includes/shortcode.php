@@ -172,10 +172,17 @@ function menux_render_shortcode($atts = array()) {
         }
         $first_label = reset($labels);
 
+        // Mega menu flag (first level only)
+        $is_mega = ( $depth === 0 && ! empty( $raw['mega_menu'] ) && $raw['mega_menu'] === '1'
+                    && ! empty( $raw['mega_columns'] ) && is_array( $raw['mega_columns'] ) );
+        if ( $is_mega ) {
+            $li_classes[] = 'menux-has-mega';
+        }
+
         $out  = '<li class="'.esc_attr(implode(' ', $li_classes)).'" role="none">';
         $out .= '<a href="'.esc_url($url).'" class="menux-link"'.$target
                .' role="menuitem"'
-               .($has_children ? ' aria-haspopup="true" aria-expanded="false"' : '')
+               .(($has_children || $is_mega) ? ' aria-haspopup="true" aria-expanded="false"' : '')
                .' data-item-key="'.esc_attr($item_key).'"'
                .' data-item-label="'.esc_attr($first_label).'"'
                .' data-item-url="'.esc_attr($url).'">';
@@ -185,8 +192,11 @@ function menux_render_shortcode($atts = array()) {
         $out .= $notif_dot_html;
         $out .= '</a>';
 
-        // Submenu (2° e 3° livello)
-        if ($has_children) {
+        if ( $is_mega ) {
+            // Render mega menu panel instead of standard submenu.
+            $out .= Menux_MegaMenu::render_panel( $raw );
+        } elseif ($has_children) {
+            // Standard submenu (2° e 3° livello).
             $out .= '<ul class="menux-submenu" role="menu">';
             foreach ($raw['children'] as $child) {
                 $out .= $render_item_html($child, $depth + 1);
@@ -247,17 +257,19 @@ function menux_render_shortcode($atts = array()) {
             . '</div>';
     }
 
-    // Logo HTML
-    $logo_html = '';
-    if (!empty($s['logo_url'])) {
-        $lw       = !empty($s['logo_width'])  ? intval($s['logo_width'])  : 120;
-        $lh_style = !empty($s['logo_height']) ? 'height:'.intval($s['logo_height']).'px;' : '';
-        $alt      = !empty($s['logo_alt'])    ? esc_attr($s['logo_alt'])  : 'Logo';
-        $logo_img = '<img src="'.esc_url($s['logo_url']).'" width="'.$lw.'" style="'.$lh_style.'display:block;" alt="'.$alt.'">';
-        $logo_href = !empty($s['logo_link'])  ? esc_url($s['logo_link'])  : '';
-        $logo_html = $logo_href
-            ? '<a href="'.$logo_href.'" class="menux-logo" aria-label="'.$alt.'">'.$logo_img.'</a>'
-            : '<span class="menux-logo">'.$logo_img.'</span>';
+    // Logo HTML — uses Menux_Logo for advanced multi-context rendering.
+    // Falls back to legacy menux_style[logo_url] if no new logo is configured.
+    $logo_settings = class_exists( 'Menux_Logo' ) ? Menux_Logo::get_settings() : array();
+    $logo_position = $logo_settings['position'] ?? ( $s['logo_position'] ?? 'left' );
+    $logo_html     = class_exists( 'Menux_Logo' ) ? Menux_Logo::render() : '';
+
+    // Build separate mobile logo if configured.
+    $logo_mobile_html = '';
+    if ( class_exists( 'Menux_Logo' ) ) {
+        $has_mobile_logo = ! empty( $logo_settings['mobile_id'] ) || ! empty( $logo_settings['mobile_url'] );
+        if ( $has_mobile_logo ) {
+            $logo_mobile_html = Menux_Logo::render( true );
+        }
     }
 
     // Sticky spacer height viene calcolato via JS
@@ -291,17 +303,29 @@ function menux_render_shortcode($atts = array()) {
         <?php if (!empty($s['progress_bar_enabled']) && $s['progress_bar_enabled'] === '1'): ?>
         <div class="menux-progress-bar" id="menux-progress-bar" aria-hidden="true"></div>
         <?php endif; ?>
-        <?php if (!empty($logo_html) && in_array($s['logo_position'] ?? 'left', array('left','center-split'), true)): ?>
-            <?php echo wp_kses_post( $logo_html ); ?>
+        <?php
+        // Logo kses uses an expanded tag list to allow inline SVG elements.
+        $logo_kses = class_exists( 'Menux_Logo' ) ? Menux_Logo::kses_allowed_tags() : wp_kses_allowed_html( 'post' );
+        ?>
+        <?php if (!empty($logo_html) && in_array($logo_position, array('left','center-split'), true)): ?>
+            <?php echo wp_kses( $logo_html, $logo_kses ); ?>
+            <?php echo wp_kses( $logo_mobile_html, $logo_kses ); ?>
         <?php endif; ?>
         <div class="menux-hamburger" aria-expanded="false" aria-controls="menux-list-main" aria-label="<?php esc_attr_e('Open/close menu', 'giuliomax-menu-builder'); ?>">
             <span></span><span></span><span></span>
         </div>
+        <?php if (!empty($logo_html) && $logo_position === 'center'): ?>
+            <div class="menux-logo-center-wrap" style="flex:1;display:flex;justify-content:center;">
+                <?php echo wp_kses( $logo_html, $logo_kses ); ?>
+                <?php echo wp_kses( $logo_mobile_html, $logo_kses ); ?>
+            </div>
+        <?php endif; ?>
         <ul class="menux-list" id="menux-list-main" role="menubar">
             <?php foreach ($menu_items as $raw): echo wp_kses_post( $render_item_html($raw, 0) ); endforeach; ?>
         </ul>
-        <?php if (!empty($logo_html) && ($s['logo_position'] ?? 'left') === 'right'): ?>
-            <?php echo wp_kses_post( $logo_html ); ?>
+        <?php if (!empty($logo_html) && $logo_position === 'right'): ?>
+            <?php echo wp_kses( $logo_html, $logo_kses ); ?>
+            <?php echo wp_kses( $logo_mobile_html, $logo_kses ); ?>
         <?php endif; ?>
         <?php echo wp_kses_post( $search_html ); ?>
     </nav>

@@ -60,6 +60,10 @@ function menux_render_admin_html() {
                     'cond_utm'      => sanitize_text_field($item['cond_utm']     ?? ''),  // utm_source value
                     // ──── FEATURE: Multi-menu location ────
                     'menu_location' => sanitize_key($item['menu_location'] ?? 'primary'),
+                    // ──── Mega Menu ────
+                    'mega_menu'       => (!empty($item['mega_menu']) && $item['mega_menu'] === '1') ? '1' : '0',
+                    'mega_full_width' => (!empty($item['mega_full_width'])) ? '1' : '0',
+                    'mega_columns'    => Menux_MegaMenu::sanitize_columns($item['mega_columns_json'] ?? ''),
                 );
 
                 // Salva le etichette per ogni lingua disponibile (codici dinamici)
@@ -216,6 +220,11 @@ function menux_render_admin_html() {
         // Invalida font cache
         delete_transient('menux_gfont_loaded');
 
+        // ── Save Logo settings ──
+        if ( isset( $_POST['menux_logo'] ) && is_array( $_POST['menux_logo'] ) ) {
+            Menux_Logo::save( wp_unslash( $_POST['menux_logo'] ) ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+        }
+
         // Save WP Nav replacements
         $raw_replacements = isset( $_POST['menux_wp_nav_replacements'] ) && is_array( $_POST['menux_wp_nav_replacements'] )
             ? wp_unslash( $_POST['menux_wp_nav_replacements'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -235,6 +244,7 @@ function menux_render_admin_html() {
     if ( isset( $_POST['menux_reset_all'] ) && check_admin_referer( 'menux_reset_action', 'menux_reset_nonce' ) && current_user_can( 'manage_options' ) ) {
         delete_option( 'menux_menu_items' );
         delete_option( 'menux_style' );
+        delete_option( 'menux_logo' );
         delete_option( 'menux_wp_nav_replacements' );
         delete_transient( 'menux_gfont_loaded' );
         echo '<div class="notice notice-warning is-dismissible"><p><strong>Reset complete.</strong> All menu items, styles and settings have been deleted.</p></div>';
@@ -321,6 +331,11 @@ function menux_render_admin_html() {
                             </button>
                         </div>
                         <div class="bm-sidebar-group">
+                            <div class="bm-sidebar-group-label">Logo & Mega Menu</div>
+                            <button type="button" class="bm-sidebar-item" data-section="logo"     onclick="menuxGoSection('logo')">🖼️ Logo</button>
+                            <button type="button" class="bm-sidebar-item" data-section="megamenu" onclick="menuxGoSection('megamenu')">⚡ Mega Menu</button>
+                        </div>
+                        <div class="bm-sidebar-group">
                             <div class="bm-sidebar-group-label">Style</div>
                             <button type="button" class="bm-sidebar-item" data-section="colors"   onclick="menuxGoSection('colors')">🎨 Colors</button>
                             <button type="button" class="bm-sidebar-item" data-section="typo"     onclick="menuxGoSection('typo')">🔤 Typography</button>
@@ -359,6 +374,16 @@ function menux_render_admin_html() {
                     </div>
 
 
+
+                    <!-- Panel: Logo -->
+                    <div id="panel-logo" class="bm-panel" style="display:none;">
+                        <?php menux_render_logo_panel(); ?>
+                    </div>
+
+                    <!-- Panel: Mega Menu -->
+                    <div id="panel-megamenu" class="bm-panel" style="display:none;">
+                        <?php menux_render_megamenu_panel( $menu_items ); ?>
+                    </div>
 
                     <!-- Panel: WP Nav Integration -->
                     <div id="panel-wpnav" class="bm-panel" style="display:none;">

@@ -122,6 +122,31 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
 
+        // ── Mega Menu: toggle on click/tap on mobile ──
+        nav.querySelectorAll(".menux-has-mega > a.menux-link").forEach(function(a) {
+            a.addEventListener("click", function(e) {
+                var isMobile = bpMode === 'auto'
+                    ? nav.classList.contains('menux-is-mobile')
+                    : window.innerWidth <= bpPx;
+                if (isMobile) {
+                    e.preventDefault();
+                    a.parentElement.classList.toggle('menux-open');
+                    a.setAttribute('aria-expanded', a.parentElement.classList.contains('menux-open') ? 'true' : 'false');
+                }
+            });
+        });
+
+        // Close mega panels when clicking outside on desktop.
+        document.addEventListener('click', function(e) {
+            nav.querySelectorAll('.menux-has-mega.menux-open').forEach(function(li) {
+                if (!li.contains(e.target)) {
+                    li.classList.remove('menux-open');
+                    var link = li.querySelector('a.menux-link');
+                    if (link) link.setAttribute('aria-expanded', 'false');
+                }
+            });
+        });
+
         if (bpMode === 'auto') {
             function bmCheckFit() {
                 var list = nav.querySelector('.menux-list');

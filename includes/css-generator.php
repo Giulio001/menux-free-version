@@ -382,5 +382,15 @@ function menux_generate_css($style) {
         . '.menux-hamburger.open span:nth-child(3){transform:translateY(calc(-'.$h_gap.' - '.$h_height.')) rotate(-45deg);}'
         . $media_close;
 
+    // ── Logo (advanced system) ──
+    if ( class_exists( 'Menux_Logo' ) ) {
+        $css .= Menux_Logo::generate_css();
+    }
+
+    // ── Mega Menu ──
+    if ( class_exists( 'Menux_MegaMenu' ) ) {
+        $css .= Menux_MegaMenu::generate_css();
+    }
+
     return $css;
 }
