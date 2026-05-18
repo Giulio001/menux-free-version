@@ -60,10 +60,10 @@ function menux_render_admin_html() {
                     'cond_utm'      => sanitize_text_field($item['cond_utm']     ?? ''),  // utm_source value
                     // ──── FEATURE: Multi-menu location ────
                     'menu_location' => sanitize_key($item['menu_location'] ?? 'primary'),
-                    // ──── Mega Menu ────
-                    'mega_menu'       => (!empty($item['mega_menu']) && $item['mega_menu'] === '1') ? '1' : '0',
-                    'mega_full_width' => (!empty($item['mega_full_width'])) ? '1' : '0',
-                    'mega_columns'    => Menux_MegaMenu::sanitize_columns($item['mega_columns_json'] ?? ''),
+                    // ──── Mega Menu (filled in a second pass from mega_data[item_key]) ────
+                    'mega_menu'       => '0',
+                    'mega_full_width' => '1',
+                    'mega_columns'    => array(),
                 );
 
                 // Salva le etichette per ogni lingua disponibile (codici dinamici)
@@ -142,6 +142,29 @@ function menux_render_admin_html() {
                 }
             }
         }
+        // ── Apply mega settings keyed by item_key (order-independent fix) ──
+        $mega_post = array();
+        if ( ! empty( $_POST['mega_data'] ) && is_array( $_POST['mega_data'] ) ) {
+            foreach ( wp_unslash( $_POST['mega_data'] ) as $raw_key => $mdata ) { // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+                if ( ! is_array( $mdata ) ) continue;
+                $key = sanitize_key( $raw_key );
+                $mega_post[ $key ] = array(
+                    'mega_menu'       => ( ! empty( $mdata['mega_menu'] ) && $mdata['mega_menu'] === '1' ) ? '1' : '0',
+                    'mega_full_width' => ! empty( $mdata['mega_full_width'] ) ? '1' : '1',
+                    'mega_columns'    => Menux_MegaMenu::sanitize_columns( $mdata['mega_columns_json'] ?? '' ),
+                );
+            }
+        }
+        foreach ( $menu_items as &$saved_item ) {
+            $key = $saved_item['item_key'] ?? '';
+            if ( $key && isset( $mega_post[ $key ] ) ) {
+                $saved_item['mega_menu']       = $mega_post[ $key ]['mega_menu'];
+                $saved_item['mega_full_width'] = $mega_post[ $key ]['mega_full_width'];
+                $saved_item['mega_columns']    = $mega_post[ $key ]['mega_columns'];
+            }
+        }
+        unset( $saved_item );
+
         update_option('menux_menu_items', $menu_items);
 
         // Salva stile
@@ -217,6 +240,7 @@ function menux_render_admin_html() {
         $saved_style['submenu_animation']       = in_array($raw_style['submenu_animation'] ?? 'fade', array('fade','slide','none'), true) ? $raw_style['submenu_animation'] : 'fade';
         // ── Mega Menu panel appearance ──
         $saved_style['mega_bg']             = ! empty( $use_flags['mega_bg'] ) && ! empty( $raw_style['mega_bg'] ) ? sanitize_hex_color( $raw_style['mega_bg'] ) : '';
+        $saved_style['mega_bg_gradient']    = ! empty( $raw_style['mega_bg_gradient'] ) ? wp_strip_all_tags( wp_unslash( $raw_style['mega_bg_gradient'] ) ) : '';
         $saved_style['mega_padding_y']      = isset( $raw_style['mega_padding_y'] )      && is_numeric( $raw_style['mega_padding_y'] )      ? (int) $raw_style['mega_padding_y']      : 24;
         $saved_style['mega_padding_x']      = isset( $raw_style['mega_padding_x'] )      && is_numeric( $raw_style['mega_padding_x'] )      ? (int) $raw_style['mega_padding_x']      : 32;
         $saved_style['mega_max_width']      = isset( $raw_style['mega_max_width'] )      && is_numeric( $raw_style['mega_max_width'] )      ? (int) $raw_style['mega_max_width']      : 0;

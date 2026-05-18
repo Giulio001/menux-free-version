@@ -18,26 +18,35 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  * @param array $menu_items  Saved menu items array from menux_menu_items option.
  */
 function menux_render_megamenu_panel( $menu_items ) {
-	// Only first-level items can have mega menu.
-	$top_level = array();
-	foreach ( (array) $menu_items as $item ) {
-		if ( ! empty( $item['type'] ) ) {
-			$top_level[] = $item;
-		}
-	}
-
 	$s               = get_option( 'menux_style', array() );
-	$mega_bg         = ! empty( $s['mega_bg'] )           ? $s['mega_bg']                  : '#ffffff';
+	// Gradient takes priority; fall back to solid colour or white.
+	$mega_bg_gradient = ! empty( $s['mega_bg_gradient'] ) ? $s['mega_bg_gradient']
+	                  : ( ! empty( $s['mega_bg'] )        ? $s['mega_bg'] : '#ffffff' );
 	$mega_pad_y      = isset( $s['mega_padding_y'] )      ? (int) $s['mega_padding_y']     : 24;
 	$mega_pad_x      = isset( $s['mega_padding_x'] )      ? (int) $s['mega_padding_x']     : 32;
 	$mega_max_w      = isset( $s['mega_max_width'] )      ? (int) $s['mega_max_width']     : 0;
 	$mega_gap        = isset( $s['mega_col_gap'] )        ? (int) $s['mega_col_gap']       : 16;
-	$mega_mob        = ( $s['mega_mobile_disable'] ?? '0' ) === '1';
+	$mega_mob        = ( $s['mega_mobile_disable'] ?? '1' ) === '1';
 	$mega_radius     = isset( $s['mega_border_radius'] )  ? (int) $s['mega_border_radius'] : 14;
 	$mega_font_size  = isset( $s['mega_font_size'] )      ? (int) $s['mega_font_size']      : 0;
 	$mega_link_color = ! empty( $s['mega_link_color'] )   ? $s['mega_link_color']          : '#374151';
 	$mega_head_color = ! empty( $s['mega_heading_color'] )? $s['mega_heading_color']       : '#9ca3af';
 	$mega_accent     = ! empty( $s['mega_accent_color'] ) ? $s['mega_accent_color']        : '#667eea';
+
+	$gradient_presets = array(
+		array( 'label' => 'White',        'value' => '#ffffff' ),
+		array( 'label' => 'Light Gray',   'value' => '#f8fafc' ),
+		array( 'label' => 'Purple',       'value' => 'linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%)' ),
+		array( 'label' => 'Indigo',       'value' => 'linear-gradient(135deg,#4338ca 0%,#1d4ed8 100%)' ),
+		array( 'label' => 'Sky',          'value' => 'linear-gradient(135deg,#0284c7 0%,#38bdf8 100%)' ),
+		array( 'label' => 'Teal',         'value' => 'linear-gradient(135deg,#0d9488 0%,#22d3ee 100%)' ),
+		array( 'label' => 'Emerald',      'value' => 'linear-gradient(135deg,#059669 0%,#86efac 100%)' ),
+		array( 'label' => 'Sunset',       'value' => 'linear-gradient(135deg,#f97316 0%,#ef4444 100%)' ),
+		array( 'label' => 'Rose',         'value' => 'linear-gradient(135deg,#f43f5e 0%,#ec4899 100%)' ),
+		array( 'label' => 'Gold',         'value' => 'linear-gradient(135deg,#f59e0b 0%,#fbbf24 100%)' ),
+		array( 'label' => 'Dark',         'value' => 'linear-gradient(135deg,#0f172a 0%,#1e293b 100%)' ),
+		array( 'label' => 'Charcoal',     'value' => 'linear-gradient(135deg,#334155 0%,#475569 100%)' ),
+	);
 	?>
 	<div class="bm-card">
 		<div class="bm-card-header">
@@ -54,12 +63,43 @@ function menux_render_megamenu_panel( $menu_items ) {
 			<div style="font-size:11px;font-weight:700;color:#374151;text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px;">Panel Appearance</div>
 			<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px 20px;align-items:end;">
 
-				<div>
-					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:4px;">Background</label>
-					<div style="display:flex;align-items:center;gap:6px;">
-						<input type="checkbox" name="menux_style_use[mega_bg]" value="1" id="bm-mega-bg-use" <?php checked( ! empty( $s['mega_bg'] ) ); ?>>
-						<input type="color" id="bm-mega-setting-bg" name="menux_style[mega_bg]" value="<?php echo esc_attr( $mega_bg ); ?>" style="width:40px;height:28px;padding:1px;border:1px solid #d1d5db;border-radius:5px;cursor:pointer;">
+				<div style="grid-column:1/-1;">
+					<label style="display:block;font-size:11px;font-weight:600;color:#6b7280;margin-bottom:6px;">Panel Background</label>
+					<!-- Preview swatch -->
+					<div id="bm-mega-bg-swatch" style="height:32px;border-radius:7px;border:1px solid #e5e7eb;margin-bottom:8px;cursor:pointer;background:<?php echo esc_attr( $mega_bg_gradient ); ?>;"></div>
+					<!-- Preset swatches -->
+					<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px;">
+						<?php foreach ( $gradient_presets as $preset ) :
+							$active = ( $mega_bg_gradient === $preset['value'] );
+						?>
+						<div onclick="mxMegaBgPick('<?php echo esc_js( $preset['value'] ); ?>')"
+							 title="<?php echo esc_attr( $preset['label'] ); ?>"
+							 data-bg="<?php echo esc_attr( $preset['value'] ); ?>"
+							 class="bm-mega-bg-preset"
+							 style="width:32px;height:32px;border-radius:6px;cursor:pointer;background:<?php echo esc_attr( $preset['value'] ); ?>;border:2px solid <?php echo $active ? '#4f46e5' : 'transparent'; ?>;box-shadow:0 1px 3px rgba(0,0,0,.15);">
+						</div>
+						<?php endforeach; ?>
 					</div>
+					<!-- Custom gradient builder -->
+					<details style="margin-top:4px;">
+						<summary style="font-size:11px;color:#6b7280;cursor:pointer;user-select:none;font-weight:600;">⚙ Custom gradient</summary>
+						<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px;padding:10px;background:#fff;border-radius:6px;border:1px solid #e5e7eb;">
+							<select id="bm-grad-dir" style="font-size:11px;height:26px;padding:2px 4px;border-radius:4px;border:1px solid #d1d5db;">
+								<option value="135deg">↘ 135°</option>
+								<option value="to right">→ Right</option>
+								<option value="to bottom">↓ Down</option>
+								<option value="45deg">↗ 45°</option>
+								<option value="90deg">↑ Up</option>
+							</select>
+							<input type="color" id="bm-grad-c1" value="#4f46e5" style="width:36px;height:26px;padding:1px;border:1px solid #d1d5db;border-radius:4px;cursor:pointer;" title="Color 1">
+							<span style="font-size:12px;color:#9ca3af;">→</span>
+							<input type="color" id="bm-grad-c2" value="#7c3aed" style="width:36px;height:26px;padding:1px;border:1px solid #d1d5db;border-radius:4px;cursor:pointer;" title="Color 2">
+							<button type="button" onclick="mxMegaBgCustom()" style="background:#4f46e5;color:#fff;border:none;padding:4px 12px;border-radius:4px;font-size:11px;cursor:pointer;font-weight:600;">Apply</button>
+							<button type="button" onclick="mxMegaBgPick('#ffffff')" style="background:#fff;border:1px solid #d1d5db;color:#374151;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer;">Clear</button>
+						</div>
+					</details>
+					<!-- Hidden value submitted with the form -->
+					<input type="hidden" id="bm-mega-bg-val" name="menux_style[mega_bg_gradient]" value="<?php echo esc_attr( $mega_bg_gradient ); ?>">
 				</div>
 
 				<div>
@@ -126,17 +166,32 @@ function menux_render_megamenu_panel( $menu_items ) {
 			</div>
 		</div>
 
-			<?php if ( empty( $top_level ) ) : ?>
-				<p style="color:#6b7280;font-size:13px;"><?php esc_html_e( 'Add menu items in the Menu Structure panel first.', 'giuliomax-menu-builder' ); ?></p>
+			<?php
+			// Count valid top-level items.
+			$valid_items = array_filter( (array) $menu_items, function( $it ) {
+				return ! empty( $it['type'] ) && ! empty( $it['item_key'] );
+			} );
+			?>
+			<?php if ( empty( $valid_items ) ) : ?>
+				<p style="color:#6b7280;font-size:13px;"><?php esc_html_e( 'Add menu items in the Menu Structure panel first, then save.', 'giuliomax-menu-builder' ); ?></p>
 			<?php else : ?>
 
-			<p style="font-size:12px;color:#6b7280;margin:0 0 16px;"><?php esc_html_e( 'Enable Mega Menu on an item, then click "Edit Columns". Save the form to persist.', 'giuliomax-menu-builder' ); ?></p>
+			<p style="font-size:12px;color:#6b7280;margin:0 0 16px;"><?php esc_html_e( 'Enable Mega Menu on an item, then click "Edit Columns". Click Save Menu to persist.', 'giuliomax-menu-builder' ); ?></p>
 
 			<div class="bm-mega-item-list">
-				<?php foreach ( $top_level as $idx => $item ) :
-					$item_key  = $item['item_key'] ?? ( 'item_' . $idx );
-					$is_page   = ( $item['type'] ?? '' ) === 'page';
-					$label     = ! empty( $item['it'] ) ? $item['it'] : ( $is_page ? get_the_title( $item['id'] ?? 0 ) : ( $item['url'] ?? '—' ) );
+				<?php foreach ( (array) $menu_items as $item ) :
+					if ( empty( $item['type'] ) || empty( $item['item_key'] ) ) continue;
+
+					$item_key  = $item['item_key'];
+					$is_page   = $item['type'] === 'page';
+					// Prefer stored language labels; fall back to page title or URL.
+					$label = '';
+					foreach ( array( 'it', 'lang_it_IT', 'lang_en_US', 'en' ) as $_lk ) {
+						if ( ! empty( $item[ $_lk ] ) ) { $label = $item[ $_lk ]; break; }
+					}
+					if ( '' === $label ) {
+						$label = $is_page ? get_the_title( $item['id'] ?? 0 ) : ( $item['url'] ?? '—' );
+					}
 					$mega_on   = ( $item['mega_menu'] ?? '0' ) === '1';
 					$full_w    = ( $item['mega_full_width'] ?? '1' ) === '1';
 					$cols_json = ! empty( $item['mega_columns'] ) ? wp_json_encode( $item['mega_columns'] ) : '[]';
@@ -149,7 +204,7 @@ function menux_render_megamenu_panel( $menu_items ) {
 								<input type="checkbox"
 									class="bm-mega-toggle-cb"
 									data-item-key="<?php echo esc_attr( $item_key ); ?>"
-									name="menu_items[<?php echo esc_attr( $idx ); ?>][mega_menu]"
+									name="mega_data[<?php echo esc_attr( $item_key ); ?>][mega_menu]"
 									value="1"
 									<?php checked( $mega_on ); ?>
 									onchange="menuxMegaToggle('<?php echo esc_js( $item_key ); ?>', this.checked)">
@@ -159,7 +214,7 @@ function menux_render_megamenu_panel( $menu_items ) {
 
 							<label class="bm-mega-full-label" id="bm-mega-full-<?php echo esc_attr( $item_key ); ?>" style="<?php echo $mega_on ? '' : 'display:none;'; ?>">
 								<input type="checkbox"
-									name="menu_items[<?php echo esc_attr( $idx ); ?>][mega_full_width]"
+									name="mega_data[<?php echo esc_attr( $item_key ); ?>][mega_full_width]"
 									value="1"
 									<?php checked( $full_w ); ?>>
 								<span style="font-size:12px;color:#374151;"><?php esc_html_e( 'Full width', 'giuliomax-menu-builder' ); ?></span>
@@ -173,10 +228,10 @@ function menux_render_megamenu_panel( $menu_items ) {
 								<?php esc_html_e( 'Edit Columns', 'giuliomax-menu-builder' ); ?> ▶
 							</button>
 
-							<!-- Hidden JSON field — updated by the JS editor -->
+							<!-- Hidden JSON field — keyed by item_key, not by positional index -->
 							<input type="hidden"
 								id="mega-json-<?php echo esc_attr( $item_key ); ?>"
-								name="menu_items[<?php echo esc_attr( $idx ); ?>][mega_columns_json]"
+								name="mega_data[<?php echo esc_attr( $item_key ); ?>][mega_columns_json]"
 								value="<?php echo esc_attr( $cols_json ); ?>">
 						</div>
 

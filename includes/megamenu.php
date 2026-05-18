@@ -191,7 +191,14 @@ class Menux_MegaMenu {
 	// ─────────────────────────────────────────────────────────────────
 
 	public static function generate_css( $s = array() ) {
-		$bg         = ! empty( $s['mega_bg'] )            ? sanitize_hex_color( $s['mega_bg'] ) : '#fff';
+		// Gradient takes priority over solid colour.
+		if ( ! empty( $s['mega_bg_gradient'] ) ) {
+			$bg = wp_strip_all_tags( $s['mega_bg_gradient'] );
+		} elseif ( ! empty( $s['mega_bg'] ) ) {
+			$bg = sanitize_hex_color( $s['mega_bg'] ) ?: '#fff';
+		} else {
+			$bg = '#fff';
+		}
 		$pad_y      = isset( $s['mega_padding_y'] )        && is_numeric( $s['mega_padding_y'] )    ? (int) $s['mega_padding_y']    : 24;
 		$pad_x      = isset( $s['mega_padding_x'] )        && is_numeric( $s['mega_padding_x'] )    ? (int) $s['mega_padding_x']    : 32;
 		$col_gap    = isset( $s['mega_col_gap'] )          && is_numeric( $s['mega_col_gap'] )       ? (int) $s['mega_col_gap']      : 16;

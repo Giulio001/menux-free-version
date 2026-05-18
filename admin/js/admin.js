@@ -1896,7 +1896,7 @@
             if (!wrap) return;
 
             // Read settings from panel form fields
-            var bgEl   = document.getElementById('bm-mega-setting-bg');
+            var bgEl   = document.getElementById('bm-mega-bg-val');        // gradient/solid value
             var padYEl = document.getElementById('bm-mega-setting-pad-y');
             var padXEl = document.getElementById('bm-mega-setting-pad-x');
             var gapEl  = document.getElementById('bm-mega-setting-gap');
@@ -2173,7 +2173,7 @@
             formHTML += '<button type="button" onclick="menuxMegaEditor.closeItemEdit()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#6b7280;">&times;</button>';
             formHTML += '</div>';
 
-            var labelMap = { label:'Label', url:'URL', icon:'Icon class (FA)', desc:'Description', target:'Open in new tab', image_url:'Image URL', content:'Shortcode / Content' };
+            var labelMap = { label:'Label', url:'URL', icon:'Icon (FontAwesome)', desc:'Description', target:'Open in new tab', image_url:'Image URL', content:'Shortcode / Content' };
 
             activeFields.forEach(function(f) {
                 formHTML += '<div style="margin-bottom:12px;">';
@@ -2184,6 +2184,11 @@
                         + ' Open in new tab</label>';
                 } else if (f === 'content') {
                     formHTML += '<textarea id="mega-edit-' + f + '" rows="4" style="width:100%;font-size:12px;border:1px solid #d1d5db;border-radius:6px;padding:8px;box-sizing:border-box;">' + (item[f] || '') + '</textarea>';
+                } else if (f === 'icon') {
+                    formHTML += '<div style="display:flex;gap:6px;align-items:center;">'
+                        + '<input type="text" id="mega-edit-icon" value="' + (item[f] || '') + '" placeholder="e.g. fa-solid fa-house" style="flex:1;font-size:12px;border:1px solid #d1d5db;border-radius:6px;padding:8px;box-sizing:border-box;">'
+                        + '<button type="button" onclick="mxIconPicker.open(document.getElementById(\'mega-edit-icon\'))" style="padding:0 12px;height:36px;border:1px solid #d1d5db;border-radius:6px;background:#f9fafb;cursor:pointer;font-size:13px;white-space:nowrap;" title="Pick icon">🎨 Pick</button>'
+                        + '</div>';
                 } else {
                     formHTML += '<input type="text" id="mega-edit-' + f + '" value="' + (item[f] || '') + '" style="width:100%;font-size:12px;border:1px solid #d1d5db;border-radius:6px;padding:8px;box-sizing:border-box;">';
                 }
@@ -2237,6 +2242,7 @@
             editItem:      editItem,
             closeItemEdit: closeItemEdit,
             applyItemEdit: applyItemEdit,
+            renderPreview: renderPreview,
         };
     })();
 
@@ -2245,4 +2251,22 @@
     function menuxMegaSave()     { menuxMegaEditor.save(); }
     function menuxMegaAddCol()   { menuxMegaEditor.addCol(); }
     function menuxMegaSetCols(n) { menuxMegaEditor.setCols(n); }
+
+    // ── Gradient / Background picker ──────────────────────────────────
+    function mxMegaBgPick(val) {
+        var inp = document.getElementById('bm-mega-bg-val');
+        if (inp) inp.value = val;
+        var swatch = document.getElementById('bm-mega-bg-swatch');
+        if (swatch) swatch.style.background = val;
+        document.querySelectorAll('.bm-mega-bg-preset').forEach(function(el) {
+            el.style.borderColor = el.getAttribute('data-bg') === val ? '#4f46e5' : 'transparent';
+        });
+        menuxMegaEditor.renderPreview && menuxMegaEditor.renderPreview();
+    }
+    function mxMegaBgCustom() {
+        var dir = (document.getElementById('bm-grad-dir') || {}).value || '135deg';
+        var c1  = (document.getElementById('bm-grad-c1') || {}).value  || '#4f46e5';
+        var c2  = (document.getElementById('bm-grad-c2') || {}).value  || '#7c3aed';
+        mxMegaBgPick('linear-gradient(' + dir + ',' + c1 + ' 0%,' + c2 + ' 100%)');
+    }
 
