@@ -1863,19 +1863,10 @@
         function collectFromDOM() {
             var wrap = document.getElementById('menux-mega-cols-wrap');
             if (!wrap) return;
-            var colEls = wrap.querySelectorAll('.bm-mega-col-editor');
-            _data = [];
-            colEls.forEach(function(colEl, colIdx) {
-                var widthInput = colEl.querySelector('.bm-mega-col-width');
-                var col = { width_pct: widthInput ? widthInput.value : '', items: [] };
-                var itemEls = colEl.querySelectorAll('.bm-mega-col-item[data-item-idx]');
-                itemEls.forEach(function(itemEl) {
-                    var idx = parseInt(itemEl.getAttribute('data-item-idx'), 10);
-                    if (!isNaN(idx) && _data[colIdx] && _data[colIdx].items && _data[colIdx].items[idx]) {
-                        col.items.push(_data[colIdx].items[idx]);
-                    }
-                });
-                _data.push(col);
+            wrap.querySelectorAll('.bm-mega-col-editor').forEach(function(colEl, colIdx) {
+                if (!_data[colIdx]) return;
+                var w = colEl.querySelector('.bm-mega-col-width');
+                if (w) _data[colIdx].width_pct = w.value;
             });
         }
 
