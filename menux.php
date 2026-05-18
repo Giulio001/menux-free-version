@@ -3,7 +3,7 @@
  * Plugin Name: Giuliomax Menu Builder
  * Plugin URI:  https://github.com/Giulio001/menux-free-version
  * Description: Menu management via Shortcode [menux]. Supports hamburger style, icons, role-based visibility, multilingual (WPML, Polylang, TranslatePress) and advanced layouts.
- * Version:     2.2.1
+ * Version:     2.3.0
  * Author:      giuliomax
  * Author URI:  https://profiles.wordpress.org/giuliomax/
  * Text Domain: giuliomax-menu-builder
@@ -14,7 +14,7 @@
 
 if ( ! defined( 'ABSPATH' ) ) exit;
 
-define( 'MENUX_VERSION',  '2.2.1' );
+define( 'MENUX_VERSION',  '2.3.0' );
 define( 'MENUX_DIR',      plugin_dir_path( __FILE__ ) );
 define( 'MENUX_URL',      plugin_dir_url( __FILE__ ) );
 define( 'MENUX_BASENAME', plugin_basename( __FILE__ ) );

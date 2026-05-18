@@ -389,7 +389,7 @@ function menux_generate_css($style) {
 
     // ── Mega Menu ──
     if ( class_exists( 'Menux_MegaMenu' ) ) {
-        $css .= Menux_MegaMenu::generate_css();
+        $css .= Menux_MegaMenu::generate_css( $s );
     }
 
     return $css;

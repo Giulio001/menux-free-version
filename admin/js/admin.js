@@ -1880,6 +1880,80 @@
             if (_data.length === 0) {
                 wrap.innerHTML = '<div style="flex:1;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:13px;padding:40px;">No columns yet. Click "+ Add Column" to start.</div>';
             }
+            // Disable "+ Add Column" and count buttons > current length when at max
+            var addBtn = document.querySelector('#menux-mega-dialog .bm-mega-col-footer button, #menux-mega-dialog button[onclick="menuxMegaAddCol()"]');
+            renderPreview();
+        }
+
+        function htmlEsc(s) {
+            if (!s) return '';
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function renderPreview() {
+            var wrap = document.getElementById('menux-mega-preview');
+            if (!wrap) return;
+
+            // Read settings from panel form fields
+            var bgEl   = document.getElementById('bm-mega-setting-bg');
+            var padYEl = document.getElementById('bm-mega-setting-pad-y');
+            var padXEl = document.getElementById('bm-mega-setting-pad-x');
+            var gapEl  = document.getElementById('bm-mega-setting-gap');
+            var bg   = (bgEl   && bgEl.value)   ? bgEl.value   : '#ffffff';
+            var padY = (padYEl && padYEl.value)  ? Math.min(parseInt(padYEl.value), 40) : 16;
+            var padX = (padXEl && padXEl.value)  ? Math.min(parseInt(padXEl.value), 60) : 16;
+            var gap  = (gapEl  && gapEl.value)   ? parseInt(gapEl.value) : 12;
+
+            if (_data.length === 0) {
+                wrap.innerHTML = '<div style="color:#9ca3af;font-size:11px;text-align:center;padding:20px 0;">Add columns to see the preview</div>';
+                return;
+            }
+
+            var html = '<div style="background:' + htmlEsc(bg) + ';border-radius:0 0 8px 8px;">';
+            html += '<div style="display:flex;gap:' + gap + 'px;padding:' + padY + 'px ' + padX + 'px;">';
+
+            _data.forEach(function(col, ci) {
+                var w = (col.width_pct && parseInt(col.width_pct) > 0) ? col.width_pct : null;
+                var flex = w ? '0 0 ' + w + '%;max-width:' + w + '%' : '1';
+                var borderL = ci > 0 ? 'border-left:1px solid #f3f4f6;padding-left:' + gap + 'px;' : '';
+                html += '<div style="flex:' + flex + ';min-width:0;' + borderL + '">';
+
+                (col.items || []).forEach(function(item) {
+                    switch (item.type) {
+                        case 'heading':
+                            html += '<div style="font-size:8px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.7px;padding-bottom:5px;border-bottom:1px solid #f3f4f6;margin-bottom:6px;">' + (htmlEsc(item.label) || '—') + '</div>';
+                            break;
+                        case 'divider':
+                            html += '<hr style="border:none;border-top:1px solid #f3f4f6;margin:5px 0;">';
+                            break;
+                        case 'image':
+                            if (item.image_url) {
+                                html += '<img src="' + htmlEsc(item.image_url) + '" style="width:100%;height:auto;border-radius:5px;display:block;margin-bottom:5px;" alt="">';
+                            } else {
+                                html += '<div style="background:#e5e7eb;height:44px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:5px;">🖼</div>';
+                            }
+                            break;
+                        case 'shortcode':
+                            html += '<div style="background:#f0f4ff;border:1px dashed #a78bfa;border-radius:4px;padding:4px 6px;font-size:9px;color:#5b21b6;margin-bottom:4px;">⚙ ' + (htmlEsc(item.label) || 'Shortcode') + '</div>';
+                            break;
+                        default:
+                            html += '<div style="display:flex;align-items:flex-start;gap:6px;padding:3px 5px;border-radius:4px;margin-bottom:1px;">';
+                            if (item.icon) html += '<i class="' + htmlEsc(item.icon) + '" style="font-size:12px;color:#667eea;flex-shrink:0;margin-top:1px;"></i>';
+                            html += '<span>';
+                            html += '<span style="display:block;font-size:11px;font-weight:500;color:#1e293b;line-height:1.3;">' + (htmlEsc(item.label) || '<span style="color:#d1d5db;font-style:italic;">Link</span>') + '</span>';
+                            if (item.desc) html += '<span style="display:block;font-size:9px;color:#9ca3af;">' + htmlEsc(item.desc) + '</span>';
+                            html += '</span></div>';
+                    }
+                });
+
+                if (!col.items || col.items.length === 0) {
+                    html += '<div style="font-size:9px;color:#d1d5db;text-align:center;padding:10px 0;font-style:italic;">Empty</div>';
+                }
+                html += '</div>';
+            });
+
+            html += '</div></div>';
+            wrap.innerHTML = html;
         }
 
         function buildColEl(col, colIdx) {
@@ -1971,7 +2045,10 @@
             return el;
         }
 
+        var MAX_COLS = 4;
+
         function addCol() {
+            if (_data.length >= MAX_COLS) return;
             _data.push(newCol());
             render();
         }
@@ -1982,6 +2059,7 @@
         }
 
         function setCols(n) {
+            n = Math.min(n, MAX_COLS);
             while (_data.length < n) _data.push(newCol());
             _data = _data.slice(0, n);
             render();

@@ -215,7 +215,14 @@ function menux_render_admin_html() {
         // Submenu
         $saved_style['submenu_shadow']          = isset($raw_style['submenu_shadow'])     ? '1' : '0';
         $saved_style['submenu_animation']       = in_array($raw_style['submenu_animation'] ?? 'fade', array('fade','slide','none'), true) ? $raw_style['submenu_animation'] : 'fade';
-        
+        // ── Mega Menu panel appearance ──
+        $saved_style['mega_bg']             = ! empty( $use_flags['mega_bg'] ) && ! empty( $raw_style['mega_bg'] ) ? sanitize_hex_color( $raw_style['mega_bg'] ) : '';
+        $saved_style['mega_padding_y']      = isset( $raw_style['mega_padding_y'] )  && is_numeric( $raw_style['mega_padding_y'] )  ? (int) $raw_style['mega_padding_y']  : 24;
+        $saved_style['mega_padding_x']      = isset( $raw_style['mega_padding_x'] )  && is_numeric( $raw_style['mega_padding_x'] )  ? (int) $raw_style['mega_padding_x']  : 32;
+        $saved_style['mega_max_width']      = isset( $raw_style['mega_max_width'] )  && is_numeric( $raw_style['mega_max_width'] )  ? (int) $raw_style['mega_max_width']  : 0;
+        $saved_style['mega_col_gap']        = isset( $raw_style['mega_col_gap'] )    && is_numeric( $raw_style['mega_col_gap'] )    ? (int) $raw_style['mega_col_gap']    : 16;
+        $saved_style['mega_mobile_disable'] = isset( $raw_style['mega_mobile_disable'] ) ? '1' : '0';
+
         update_option('menux_style', $saved_style);
         // Invalida font cache
         delete_transient('menux_gfont_loaded');
