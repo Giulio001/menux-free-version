@@ -1742,7 +1742,7 @@
             var preview    = document.getElementById('bm-logo-preview-' + slotKey);
 
             if (attIdInput) attIdInput.value = attachment.id;
-            if (urlInput)   urlInput.value   = '';  // clear external URL when using library
+            if (urlInput)   urlInput.value   = '';
 
             if (preview) {
                 var src  = (attachment.sizes && attachment.sizes.thumbnail)
@@ -1750,7 +1750,6 @@
                 preview.innerHTML = '<img src="' + src + '" style="max-width:80px;max-height:40px;object-fit:contain;border-radius:4px;" alt="">';
             }
 
-            // Show the Clear button next time (reload not required — just update text)
             var slot = document.getElementById('bm-logo-slot-' + slotKey);
             if (slot) {
                 var uploadBtn = slot.querySelector('.bm-btn-secondary');
@@ -1769,7 +1768,6 @@
         if (urlInput)   urlInput.value   = '';
         if (preview)    preview.innerHTML = '<span style="color:#9ca3af;font-size:11px;">No image</span>';
 
-        // Update Upload button text
         var slot = document.getElementById('bm-logo-slot-' + slotKey);
         if (slot) {
             var uploadBtn = slot.querySelector('.bm-btn-secondary');
@@ -1778,7 +1776,6 @@
     }
 
     function menuxLogoUrlChange(slotKey, val) {
-        // When an external URL is typed, clear the attachment ID.
         var attIdInput = document.getElementById('bm-logo-att-' + slotKey);
         var preview    = document.getElementById('bm-logo-preview-' + slotKey);
         if (attIdInput) attIdInput.value = '0';
@@ -1809,9 +1806,8 @@
     var menuxMegaEditor = (function() {
 
         var _activeKey = null;
-        var _data      = [];   // array of column objects
+        var _data      = [];
 
-        /* ─── Column data schema ─── */
         function newCol() {
             return { width_pct: '', items: [] };
         }
@@ -1819,21 +1815,18 @@
             return { type: type || 'link', label: '', url: '', icon: '', desc: '', image_id: 0, image_url: '', content: '', target: '' };
         }
 
-        /* ─── Open ─── */
         function open(itemKey) {
             _activeKey = itemKey;
 
-            // Load existing data from hidden input.
             var hiddenInput = document.getElementById('mega-json-' + itemKey);
             _data = [];
             if (hiddenInput && hiddenInput.value) {
                 try { _data = JSON.parse(hiddenInput.value) || []; } catch(e) {}
             }
 
-            // Update dialog title.
             var titleEl = document.getElementById('menux-mega-dialog-title');
             if (titleEl) {
-                var itemEl = document.getElementById('bm-mega-item-' + itemKey);
+                var itemEl  = document.getElementById('bm-mega-item-' + itemKey);
                 var labelEl = itemEl ? itemEl.querySelector('.bm-mega-item-label') : null;
                 titleEl.textContent = 'Edit Columns — ' + (labelEl ? labelEl.textContent : itemKey);
             }
@@ -1844,14 +1837,12 @@
             if (overlay) { overlay.style.display = 'flex'; }
         }
 
-        /* ─── Close ─── */
         function close() {
             var overlay = document.getElementById('menux-mega-overlay');
             if (overlay) overlay.style.display = 'none';
             _activeKey = null;
         }
 
-        /* ─── Save to hidden input ─── */
         function save() {
             if (!_activeKey) return;
             collectFromDOM();
@@ -1859,7 +1850,6 @@
             if (hiddenInput) {
                 hiddenInput.value = JSON.stringify(_data);
             }
-            // Update summary badge.
             var summary = document.getElementById('bm-mega-summary-' + _activeKey);
             if (summary) {
                 var num = _data.length;
@@ -1870,7 +1860,6 @@
             close();
         }
 
-        /* ─── Collect data from the DOM before saving ─── */
         function collectFromDOM() {
             var wrap = document.getElementById('menux-mega-cols-wrap');
             if (!wrap) return;
@@ -1890,7 +1879,6 @@
             });
         }
 
-        /* ─── Render all columns ─── */
         function render() {
             var wrap = document.getElementById('menux-mega-cols-wrap');
             if (!wrap) return;
@@ -1903,12 +1891,10 @@
             }
         }
 
-        /* ─── Build one column DOM element ─── */
         function buildColEl(col, colIdx) {
             var div = document.createElement('div');
             div.className = 'bm-mega-col-editor';
 
-            // Header
             var header = document.createElement('div');
             header.className = 'bm-mega-col-header';
             header.innerHTML = '<span>Column ' + (colIdx + 1) + '</span>'
@@ -1919,7 +1905,6 @@
                 + '</div>';
             div.appendChild(header);
 
-            // Items list
             var itemsDiv = document.createElement('div');
             itemsDiv.className = 'bm-mega-col-items';
             (col.items || []).forEach(function(item, itemIdx) {
@@ -1927,7 +1912,6 @@
             });
             div.appendChild(itemsDiv);
 
-            // Footer — add item
             var footer = document.createElement('div');
             footer.className = 'bm-mega-col-footer';
             footer.style.position = 'relative';
@@ -1941,11 +1925,11 @@
             menu.className = 'bm-mega-add-item-menu';
             menu.style.cssText = 'display:none;position:absolute;bottom:100%;left:0;background:#fff;border:1px solid #e5e7eb;border-radius:8px;box-shadow:0 8px 20px rgba(0,0,0,.12);z-index:9999;padding:6px;min-width:160px;';
             var types = [
-                { type:'link',      label:'🔗 Link' },
-                { type:'heading',   label:'📌 Section heading' },
-                { type:'divider',   label:'➖ Divider' },
-                { type:'image',     label:'🖼️ Image' },
-                { type:'shortcode', label:'⚙️ Shortcode / Widget' },
+                { type:'link',      label:'Link' },
+                { type:'heading',   label:'Section heading' },
+                { type:'divider',   label:'Divider' },
+                { type:'image',     label:'Image' },
+                { type:'shortcode', label:'Shortcode / Widget' },
             ];
             types.forEach(function(t) {
                 var btn = document.createElement('button');
@@ -1976,7 +1960,6 @@
             return div;
         }
 
-        /* ─── Build one item row ─── */
         function buildItemEl(item, colIdx, itemIdx) {
             var el = document.createElement('div');
             el.className = 'bm-mega-col-item';
@@ -1990,14 +1973,13 @@
                 + '<span class="bm-mega-col-item-type" style="background:' + typeColor + ';color:#374151;">' + item.type + '</span>'
                 + '<span class="bm-mega-col-item-label">' + lbl.substring(0, 40) + '</span>'
                 + '<button type="button" onclick="menuxMegaEditor.editItem(' + colIdx + ',' + itemIdx + ')" '
-                + 'style="background:none;border:1px solid #e5e7eb;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer;color:#374151;margin-left:auto;" title="Edit">✏️</button>'
+                + 'style="background:none;border:1px solid #e5e7eb;border-radius:4px;padding:2px 6px;font-size:11px;cursor:pointer;color:#374151;margin-left:auto;" title="Edit">Edit</button>'
                 + '<button type="button" onclick="menuxMegaEditor.removeItem(' + colIdx + ',' + itemIdx + ')" '
                 + 'style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:14px;padding:2px 4px;" title="Remove">&times;</button>';
 
             return el;
         }
 
-        /* ─── API ─── */
         function addCol() {
             _data.push(newCol());
             render();
@@ -2009,12 +1991,10 @@
         }
 
         function setCols(n) {
-            // Fill up or trim columns to exactly n.
             while (_data.length < n) _data.push(newCol());
             _data = _data.slice(0, n);
             render();
 
-            // Highlight active button.
             document.querySelectorAll('.bm-mega-col-count-btn').forEach(function(btn) {
                 var active = parseInt(btn.getAttribute('data-cols'), 10) === n;
                 btn.style.borderColor = active ? '#4f46e5' : '#e5e7eb';
@@ -2028,7 +2008,6 @@
             _data[colIdx].items = _data[colIdx].items || [];
             var item = newItem(type);
             _data[colIdx].items.push(item);
-            // Open edit dialog immediately.
             var newIdx = _data[colIdx].items.length - 1;
             render();
             editItem(colIdx, newIdx);
@@ -2040,7 +2019,6 @@
             render();
         }
 
-        /* ─── Item edit dialog ─── */
         function editItem(colIdx, itemIdx) {
             if (!_data[colIdx] || !_data[colIdx].items[itemIdx]) return;
             var item = _data[colIdx].items[itemIdx];
@@ -2087,7 +2065,7 @@
 
             formHTML += '<div style="display:flex;justify-content:flex-end;gap:8px;margin-top:18px;">';
             formHTML += '<button type="button" onclick="menuxMegaEditor.closeItemEdit()" style="background:#fff;border:1px solid #d1d5db;color:#374151;padding:8px 18px;border-radius:7px;font-size:13px;cursor:pointer;">Cancel</button>';
-            formHTML += '<button type="button" onclick="menuxMegaEditor.applyItemEdit(' + colIdx + ',' + itemIdx + ')" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;color:#fff;padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">✅ Apply</button>';
+            formHTML += '<button type="button" onclick="menuxMegaEditor.applyItemEdit(' + colIdx + ',' + itemIdx + ')" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;color:#fff;padding:8px 20px;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;">Apply</button>';
             formHTML += '</div>';
             formHTML += '</div>';
 
@@ -2135,9 +2113,9 @@
         };
     })();
 
-    // Global shortcuts used directly by inline onclick attributes in PHP templates.
-    function menuxMegaOpen(key)          { menuxMegaEditor.open(key); }
-    function menuxMegaClose()            { menuxMegaEditor.close(); }
-    function menuxMegaSave()             { menuxMegaEditor.save(); }
-    function menuxMegaAddCol()           { menuxMegaEditor.addCol(); }
-    function menuxMegaSetCols(n)         { menuxMegaEditor.setCols(n); }
+    function menuxMegaOpen(key)  { menuxMegaEditor.open(key); }
+    function menuxMegaClose()    { menuxMegaEditor.close(); }
+    function menuxMegaSave()     { menuxMegaEditor.save(); }
+    function menuxMegaAddCol()   { menuxMegaEditor.addCol(); }
+    function menuxMegaSetCols(n) { menuxMegaEditor.setCols(n); }
+
