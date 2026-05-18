@@ -430,6 +430,27 @@ function menux_render_admin_html() {
                                 }
                                 ?>
                                 <?php endif; ?>
+
+                                <!-- Diagnostic: active replacements in DB -->
+                                <div style="margin-top:20px;padding:14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;">
+                                    <p style="font-size:12px;font-weight:600;color:#374151;margin:0 0 8px;">🔍 Currently saved in database</p>
+                                    <?php if ( empty( $saved_replacements ) ) : ?>
+                                        <p style="font-size:12px;color:#9ca3af;margin:0;">No replacements saved yet. Select a mapping above and click <strong>Save</strong>.</p>
+                                    <?php else : ?>
+                                        <?php foreach ( $saved_replacements as $tloc => $mloc ) :
+                                            $count = $menux_loc_counts[ $mloc ] ?? 0;
+                                            $ok = $count > 0;
+                                        ?>
+                                        <p style="font-size:12px;margin:4px 0;color:<?php echo $ok ? '#065f46' : '#b45309'; ?>;">
+                                            <?php echo $ok ? '✅' : '⚠'; ?>
+                                            Theme <code><?php echo esc_html($tloc); ?></code>
+                                            → MenuX <code><?php echo esc_html($mloc); ?></code>
+                                            (<?php echo $ok ? $count . ' items — active' : 'no items — will NOT replace'; ?>)
+                                        </p>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                    <p style="font-size:11px;color:#9ca3af;margin:8px 0 0;">If this shows "No replacements saved" after saving, check that your theme calls <code>wp_nav_menu()</code> and is not a block/FSE theme.</p>
+                                </div>
                             </div>
                         </div>
                     </div>
