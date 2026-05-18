@@ -353,7 +353,7 @@
         colors: ['#ffffff', '#6b7280', '#6366f1'],
         data: {
             container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e5e7eb',
-            link_color: '#6b7280', link_hover_color: '#111827', link_hover_bg: '#f9fafb', link_hover_bg_gradient: '',
+            link_color: '#6b7280', link_hover_color: '#111827', link_hover_bg: '#ede9fe', link_hover_bg_gradient: '',
             link_active_color: '#6366f1', link_active_border: '#6366f1', link_active_bg: '#eef2ff', link_active_bg_gradient: '', link_active_font_weight: '600',
             hamburger_color: '#6b7280', hamburger_bg: '', mobile_menu_bg: '#ffffff',
             last_item_color: '#6366f1', last_item_hover_color: '#4f46e5', last_item_bg: '#eef2ff',
@@ -361,12 +361,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
             push_last_item: '1', link_transition: '0.2', link_animation: 'underline',
-            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#ffffff', submenu_border: '#e5e7eb', submenu_link_color: '#374151',
             submenu_animation: 'slide', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'void_dark': {
@@ -383,12 +383,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '0',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
             push_last_item: '1', link_transition: '0.2', link_animation: 'none',
-            text_transform: '', letter_spacing: '-0.2', link_border_radius: '8',
+            text_transform: '', letter_spacing: '-0.2', link_border_radius: '20',
             mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#18181b', submenu_border: '#27272a', submenu_link_color: '#a1a1aa',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'dark', nav_justify: 'flex-start'
+            dark_mode: 'dark', nav_justify: 'flex-end'
         }
     },
     'indigo_pulse': {
@@ -405,12 +405,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
             push_last_item: '1', link_transition: '0.2', link_animation: 'none',
-            text_transform: '', letter_spacing: '', link_border_radius: '10',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'slideDown', entrance_duration: '0.35',
             submenu_bg: '#ffffff', submenu_border: '#e5e7eb', submenu_link_color: '#4b5563',
             submenu_animation: 'slide', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'aurora_night': {
@@ -427,12 +427,12 @@
             hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '1',
             font_family: 'Nunito, sans-serif', google_font: 'Nunito',
             push_last_item: '1', link_transition: '0.3', link_animation: 'none',
-            text_transform: 'uppercase', letter_spacing: '0.8', link_border_radius: '8',
+            text_transform: 'uppercase', letter_spacing: '0.8', link_border_radius: '20',
             mobile_open_style: 'fullscreen', mobile_open_animation: 'fade',
             entrance_animation: 'fadeIn', entrance_duration: '0.5',
             submenu_bg: '#1a1030', submenu_border: '#302b63', submenu_link_color: '#c4b5fd',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'dark', nav_justify: 'flex-start'
+            dark_mode: 'dark', nav_justify: 'flex-end'
         }
     },
     'navy_command': {
@@ -449,12 +449,12 @@
             hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
             push_last_item: '1', link_transition: '0.2', link_animation: 'none',
-            text_transform: '', letter_spacing: '0.2', link_border_radius: '6',
+            text_transform: '', letter_spacing: '0.2', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#1e3a8a', submenu_border: '#2563eb', submenu_link_color: '#bfdbfe',
             submenu_animation: 'slide', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'tropical_bloom': {
@@ -471,12 +471,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
             font_family: 'Nunito, sans-serif', google_font: 'Nunito',
             push_last_item: '1', link_transition: '0.25', link_animation: 'none',
-            text_transform: '', letter_spacing: '0.2', link_border_radius: '24',
+            text_transform: '', letter_spacing: '0.2', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#c2185b', submenu_border: '#ec4899', submenu_link_color: '#fce7f3',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'evergreen': {
@@ -493,12 +493,12 @@
             hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '14', mobile_menu_shadow: '1',
             font_family: 'Nunito, sans-serif', google_font: 'Nunito',
             push_last_item: '1', link_transition: '0.3', link_animation: 'none',
-            text_transform: '', letter_spacing: '0.3', link_border_radius: '6',
+            text_transform: '', letter_spacing: '0.3', link_border_radius: '20',
             mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#065f46', submenu_border: '#059669', submenu_link_color: '#d1fae5',
             submenu_animation: 'slide', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'cyber_matrix': {
@@ -515,12 +515,12 @@
             hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
             font_family: 'Space Mono, monospace', google_font: 'Space Mono',
             push_last_item: '1', link_transition: '0.15', link_animation: 'none',
-            text_transform: 'uppercase', letter_spacing: '1.5', link_border_radius: '2',
+            text_transform: 'uppercase', letter_spacing: '1.5', link_border_radius: '20',
             mobile_open_style: 'fullscreen', mobile_open_animation: 'fade',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#111111', submenu_border: '#00ff88', submenu_link_color: '#00ff88',
             submenu_animation: 'none', submenu_shadow: '0',
-            dark_mode: 'dark', nav_justify: 'flex-start'
+            dark_mode: 'dark', nav_justify: 'flex-end'
         }
     },
     'rose_silk': {
@@ -542,7 +542,7 @@
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#fff1f2', submenu_border: '#fecdd3', submenu_link_color: '#9d174d',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'sky_fresh': {
@@ -559,12 +559,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '0',
             font_family: 'Poppins, sans-serif', google_font: 'Poppins',
             push_last_item: '1', link_transition: '0.25', link_animation: 'none',
-            text_transform: '', letter_spacing: '', link_border_radius: '10',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#f0f9ff', submenu_border: '#bae6fd', submenu_link_color: '#0369a1',
             submenu_animation: 'slide', submenu_shadow: '0',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'newspaper_ink': {
@@ -573,7 +573,7 @@
         colors: ['#fafaf9', '#44403c', '#1c1917'],
         data: {
             container_bg: '#fafaf9', container_bg_gradient: '', container_border: '#1c1917',
-            link_color: '#44403c', link_hover_color: '#0c0a09', link_hover_bg: '#f5f5f4', link_hover_bg_gradient: '',
+            link_color: '#44403c', link_hover_color: '#0c0a09', link_hover_bg: '#e7e5e4', link_hover_bg_gradient: '',
             link_active_color: '#1c1917', link_active_border: '', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '900',
             hamburger_color: '#1c1917', hamburger_bg: '', mobile_menu_bg: '#fafaf9',
             last_item_color: '#44403c', last_item_hover_color: '#1c1917', last_item_bg: '',
@@ -586,7 +586,7 @@
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#fafaf9', submenu_border: '#1c1917', submenu_link_color: '#44403c',
             submenu_animation: 'none', submenu_shadow: '0',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'dev_dark': {
@@ -603,12 +603,12 @@
             hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
             font_family: 'JetBrains Mono, monospace', google_font: 'JetBrains Mono',
             push_last_item: '1', link_transition: '0.15', link_animation: 'none',
-            text_transform: '', letter_spacing: '0.3', link_border_radius: '6',
+            text_transform: '', letter_spacing: '0.3', link_border_radius: '20',
             mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#161b22', submenu_border: '#30363d', submenu_link_color: '#8b949e',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'dark', nav_justify: 'flex-start'
+            dark_mode: 'dark', nav_justify: 'flex-end'
         }
     },
     'ocean_electric': {
@@ -625,12 +625,12 @@
             hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
             font_family: 'Raleway, sans-serif', google_font: 'Raleway',
             push_last_item: '1', link_transition: '0.3', link_animation: 'none',
-            text_transform: '', letter_spacing: '0.3', link_border_radius: '6',
+            text_transform: '', letter_spacing: '0.3', link_border_radius: '20',
             mobile_open_style: 'fullscreen', mobile_open_animation: 'scale',
             entrance_animation: 'fadeIn', entrance_duration: '0.4',
             submenu_bg: '#1e40af', submenu_border: '#3b82f6', submenu_link_color: '#bfdbfe',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'violet_cloud': {
@@ -647,12 +647,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
             font_family: 'Nunito, sans-serif', google_font: 'Nunito',
             push_last_item: '1', link_transition: '0.25', link_animation: 'underline',
-            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'slideDown', entrance_duration: '0.4',
             submenu_bg: '#5b21b6', submenu_border: '#7c3aed', submenu_link_color: '#e0d7ff',
             submenu_animation: 'slide', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'swiss_pro': {
@@ -661,20 +661,20 @@
         colors: ['#ffffff', '#374151', '#dc2626'],
         data: {
             container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e5e7eb',
-            link_color: '#374151', link_hover_color: '#111827', link_hover_bg: '#f3f4f6', link_hover_bg_gradient: '',
-            link_active_color: '#dc2626', link_active_border: '#dc2626', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '700',
+            link_color: '#374151', link_hover_color: '#111827', link_hover_bg: '#fee2e2', link_hover_bg_gradient: '',
+            link_active_color: '#dc2626', link_active_border: '#dc2626', link_active_bg: '#fee2e2', link_active_bg_gradient: '', link_active_font_weight: '700',
             hamburger_color: '#374151', hamburger_bg: '', mobile_menu_bg: '#ffffff',
             last_item_color: '#dc2626', last_item_hover_color: '#b91c1c', last_item_bg: '#fff5f5',
             font_size: '14', font_weight: '600', gap: '0', padding_x: '24', padding_y: '18',
             hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '1',
             font_family: 'system-ui, -apple-system, sans-serif', google_font: '',
             push_last_item: '1', link_transition: '0.15', link_animation: 'none',
-            text_transform: 'uppercase', letter_spacing: '0.5', link_border_radius: '4',
+            text_transform: 'uppercase', letter_spacing: '0.5', link_border_radius: '20',
             mobile_open_style: 'dropdown', mobile_open_animation: 'fade',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#ffffff', submenu_border: '#e5e7eb', submenu_link_color: '#374151',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'cosmic_dusk': {
@@ -691,12 +691,12 @@
             hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
             push_last_item: '1', link_transition: '0.3', link_animation: 'none',
-            text_transform: 'uppercase', letter_spacing: '0.8', link_border_radius: '8',
+            text_transform: 'uppercase', letter_spacing: '0.8', link_border_radius: '20',
             mobile_open_style: 'fullscreen', mobile_open_animation: 'fade',
             entrance_animation: 'fadeIn', entrance_duration: '0.6',
             submenu_bg: '#1a0029', submenu_border: '#3b0764', submenu_link_color: '#c084fc',
             submenu_animation: 'fade', submenu_shadow: '1',
-            dark_mode: 'dark', nav_justify: 'flex-start'
+            dark_mode: 'dark', nav_justify: 'flex-end'
         }
     },
     'warm_honey': {
@@ -713,12 +713,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '0',
             font_family: 'Poppins, sans-serif', google_font: 'Poppins',
             push_last_item: '1', link_transition: '0.25', link_animation: 'none',
-            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#fffbeb', submenu_border: '#fde68a', submenu_link_color: '#92400e',
             submenu_animation: 'slide', submenu_shadow: '0',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'cloud_glass': {
@@ -727,7 +727,7 @@
         colors: ['#f8fafc', '#475569', '#6366f1'],
         data: {
             container_bg: '#f8fafc', container_bg_gradient: '', container_border: '#e2e8f0',
-            link_color: '#475569', link_hover_color: '#0f172a', link_hover_bg: '#f1f5f9', link_hover_bg_gradient: '',
+            link_color: '#475569', link_hover_color: '#0f172a', link_hover_bg: '#ede9fe', link_hover_bg_gradient: '',
             link_active_color: '#ffffff', link_active_border: '', link_active_bg: '', link_active_bg_gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', link_active_font_weight: '600',
             hamburger_color: '#6366f1', hamburger_bg: '#ede9fe', mobile_menu_bg: '#f8fafc',
             last_item_color: '#6366f1', last_item_hover_color: '#4f46e5', last_item_bg: '#ede9fe',
@@ -735,12 +735,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
             push_last_item: '1', link_transition: '0.2', link_animation: 'none',
-            text_transform: '', letter_spacing: '', link_border_radius: '12',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
             entrance_animation: 'fadeIn', entrance_duration: '0.4',
             submenu_bg: '#ffffff', submenu_border: '#e2e8f0', submenu_link_color: '#475569',
             submenu_animation: 'slide', submenu_shadow: '1',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     },
     'carbon_pro': {
@@ -757,12 +757,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '0',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
             push_last_item: '1', link_transition: '0.2', link_animation: 'none',
-            text_transform: '', letter_spacing: '', link_border_radius: '10',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#2c2c2e', submenu_border: '#3a3a3c', submenu_link_color: '#ebebf5',
             submenu_animation: 'fade', submenu_shadow: '0',
-            dark_mode: 'dark', nav_justify: 'flex-start'
+            dark_mode: 'dark', nav_justify: 'flex-end'
         }
     },
     'aegean_teal': {
@@ -779,12 +779,12 @@
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '0',
             font_family: 'Poppins, sans-serif', google_font: 'Poppins',
             push_last_item: '1', link_transition: '0.25', link_animation: 'underline',
-            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            text_transform: '', letter_spacing: '', link_border_radius: '20',
             mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
             entrance_animation: 'none', entrance_duration: '0.5',
             submenu_bg: '#f0fdfa', submenu_border: '#99f6e4', submenu_link_color: '#0f766e',
             submenu_animation: 'slide', submenu_shadow: '0',
-            dark_mode: 'light', nav_justify: 'flex-start'
+            dark_mode: 'light', nav_justify: 'flex-end'
         }
     }
 
