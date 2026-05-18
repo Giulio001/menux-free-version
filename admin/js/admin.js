@@ -347,358 +347,444 @@
        ================================================================ */
     var bmThemes = {
 
-    /* ── EXISTING THEMES (refined) ── */
-
-    'style_1': {
-        title: 'Executive Blue',
-        badge: 'Corporate',
-        colors: ['linear-gradient(135deg,#1e3a8a,#1e40af)', '#bfdbfe', '#ffffff'],
-        data: {
-            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#1e3a8a,#1e40af)', container_border: '',
-            link_color: '#bfdbfe', link_hover_color: '#ffffff', link_hover_bg: '#3b5da8',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#2956b0', link_active_font_weight: '600',
-            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#1e3a8a',
-            font_size: '14', font_weight: '500', gap: '4', padding_x: '18', padding_y: '22',
-            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
-            font_family: 'Inter, sans-serif', google_font: 'Inter',
-            push_last_item: '1', last_item_color: '#fca5a5', last_item_hover_color: '#fecaca', last_item_bg: '',
-            link_transition: '0.25', link_animation: 'none', text_transform: '', letter_spacing: '0.2', link_border_radius: '4'
-        }
-    },
-    'style_2': {
-        title: 'Clean Minimal',
+    'ghost': {
+        title: 'Ghost',
         badge: 'Minimal',
-        colors: ['#ffffff', '#475569', '#6366f1'],
+        colors: ['#ffffff', '#6b7280', '#6366f1'],
         data: {
-            container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e2e8f0',
-            link_color: '#475569', link_hover_color: '#0f172a', link_hover_bg: '',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#6366f1', link_active_border: '#6366f1', link_active_bg: '', link_active_font_weight: '600',
-            hamburger_color: '#475569', hamburger_bg: '', mobile_menu_bg: '#ffffff',
-            font_size: '14', font_weight: '500', gap: '12', padding_x: '20', padding_y: '26',
+            container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e5e7eb',
+            link_color: '#6b7280', link_hover_color: '#111827', link_hover_bg: '#f9fafb', link_hover_bg_gradient: '',
+            link_active_color: '#6366f1', link_active_border: '#6366f1', link_active_bg: '#eef2ff', link_active_bg_gradient: '', link_active_font_weight: '600',
+            hamburger_color: '#6b7280', hamburger_bg: '', mobile_menu_bg: '#ffffff',
+            last_item_color: '#6366f1', last_item_hover_color: '#4f46e5', last_item_bg: '#eef2ff',
+            font_size: '14', font_weight: '500', gap: '6', padding_x: '18', padding_y: '14',
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
-            push_last_item: '1', last_item_color: '#6366f1', last_item_hover_color: '#4f46e5', last_item_bg: '#eef2ff',
-            link_transition: '0.25', link_animation: 'underline', text_transform: '', letter_spacing: '', link_border_radius: '6'
+            push_last_item: '1', link_transition: '0.2', link_animation: 'underline',
+            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#ffffff', submenu_border: '#e5e7eb', submenu_link_color: '#374151',
+            submenu_animation: 'slide', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
         }
     },
-    'style_3': {
-        title: 'Lavender Pill',
-        badge: 'Soft',
-        colors: ['#f5f3ff', '#7c3aed', '#ffffff'],
-        data: {
-            container_bg: '#f5f3ff', container_bg_gradient: '', container_border: '',
-            link_color: '#7c3aed', link_hover_color: '#5b21b6', link_hover_bg: '#ede9fe',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#7c3aed', link_active_font_weight: '600',
-            hamburger_color: '#7c3aed', hamburger_bg: '#ede9fe', mobile_menu_bg: '#f5f3ff',
-            font_size: '14', font_weight: '500', gap: '6', padding_x: '18', padding_y: '10',
-            hamburger_style: 'modern', hamburger_align: 'center', mobile_menu_pad: '15', mobile_menu_shadow: '1',
-            font_family: 'Inter, sans-serif', google_font: 'Inter',
-            push_last_item: '1', last_item_color: '#dc2626', last_item_hover_color: '#b91c1c', last_item_bg: '#fee2e2',
-            link_transition: '0.2', link_animation: 'none', text_transform: '', letter_spacing: '', link_border_radius: '20'
-        }
-    },
-    'style_4': {
-        title: 'Carbon Dark',
-        badge: 'Tech',
-        colors: ['#111827', '#6b7280', '#00d4ff'],
-        data: {
-            container_bg: '#111827', container_bg_gradient: '', container_border: '#1f2937',
-            link_color: '#6b7280', link_hover_color: '#00d4ff', link_hover_bg: '#1f2937',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(0,212,255,0.1),rgba(0,212,255,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#00d4ff', link_active_border: '', link_active_bg: '#1a2e3a', link_active_font_weight: '500',
-            hamburger_color: '#9ca3af', hamburger_bg: '', mobile_menu_bg: '#111827',
-            font_size: '13', font_weight: '400', gap: '2', padding_x: '20', padding_y: '22',
-            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '1',
-            font_family: 'Roboto Mono, monospace', google_font: 'Roboto Mono',
-            push_last_item: '1', last_item_color: '#f87171', last_item_hover_color: '#fca5a5', last_item_bg: '',
-            link_transition: '0.2', link_animation: 'none', text_transform: '', letter_spacing: '0.4', link_border_radius: '3'
-        }
-    },
-    'style_5': {
-        title: 'Midnight Aurora',
+    'void_dark': {
+        title: 'Void Dark',
         badge: 'Premium',
-        colors: ['linear-gradient(135deg,#13001e,#1a1a2e)', '#c4b5fd', '#a3e635'],
+        colors: ['#09090b', '#52525b', '#fafafa'],
         data: {
-            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#13001e,#1a1a2e,#162032)', container_border: '',
-            link_color: '#c4b5fd', link_hover_color: '#a3e635', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(163,230,53,0.12),rgba(163,230,53,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#a3e635', link_active_border: '#a3e635', link_active_bg: '', link_active_font_weight: '700',
-            hamburger_color: '#c4b5fd', hamburger_bg: '', mobile_menu_bg: '#0d0010',
-            font_size: '13', font_weight: '500', gap: '4', padding_x: '16', padding_y: '24',
-            hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
-            font_family: 'Inter, sans-serif', google_font: 'Inter',
-            push_last_item: '1', last_item_color: '#f87171', last_item_hover_color: '#fca5a5', last_item_bg: '',
-            link_transition: '0.3', link_animation: 'none', text_transform: 'uppercase', letter_spacing: '0.8', link_border_radius: '4'
-        }
-    },
-    'style_6': {
-        title: 'Swiss Corporate',
-        badge: 'Management',
-        colors: ['#ffffff', '#334155', '#2563eb'],
-        data: {
-            container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e2e8f0',
-            link_color: '#334155', link_hover_color: '#0f172a', link_hover_bg: '#f8fafc',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#2563eb', link_active_border: '#2563eb', link_active_bg: '', link_active_font_weight: '600',
-            hamburger_color: '#334155', hamburger_bg: '', mobile_menu_bg: '#ffffff',
-            font_size: '14', font_weight: '500', gap: '0', padding_x: '24', padding_y: '20',
-            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '1',
-            font_family: 'system-ui, -apple-system, sans-serif', google_font: '',
-            push_last_item: '1', last_item_color: '#dc2626', last_item_hover_color: '#b91c1c', last_item_bg: '#fff5f5',
-            link_transition: '0.2', link_animation: 'none', text_transform: '', letter_spacing: '', link_border_radius: ''
-        }
-    },
-    'style_7': {
-        title: 'Indigo Tabs',
-        badge: 'ERP/CRM',
-        colors: ['#f1f5f9', '#475569', '#4f46e5'],
-        data: {
-            container_bg: '#f1f5f9', container_bg_gradient: '', container_border: '#818cf8',
-            link_color: '#475569', link_hover_color: '#3730a3', link_hover_bg: '#e0e7ff',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#4f46e5', link_active_font_weight: '600',
-            hamburger_color: '#4f46e5', hamburger_bg: '', mobile_menu_bg: '#f1f5f9',
-            font_size: '14', font_weight: '500', gap: '4', padding_x: '20', padding_y: '12',
-            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '10', mobile_menu_shadow: '0',
-            font_family: 'Inter, sans-serif', google_font: 'Inter',
-            push_last_item: '1', last_item_color: '#dc2626', last_item_hover_color: '#dc2626', last_item_bg: '',
-            link_transition: '0.2', link_animation: 'none', text_transform: '', letter_spacing: '', link_border_radius: '8'
-        }
-    },
-    'style_8': {
-        title: 'Electric Gradient',
-        badge: 'Modern',
-        colors: ['linear-gradient(135deg,#0052D4,#4364F7,#6FB1FC)', '#dbeafe', '#ffffff'],
-        data: {
-            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#0052D4,#4364F7,#6FB1FC)', container_border: '',
-            link_color: '#dbeafe', link_hover_color: '#ffffff', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.18),rgba(255,255,255,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#1d4ed8', link_active_font_weight: '600',
-            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#1e40af',
-            font_size: '14', font_weight: '500', gap: '4', padding_x: '16', padding_y: '22',
-            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
-            font_family: 'Raleway, sans-serif', google_font: 'Raleway',
-            push_last_item: '1', last_item_color: '#fde68a', last_item_hover_color: '#fef3c7', last_item_bg: '',
-            link_transition: '0.3', link_animation: 'none', text_transform: '', letter_spacing: '0.3', link_border_radius: '6'
-        }
-    },
-    'style_9': {
-        title: 'Terminal',
-        badge: 'Developer',
-        colors: ['#0d1117', '#8b949e', '#58a6ff'],
-        data: {
-            container_bg: '#0d1117', container_bg_gradient: '', container_border: '#30363d',
-            link_color: '#8b949e', link_hover_color: '#58a6ff', link_hover_bg: '#161b22',
-            link_hover_bg_gradient: '',  link_active_bg_gradient: '',
-            link_active_color: '#c9d1d9', link_active_border: '#388bfd', link_active_bg: '', link_active_font_weight: '500',
-            hamburger_color: '#8b949e', hamburger_bg: '', mobile_menu_bg: '#0d1117',
-            font_size: '13', font_weight: '400', gap: '6', padding_x: '18', padding_y: '22',
-            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
-            font_family: 'JetBrains Mono, monospace', google_font: 'JetBrains Mono',
-            push_last_item: '1', last_item_color: '#f85149', last_item_hover_color: '#ff7b72', last_item_bg: '',
-            link_transition: '0.15', link_animation: 'none', text_transform: '', letter_spacing: '0.3', link_border_radius: '4'
-        }
-    },
-    'style_10': {
-        title: 'Poppins Analytics',
-        badge: 'Dashboard',
-        colors: ['#ffffff', '#64748b', '#6366f1'],
-        data: {
-            container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e2e8f0',
-            link_color: '#64748b', link_hover_color: '#0f172a', link_hover_bg: '',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#6366f1', link_active_border: '#6366f1', link_active_bg: '', link_active_font_weight: '600',
-            hamburger_color: '#64748b', hamburger_bg: '', mobile_menu_bg: '#ffffff',
-            font_size: '13', font_weight: '400', gap: '20', padding_x: '4', padding_y: '10',
-            hamburger_style: 'modern', hamburger_align: 'center', mobile_menu_pad: '16', mobile_menu_shadow: '1',
-            font_family: 'Poppins, sans-serif', google_font: 'Poppins',
-            push_last_item: '1', last_item_color: '#6366f1', last_item_hover_color: '#4f46e5', last_item_bg: '#eef2ff',
-            link_transition: '0.2', link_animation: 'underline', text_transform: '', letter_spacing: '', link_border_radius: '4'
-        }
-    },
-
-    /* ── NEW THEMES ── */
-
-    'style_11': {
-        title: 'Aurora Borealis',
-        badge: 'Vibrant',
-        colors: ['linear-gradient(135deg,#0f0c29,#302b63)', '#a78bfa', '#a3e635'],
-        data: {
-            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#0f0c29,#302b63,#24243e)', container_border: '',
-            link_color: '#a78bfa', link_hover_color: '#c4b5fd', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(167,139,250,0.18),rgba(167,139,250,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#a3e635', link_active_border: '#a3e635', link_active_bg: '', link_active_font_weight: '700',
-            hamburger_color: '#a78bfa', hamburger_bg: '', mobile_menu_bg: '#100c25',
-            font_size: '13', font_weight: '500', gap: '6', padding_x: '16', padding_y: '26',
-            hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
-            font_family: 'Nunito, sans-serif', google_font: 'Nunito',
-            push_last_item: '1', last_item_color: '#fb923c', last_item_hover_color: '#fdba74', last_item_bg: '',
-            link_transition: '0.3', link_animation: 'none', text_transform: 'uppercase', letter_spacing: '1', link_border_radius: '6'
-        }
-    },
-    'style_12': {
-        title: 'Obsidian',
-        badge: 'Premium',
-        colors: ['#09090b', '#71717a', '#fafafa'],
-        data: {
-            container_bg: '#09090b', container_bg_gradient: '', container_border: '#18181b',
-            link_color: '#71717a', link_hover_color: '#fafafa', link_hover_bg: '#27272a',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#fafafa', link_active_border: '', link_active_bg: '#27272a', link_active_font_weight: '500',
+            container_bg: '#09090b', container_bg_gradient: '', container_border: '#27272a',
+            link_color: '#71717a', link_hover_color: '#f4f4f5', link_hover_bg: '#18181b', link_hover_bg_gradient: '',
+            link_active_color: '#fafafa', link_active_border: '', link_active_bg: '#27272a', link_active_bg_gradient: '', link_active_font_weight: '500',
             hamburger_color: '#71717a', hamburger_bg: '', mobile_menu_bg: '#09090b',
-            font_size: '14', font_weight: '400', gap: '2', padding_x: '20', padding_y: '22',
+            last_item_color: '#e4e4e7', last_item_hover_color: '#fafafa', last_item_bg: '#3f3f46',
+            font_size: '14', font_weight: '400', gap: '4', padding_x: '20', padding_y: '20',
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '0',
             font_family: 'Inter, sans-serif', google_font: 'Inter',
-            push_last_item: '1', last_item_color: '#e4e4e7', last_item_hover_color: '#fafafa', last_item_bg: '#3f3f46',
-            link_transition: '0.2', link_animation: 'none', text_transform: '', letter_spacing: '-0.2', link_border_radius: '6'
+            push_last_item: '1', link_transition: '0.2', link_animation: 'none',
+            text_transform: '', letter_spacing: '-0.2', link_border_radius: '8',
+            mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#18181b', submenu_border: '#27272a', submenu_link_color: '#a1a1aa',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'dark', nav_justify: 'flex-start'
         }
     },
-    'style_13': {
-        title: 'Coral Sunset',
-        badge: 'Energetic',
-        colors: ['linear-gradient(135deg,#ff6b6b,#feca57)', '#ffffff', '#1a1a2e'],
+    'indigo_pulse': {
+        title: 'Indigo Pulse',
+        badge: 'SaaS',
+        colors: ['#ffffff', '#4f46e5', '#eef2ff'],
         data: {
-            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#ff6b6b,#ee5a24,#feca57)', container_border: '',
-            link_color: '#ffffff', link_hover_color: '#ffffff', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.2),rgba(255,255,255,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#ee5a24', link_active_font_weight: '700',
-            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#ee5a24',
+            container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e5e7eb',
+            link_color: '#4b5563', link_hover_color: '#1e1b4b', link_hover_bg: '#f5f3ff', link_hover_bg_gradient: '',
+            link_active_color: '#4f46e5', link_active_border: '', link_active_bg: '', link_active_bg_gradient: 'linear-gradient(135deg,#eef2ff,#e0e7ff)', link_active_font_weight: '600',
+            hamburger_color: '#4f46e5', hamburger_bg: '#eef2ff', mobile_menu_bg: '#f5f3ff',
+            last_item_color: '#4f46e5', last_item_hover_color: '#4338ca', last_item_bg: '#eef2ff',
+            font_size: '14', font_weight: '500', gap: '4', padding_x: '16', padding_y: '22',
+            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
+            font_family: 'Inter, sans-serif', google_font: 'Inter',
+            push_last_item: '1', link_transition: '0.2', link_animation: 'none',
+            text_transform: '', letter_spacing: '', link_border_radius: '10',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'slideDown', entrance_duration: '0.35',
+            submenu_bg: '#ffffff', submenu_border: '#e5e7eb', submenu_link_color: '#4b5563',
+            submenu_animation: 'slide', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'aurora_night': {
+        title: 'Aurora Night',
+        badge: 'Vibrant',
+        colors: ['linear-gradient(135deg,#0f0c29,#302b63)', '#a78bfa', '#4ade80'],
+        data: {
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#0f0c29,#302b63,#24243e)', container_border: '',
+            link_color: '#a78bfa', link_hover_color: '#e9d5ff', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(167,139,250,0.18),rgba(167,139,250,0))',
+            link_active_color: '#4ade80', link_active_border: '#4ade80', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '700',
+            hamburger_color: '#a78bfa', hamburger_bg: '', mobile_menu_bg: '#0f0c29',
+            last_item_color: '#fb923c', last_item_hover_color: '#fdba74', last_item_bg: '',
+            font_size: '13', font_weight: '600', gap: '6', padding_x: '16', padding_y: '24',
+            hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '1',
+            font_family: 'Nunito, sans-serif', google_font: 'Nunito',
+            push_last_item: '1', link_transition: '0.3', link_animation: 'none',
+            text_transform: 'uppercase', letter_spacing: '0.8', link_border_radius: '8',
+            mobile_open_style: 'fullscreen', mobile_open_animation: 'fade',
+            entrance_animation: 'fadeIn', entrance_duration: '0.5',
+            submenu_bg: '#1a1030', submenu_border: '#302b63', submenu_link_color: '#c4b5fd',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'dark', nav_justify: 'flex-start'
+        }
+    },
+    'navy_command': {
+        title: 'Navy Command',
+        badge: 'Corporate',
+        colors: ['linear-gradient(135deg,#1e3a8a,#2563eb)', '#93c5fd', '#ffffff'],
+        data: {
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#1e3a8a,#2563eb)', container_border: '',
+            link_color: '#93c5fd', link_hover_color: '#dbeafe', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.14),rgba(255,255,255,0))',
+            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#1d4ed8', link_active_bg_gradient: '', link_active_font_weight: '600',
+            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#1e3a8a',
+            last_item_color: '#fca5a5', last_item_hover_color: '#fecaca', last_item_bg: '',
+            font_size: '14', font_weight: '500', gap: '4', padding_x: '20', padding_y: '22',
+            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
+            font_family: 'Inter, sans-serif', google_font: 'Inter',
+            push_last_item: '1', link_transition: '0.2', link_animation: 'none',
+            text_transform: '', letter_spacing: '0.2', link_border_radius: '6',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#1e3a8a', submenu_border: '#2563eb', submenu_link_color: '#bfdbfe',
+            submenu_animation: 'slide', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'tropical_bloom': {
+        title: 'Tropical Bloom',
+        badge: 'Energetic',
+        colors: ['linear-gradient(135deg,#f97316,#db2777)', '#ffffff', '#fef3c7'],
+        data: {
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#f97316,#db2777)', container_border: '',
+            link_color: '#ffffff', link_hover_color: '#ffffff', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.2),rgba(255,255,255,0))',
+            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#be185d', link_active_bg_gradient: '', link_active_font_weight: '700',
+            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#c2185b',
+            last_item_color: '#fef3c7', last_item_hover_color: '#ffffff', last_item_bg: '',
             font_size: '15', font_weight: '600', gap: '6', padding_x: '18', padding_y: '20',
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
             font_family: 'Nunito, sans-serif', google_font: 'Nunito',
-            push_last_item: '1', last_item_color: '#fef3c7', last_item_hover_color: '#ffffff', last_item_bg: '',
-            link_transition: '0.25', link_animation: 'none', text_transform: '', letter_spacing: '0.2', link_border_radius: '8'
+            push_last_item: '1', link_transition: '0.25', link_animation: 'none',
+            text_transform: '', letter_spacing: '0.2', link_border_radius: '24',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#c2185b', submenu_border: '#ec4899', submenu_link_color: '#fce7f3',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
         }
     },
-    'style_14': {
-        title: 'Forest Walk',
+    'evergreen': {
+        title: 'Evergreen',
         badge: 'Nature',
-        colors: ['linear-gradient(135deg,#134e5e,#71b280)', '#d1fae5', '#ffffff'],
+        colors: ['linear-gradient(135deg,#064e3b,#059669)', '#6ee7b7', '#ffffff'],
         data: {
-            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#134e5e,#71b280)', container_border: '',
-            link_color: '#d1fae5', link_hover_color: '#ffffff', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.18),rgba(255,255,255,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#ffffff', link_active_border: '#a7f3d0', link_active_bg: '', link_active_font_weight: '600',
-            hamburger_color: '#d1fae5', hamburger_bg: '', mobile_menu_bg: '#134e5e',
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#064e3b,#059669)', container_border: '',
+            link_color: '#6ee7b7', link_hover_color: '#ffffff', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.14),rgba(255,255,255,0))',
+            link_active_color: '#ffffff', link_active_border: '#a7f3d0', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '600',
+            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#064e3b',
+            last_item_color: '#fde68a', last_item_hover_color: '#fef3c7', last_item_bg: '',
             font_size: '14', font_weight: '500', gap: '6', padding_x: '18', padding_y: '22',
             hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '14', mobile_menu_shadow: '1',
             font_family: 'Nunito, sans-serif', google_font: 'Nunito',
-            push_last_item: '1', last_item_color: '#fde68a', last_item_hover_color: '#fef3c7', last_item_bg: '',
-            link_transition: '0.3', link_animation: 'none', text_transform: '', letter_spacing: '0.3', link_border_radius: '6'
+            push_last_item: '1', link_transition: '0.3', link_animation: 'none',
+            text_transform: '', letter_spacing: '0.3', link_border_radius: '6',
+            mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#065f46', submenu_border: '#059669', submenu_link_color: '#d1fae5',
+            submenu_animation: 'slide', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
         }
     },
-    'style_15': {
-        title: 'Clean SaaS',
-        badge: 'Startup',
-        colors: ['#ffffff', '#64748b', '#6366f1'],
-        data: {
-            container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e2e8f0',
-            link_color: '#64748b', link_hover_color: '#0f172a', link_hover_bg: '#f1f5f9',
-            link_hover_bg_gradient: '', link_active_bg_gradient: 'linear-gradient(90deg,#eef2ff,#e0e7ff)',
-            link_active_color: '#6366f1', link_active_border: '', link_active_bg: '', link_active_font_weight: '600',
-            hamburger_color: '#6366f1', hamburger_bg: '#eef2ff', mobile_menu_bg: '#ffffff',
-            font_size: '14', font_weight: '500', gap: '8', padding_x: '14', padding_y: '24',
-            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '18', mobile_menu_shadow: '1',
-            font_family: 'Inter, sans-serif', google_font: 'Inter',
-            push_last_item: '1', last_item_color: '#6366f1', last_item_hover_color: '#4f46e5', last_item_bg: '#eef2ff',
-            link_transition: '0.2', link_animation: 'none', text_transform: '', letter_spacing: '', link_border_radius: '8'
-        }
-    },
-    'style_16': {
-        title: 'Neon Night',
+    'cyber_matrix': {
+        title: 'Cyber Matrix',
         badge: 'Cyberpunk',
-        colors: ['#0a0a0a', '#444', '#00ff88'],
+        colors: ['#0a0a0a', '#444444', '#00ff88'],
         data: {
             container_bg: '#0a0a0a', container_bg_gradient: '', container_border: '#00ff88',
-            link_color: '#555555', link_hover_color: '#00ff88', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(0,255,136,0.1),rgba(0,255,136,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#00ff88', link_active_border: '#00ff88', link_active_bg: '', link_active_font_weight: '700',
+            link_color: '#444444', link_hover_color: '#00ff88', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(0,255,136,0.1),rgba(0,255,136,0))',
+            link_active_color: '#00ff88', link_active_border: '#00ff88', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '700',
             hamburger_color: '#00ff88', hamburger_bg: '', mobile_menu_bg: '#0a0a0a',
+            last_item_color: '#ff4757', last_item_hover_color: '#ff6b81', last_item_bg: '',
             font_size: '12', font_weight: '400', gap: '4', padding_x: '18', padding_y: '22',
             hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
             font_family: 'Space Mono, monospace', google_font: 'Space Mono',
-            push_last_item: '1', last_item_color: '#ff4757', last_item_hover_color: '#ff6b81', last_item_bg: '',
-            link_transition: '0.15', link_animation: 'none', text_transform: 'uppercase', letter_spacing: '1.5', link_border_radius: '2'
+            push_last_item: '1', link_transition: '0.15', link_animation: 'none',
+            text_transform: 'uppercase', letter_spacing: '1.5', link_border_radius: '2',
+            mobile_open_style: 'fullscreen', mobile_open_animation: 'fade',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#111111', submenu_border: '#00ff88', submenu_link_color: '#00ff88',
+            submenu_animation: 'none', submenu_shadow: '0',
+            dark_mode: 'dark', nav_justify: 'flex-start'
         }
     },
-    'style_17': {
-        title: 'Rose Garden',
+    'rose_silk': {
+        title: 'Rose Silk',
         badge: 'Elegant',
-        colors: ['#fff0f3', '#be185d', '#ffffff'],
+        colors: ['#fff1f2', '#be185d', '#fce7f3'],
         data: {
-            container_bg: '#fff0f3', container_bg_gradient: '', container_border: '#ffd6e0',
-            link_color: '#be185d', link_hover_color: '#9d174d', link_hover_bg: '#fce7f3',
-            link_hover_bg_gradient: '', link_active_bg_gradient: 'linear-gradient(135deg,#ec4899,#be185d)',
-            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '', link_active_font_weight: '600',
-            hamburger_color: '#be185d', hamburger_bg: '#fce7f3', mobile_menu_bg: '#fff0f3',
+            container_bg: '#fff1f2', container_bg_gradient: '', container_border: '#fecdd3',
+            link_color: '#be185d', link_hover_color: '#9d174d', link_hover_bg: '#ffe4e6', link_hover_bg_gradient: '',
+            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '', link_active_bg_gradient: 'linear-gradient(135deg,#ec4899,#be185d)', link_active_font_weight: '600',
+            hamburger_color: '#be185d', hamburger_bg: '#ffe4e6', mobile_menu_bg: '#fff1f2',
+            last_item_color: '#9d174d', last_item_hover_color: '#831843', last_item_bg: '#fce7f3',
             font_size: '15', font_weight: '500', gap: '8', padding_x: '16', padding_y: '20',
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
             font_family: 'Lora, serif', google_font: 'Lora',
-            push_last_item: '1', last_item_color: '#9d174d', last_item_hover_color: '#831843', last_item_bg: '#fce7f3',
-            link_transition: '0.25', link_animation: 'none', text_transform: '', letter_spacing: '0.2', link_border_radius: '6'
+            push_last_item: '1', link_transition: '0.25', link_animation: 'none',
+            text_transform: '', letter_spacing: '0.2', link_border_radius: '20',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#fff1f2', submenu_border: '#fecdd3', submenu_link_color: '#9d174d',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
         }
     },
-    'style_18': {
-        title: 'Startup Fire',
-        badge: 'Bold',
-        colors: ['linear-gradient(135deg,#667eea,#764ba2)', '#e0d7ff', '#ffffff'],
-        data: {
-            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#667eea,#764ba2)', container_border: '',
-            link_color: '#e0d7ff', link_hover_color: '#ffffff', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.2),rgba(255,255,255,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#5b4fcf', link_active_font_weight: '700',
-            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#5b21b6',
-            font_size: '15', font_weight: '600', gap: '6', padding_x: '18', padding_y: '24',
-            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
-            font_family: 'Nunito, sans-serif', google_font: 'Nunito',
-            push_last_item: '1', last_item_color: '#fde68a', last_item_hover_color: '#ffffff', last_item_bg: '',
-            link_transition: '0.25', link_animation: 'underline', text_transform: '', letter_spacing: '', link_border_radius: '8'
-        }
-    },
-    'style_19': {
-        title: 'Editorial',
-        badge: 'Classic',
-        colors: ['#fafaf9', '#44403c', '#1c1917'],
-        data: {
-            container_bg: '#fafaf9', container_bg_gradient: '', container_border: '#1c1917',
-            link_color: '#44403c', link_hover_color: '#1c1917', link_hover_bg: '#f5f5f4',
-            link_hover_bg_gradient: '', link_active_bg_gradient: '',
-            link_active_color: '#1c1917', link_active_border: '', link_active_bg: '', link_active_font_weight: '900',
-            hamburger_color: '#1c1917', hamburger_bg: '', mobile_menu_bg: '#fafaf9',
-            font_size: '15', font_weight: '500', gap: '0', padding_x: '22', padding_y: '22',
-            hamburger_style: 'classic', hamburger_align: 'center', mobile_menu_pad: '16', mobile_menu_shadow: '0',
-            font_family: 'Playfair Display, serif', google_font: 'Playfair Display',
-            push_last_item: '1', last_item_color: '#44403c', last_item_hover_color: '#1c1917', last_item_bg: '',
-            link_transition: '0.15', link_animation: 'none', text_transform: 'uppercase', letter_spacing: '2', link_border_radius: ''
-        }
-    },
-    'style_20': {
-        title: 'Ice & Sky',
+    'sky_fresh': {
+        title: 'Sky Fresh',
         badge: 'Fresh',
         colors: ['linear-gradient(180deg,#e0f2fe,#f0f9ff)', '#0369a1', '#0ea5e9'],
         data: {
             container_bg: '', container_bg_gradient: 'linear-gradient(180deg,#e0f2fe,#f0f9ff)', container_border: '#bae6fd',
-            link_color: '#0369a1', link_hover_color: '#0284c7', link_hover_bg: '',
-            link_hover_bg_gradient: 'linear-gradient(90deg,rgba(186,230,253,0.5),rgba(186,230,253,0))',
-            link_active_bg_gradient: '',
-            link_active_color: '#0c4a6e', link_active_border: '#0ea5e9', link_active_bg: '', link_active_font_weight: '600',
+            link_color: '#0369a1', link_hover_color: '#0c4a6e', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(3,105,161,0.1),rgba(3,105,161,0))',
+            link_active_color: '#0c4a6e', link_active_border: '#0ea5e9', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '600',
             hamburger_color: '#0369a1', hamburger_bg: '#bae6fd', mobile_menu_bg: '#e0f2fe',
+            last_item_color: '#0369a1', last_item_hover_color: '#0c4a6e', last_item_bg: '#bae6fd',
             font_size: '14', font_weight: '500', gap: '8', padding_x: '16', padding_y: '20',
             hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '0',
             font_family: 'Poppins, sans-serif', google_font: 'Poppins',
-            push_last_item: '1', last_item_color: '#0369a1', last_item_hover_color: '#0284c7', last_item_bg: '#bae6fd',
-            link_transition: '0.25', link_animation: 'none', text_transform: '', letter_spacing: '', link_border_radius: '8'
+            push_last_item: '1', link_transition: '0.25', link_animation: 'none',
+            text_transform: '', letter_spacing: '', link_border_radius: '10',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#f0f9ff', submenu_border: '#bae6fd', submenu_link_color: '#0369a1',
+            submenu_animation: 'slide', submenu_shadow: '0',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'newspaper_ink': {
+        title: 'Newspaper Ink',
+        badge: 'Editorial',
+        colors: ['#fafaf9', '#44403c', '#1c1917'],
+        data: {
+            container_bg: '#fafaf9', container_bg_gradient: '', container_border: '#1c1917',
+            link_color: '#44403c', link_hover_color: '#0c0a09', link_hover_bg: '#f5f5f4', link_hover_bg_gradient: '',
+            link_active_color: '#1c1917', link_active_border: '', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '900',
+            hamburger_color: '#1c1917', hamburger_bg: '', mobile_menu_bg: '#fafaf9',
+            last_item_color: '#44403c', last_item_hover_color: '#1c1917', last_item_bg: '',
+            font_size: '15', font_weight: '500', gap: '0', padding_x: '22', padding_y: '22',
+            hamburger_style: 'classic', hamburger_align: 'center', mobile_menu_pad: '16', mobile_menu_shadow: '0',
+            font_family: 'Playfair Display, serif', google_font: 'Playfair Display',
+            push_last_item: '0', link_transition: '0.15', link_animation: 'none',
+            text_transform: 'uppercase', letter_spacing: '2', link_border_radius: '0',
+            mobile_open_style: 'dropdown', mobile_open_animation: 'fade',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#fafaf9', submenu_border: '#1c1917', submenu_link_color: '#44403c',
+            submenu_animation: 'none', submenu_shadow: '0',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'dev_dark': {
+        title: 'Dev Dark',
+        badge: 'Developer',
+        colors: ['#0d1117', '#8b949e', '#388bfd'],
+        data: {
+            container_bg: '#0d1117', container_bg_gradient: '', container_border: '#30363d',
+            link_color: '#8b949e', link_hover_color: '#e6edf3', link_hover_bg: '#161b22', link_hover_bg_gradient: '',
+            link_active_color: '#c9d1d9', link_active_border: '#388bfd', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '500',
+            hamburger_color: '#8b949e', hamburger_bg: '', mobile_menu_bg: '#0d1117',
+            last_item_color: '#f85149', last_item_hover_color: '#ff7b72', last_item_bg: '',
+            font_size: '13', font_weight: '400', gap: '6', padding_x: '18', padding_y: '22',
+            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
+            font_family: 'JetBrains Mono, monospace', google_font: 'JetBrains Mono',
+            push_last_item: '1', link_transition: '0.15', link_animation: 'none',
+            text_transform: '', letter_spacing: '0.3', link_border_radius: '6',
+            mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#161b22', submenu_border: '#30363d', submenu_link_color: '#8b949e',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'dark', nav_justify: 'flex-start'
+        }
+    },
+    'ocean_electric': {
+        title: 'Ocean Electric',
+        badge: 'Modern',
+        colors: ['linear-gradient(135deg,#0052D4,#4364F7,#6FB1FC)', '#dbeafe', '#ffffff'],
+        data: {
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#0052D4,#4364F7,#6FB1FC)', container_border: '',
+            link_color: '#dbeafe', link_hover_color: '#ffffff', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.2),rgba(255,255,255,0))',
+            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#1d4ed8', link_active_bg_gradient: '', link_active_font_weight: '600',
+            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#1e40af',
+            last_item_color: '#fde68a', last_item_hover_color: '#fef3c7', last_item_bg: '',
+            font_size: '14', font_weight: '500', gap: '4', padding_x: '16', padding_y: '22',
+            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '12', mobile_menu_shadow: '1',
+            font_family: 'Raleway, sans-serif', google_font: 'Raleway',
+            push_last_item: '1', link_transition: '0.3', link_animation: 'none',
+            text_transform: '', letter_spacing: '0.3', link_border_radius: '6',
+            mobile_open_style: 'fullscreen', mobile_open_animation: 'scale',
+            entrance_animation: 'fadeIn', entrance_duration: '0.4',
+            submenu_bg: '#1e40af', submenu_border: '#3b82f6', submenu_link_color: '#bfdbfe',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'violet_cloud': {
+        title: 'Violet Cloud',
+        badge: 'Startup',
+        colors: ['linear-gradient(135deg,#667eea,#764ba2)', '#e0d7ff', '#ffffff'],
+        data: {
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#667eea,#764ba2)', container_border: '',
+            link_color: '#e0d7ff', link_hover_color: '#ffffff', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(255,255,255,0.2),rgba(255,255,255,0))',
+            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '#5b4fcf', link_active_bg_gradient: '', link_active_font_weight: '700',
+            hamburger_color: '#ffffff', hamburger_bg: '', mobile_menu_bg: '#5b21b6',
+            last_item_color: '#fde68a', last_item_hover_color: '#fef3c7', last_item_bg: '',
+            font_size: '15', font_weight: '600', gap: '6', padding_x: '18', padding_y: '24',
+            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '1',
+            font_family: 'Nunito, sans-serif', google_font: 'Nunito',
+            push_last_item: '1', link_transition: '0.25', link_animation: 'underline',
+            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'slideDown', entrance_duration: '0.4',
+            submenu_bg: '#5b21b6', submenu_border: '#7c3aed', submenu_link_color: '#e0d7ff',
+            submenu_animation: 'slide', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'swiss_pro': {
+        title: 'Swiss Pro',
+        badge: 'Corporate',
+        colors: ['#ffffff', '#374151', '#dc2626'],
+        data: {
+            container_bg: '#ffffff', container_bg_gradient: '', container_border: '#e5e7eb',
+            link_color: '#374151', link_hover_color: '#111827', link_hover_bg: '#f3f4f6', link_hover_bg_gradient: '',
+            link_active_color: '#dc2626', link_active_border: '#dc2626', link_active_bg: '', link_active_bg_gradient: '', link_active_font_weight: '700',
+            hamburger_color: '#374151', hamburger_bg: '', mobile_menu_bg: '#ffffff',
+            last_item_color: '#dc2626', last_item_hover_color: '#b91c1c', last_item_bg: '#fff5f5',
+            font_size: '14', font_weight: '600', gap: '0', padding_x: '24', padding_y: '18',
+            hamburger_style: 'classic', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '1',
+            font_family: 'system-ui, -apple-system, sans-serif', google_font: '',
+            push_last_item: '1', link_transition: '0.15', link_animation: 'none',
+            text_transform: 'uppercase', letter_spacing: '0.5', link_border_radius: '4',
+            mobile_open_style: 'dropdown', mobile_open_animation: 'fade',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#ffffff', submenu_border: '#e5e7eb', submenu_link_color: '#374151',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'cosmic_dusk': {
+        title: 'Cosmic Dusk',
+        badge: 'Space',
+        colors: ['linear-gradient(135deg,#13001e,#2d0035)', '#c084fc', '#a855f7'],
+        data: {
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#13001e,#2d0035,#0a001a)', container_border: '',
+            link_color: '#c084fc', link_hover_color: '#e9d5ff', link_hover_bg: '', link_hover_bg_gradient: 'linear-gradient(90deg,rgba(192,132,252,0.18),rgba(192,132,252,0))',
+            link_active_color: '#e9d5ff', link_active_border: '#a855f7', link_active_bg: '#3b0764', link_active_bg_gradient: '', link_active_font_weight: '600',
+            hamburger_color: '#c084fc', hamburger_bg: '', mobile_menu_bg: '#13001e',
+            last_item_color: '#f472b6', last_item_hover_color: '#f9a8d4', last_item_bg: '',
+            font_size: '13', font_weight: '500', gap: '4', padding_x: '16', padding_y: '26',
+            hamburger_style: 'minimal', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
+            font_family: 'Inter, sans-serif', google_font: 'Inter',
+            push_last_item: '1', link_transition: '0.3', link_animation: 'none',
+            text_transform: 'uppercase', letter_spacing: '0.8', link_border_radius: '8',
+            mobile_open_style: 'fullscreen', mobile_open_animation: 'fade',
+            entrance_animation: 'fadeIn', entrance_duration: '0.6',
+            submenu_bg: '#1a0029', submenu_border: '#3b0764', submenu_link_color: '#c084fc',
+            submenu_animation: 'fade', submenu_shadow: '1',
+            dark_mode: 'dark', nav_justify: 'flex-start'
+        }
+    },
+    'warm_honey': {
+        title: 'Warm Honey',
+        badge: 'Warm',
+        colors: ['#fffbeb', '#92400e', '#fde68a'],
+        data: {
+            container_bg: '#fffbeb', container_bg_gradient: '', container_border: '#fde68a',
+            link_color: '#92400e', link_hover_color: '#78350f', link_hover_bg: '#fef3c7', link_hover_bg_gradient: '',
+            link_active_color: '#78350f', link_active_border: '', link_active_bg: '#fde68a', link_active_bg_gradient: '', link_active_font_weight: '600',
+            hamburger_color: '#92400e', hamburger_bg: '#fef3c7', mobile_menu_bg: '#fffbeb',
+            last_item_color: '#b45309', last_item_hover_color: '#92400e', last_item_bg: '#fde68a',
+            font_size: '14', font_weight: '500', gap: '8', padding_x: '16', padding_y: '20',
+            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '0',
+            font_family: 'Poppins, sans-serif', google_font: 'Poppins',
+            push_last_item: '1', link_transition: '0.25', link_animation: 'none',
+            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#fffbeb', submenu_border: '#fde68a', submenu_link_color: '#92400e',
+            submenu_animation: 'slide', submenu_shadow: '0',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'cloud_glass': {
+        title: 'Cloud Glass',
+        badge: 'Modern',
+        colors: ['#f8fafc', '#475569', '#6366f1'],
+        data: {
+            container_bg: '#f8fafc', container_bg_gradient: '', container_border: '#e2e8f0',
+            link_color: '#475569', link_hover_color: '#0f172a', link_hover_bg: '#f1f5f9', link_hover_bg_gradient: '',
+            link_active_color: '#ffffff', link_active_border: '', link_active_bg: '', link_active_bg_gradient: 'linear-gradient(135deg,#6366f1,#8b5cf6)', link_active_font_weight: '600',
+            hamburger_color: '#6366f1', hamburger_bg: '#ede9fe', mobile_menu_bg: '#f8fafc',
+            last_item_color: '#6366f1', last_item_hover_color: '#4f46e5', last_item_bg: '#ede9fe',
+            font_size: '14', font_weight: '500', gap: '6', padding_x: '16', padding_y: '22',
+            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '20', mobile_menu_shadow: '1',
+            font_family: 'Inter, sans-serif', google_font: 'Inter',
+            push_last_item: '1', link_transition: '0.2', link_animation: 'none',
+            text_transform: '', letter_spacing: '', link_border_radius: '12',
+            mobile_open_style: 'drawer-right', mobile_open_animation: 'slide',
+            entrance_animation: 'fadeIn', entrance_duration: '0.4',
+            submenu_bg: '#ffffff', submenu_border: '#e2e8f0', submenu_link_color: '#475569',
+            submenu_animation: 'slide', submenu_shadow: '1',
+            dark_mode: 'light', nav_justify: 'flex-start'
+        }
+    },
+    'carbon_pro': {
+        title: 'Carbon Pro',
+        badge: 'Dark',
+        colors: ['#1c1c1e', '#8d8d93', '#f2f2f7'],
+        data: {
+            container_bg: '#1c1c1e', container_bg_gradient: '', container_border: '#2c2c2e',
+            link_color: '#8d8d93', link_hover_color: '#f2f2f7', link_hover_bg: '#2c2c2e', link_hover_bg_gradient: '',
+            link_active_color: '#f2f2f7', link_active_border: '', link_active_bg: '#3a3a3c', link_active_bg_gradient: '', link_active_font_weight: '500',
+            hamburger_color: '#8d8d93', hamburger_bg: '', mobile_menu_bg: '#1c1c1e',
+            last_item_color: '#ebebf5', last_item_hover_color: '#f2f2f7', last_item_bg: '#3a3a3c',
+            font_size: '14', font_weight: '400', gap: '4', padding_x: '20', padding_y: '20',
+            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '0', mobile_menu_shadow: '0',
+            font_family: 'Inter, sans-serif', google_font: 'Inter',
+            push_last_item: '1', link_transition: '0.2', link_animation: 'none',
+            text_transform: '', letter_spacing: '', link_border_radius: '10',
+            mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#2c2c2e', submenu_border: '#3a3a3c', submenu_link_color: '#ebebf5',
+            submenu_animation: 'fade', submenu_shadow: '0',
+            dark_mode: 'dark', nav_justify: 'flex-start'
+        }
+    },
+    'aegean_teal': {
+        title: 'Aegean Teal',
+        badge: 'Fresh',
+        colors: ['linear-gradient(135deg,#f0fdfa,#ffffff)', '#0f766e', '#14b8a6'],
+        data: {
+            container_bg: '', container_bg_gradient: 'linear-gradient(135deg,#f0fdfa,#ffffff)', container_border: '#99f6e4',
+            link_color: '#0f766e', link_hover_color: '#134e4a', link_hover_bg: '#ccfbf1', link_hover_bg_gradient: '',
+            link_active_color: '#0f766e', link_active_border: '#14b8a6', link_active_bg: '#ccfbf1', link_active_bg_gradient: '', link_active_font_weight: '600',
+            hamburger_color: '#0f766e', hamburger_bg: '#ccfbf1', mobile_menu_bg: '#f0fdfa',
+            last_item_color: '#0f766e', last_item_hover_color: '#134e4a', last_item_bg: '#ccfbf1',
+            font_size: '14', font_weight: '500', gap: '8', padding_x: '16', padding_y: '22',
+            hamburger_style: 'modern', hamburger_align: 'flex-end', mobile_menu_pad: '16', mobile_menu_shadow: '0',
+            font_family: 'Poppins, sans-serif', google_font: 'Poppins',
+            push_last_item: '1', link_transition: '0.25', link_animation: 'underline',
+            text_transform: '', letter_spacing: '', link_border_radius: '8',
+            mobile_open_style: 'drawer-left', mobile_open_animation: 'slide',
+            entrance_animation: 'none', entrance_duration: '0.5',
+            submenu_bg: '#f0fdfa', submenu_border: '#99f6e4', submenu_link_color: '#0f766e',
+            submenu_animation: 'slide', submenu_shadow: '0',
+            dark_mode: 'light', nav_justify: 'flex-start'
         }
     }
 
@@ -714,13 +800,13 @@
 
         function captureSnapshot() {
             var snap = {colors:{}, vals:{}};
-            ['container_bg','container_border','link_color','link_hover_color','link_hover_bg','link_active_color','link_active_border','link_active_bg','hamburger_color','hamburger_bg','mobile_menu_bg','last_item_color','last_item_hover_color','last_item_bg'].forEach(function(f) {
+            ['container_bg','container_border','link_color','link_hover_color','link_hover_bg','link_active_color','link_active_border','link_active_bg','hamburger_color','hamburger_bg','mobile_menu_bg','last_item_color','last_item_hover_color','last_item_bg','submenu_bg','submenu_border','submenu_link_color'].forEach(function(f) {
                 var cb = document.querySelector('input[name="menux_style_use['+f+']"]');
                 var cp = document.querySelector('input[name="menux_style['+f+']"]');
                 snap.colors['use_'+f] = cb ? cb.checked : false;
                 snap.colors[f]        = cp ? cp.value   : '';
             });
-            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius'].forEach(function(f) {
+            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius','container_bg_gradient','link_hover_bg_gradient','link_active_bg_gradient','mobile_open_style','mobile_open_animation','entrance_animation','entrance_duration','submenu_animation','submenu_shadow','dark_mode','nav_justify'].forEach(function(f) {
                 var el = document.querySelector('[name="menux_style['+f+']"]');
                 snap.vals[f] = el ? el.value : '';
             });
@@ -731,13 +817,13 @@
 
         function restoreSnapshot(snap) {
             if (!snap) return;
-            ['container_bg','container_border','link_color','link_hover_color','link_hover_bg','link_active_color','link_active_border','link_active_bg','hamburger_color','hamburger_bg','mobile_menu_bg','last_item_color','last_item_hover_color','last_item_bg'].forEach(function(f) {
+            ['container_bg','container_border','link_color','link_hover_color','link_hover_bg','link_active_color','link_active_border','link_active_bg','hamburger_color','hamburger_bg','mobile_menu_bg','last_item_color','last_item_hover_color','last_item_bg','submenu_bg','submenu_border','submenu_link_color'].forEach(function(f) {
                 var cb = document.querySelector('input[name="menux_style_use['+f+']"]');
                 var cp = document.querySelector('input[name="menux_style['+f+']"]');
                 if (cb) { cb.checked = snap.colors['use_'+f]; menux_toggleColor(cb); }
                 if (cp) cp.value = snap.colors[f];
             });
-            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius'].forEach(function(f) {
+            ['font_size','font_weight','gap','padding_x','padding_y','hamburger_style','hamburger_align','mobile_menu_pad','link_animation','google_font','font_family','push_last_item','text_transform','letter_spacing','link_transition','link_active_font_weight','link_border_radius','container_bg_gradient','link_hover_bg_gradient','link_active_bg_gradient','mobile_open_style','mobile_open_animation','entrance_animation','entrance_duration','submenu_animation','submenu_shadow','dark_mode','nav_justify'].forEach(function(f) {
                 var el = document.querySelector('[name="menux_style['+f+']"]');
                 if (el) el.value = snap.vals[f];
             });
@@ -765,6 +851,12 @@
             setV('text_transform',p.text_transform);setV('letter_spacing',p.letter_spacing);
             setV('link_active_font_weight',p.link_active_font_weight);
             setV('link_border_radius',p.link_border_radius);
+            setV('container_bg_gradient',p.container_bg_gradient||'');setV('link_hover_bg_gradient',p.link_hover_bg_gradient||'');setV('link_active_bg_gradient',p.link_active_bg_gradient||'');
+            setV('mobile_open_style',p.mobile_open_style||'dropdown');setV('mobile_open_animation',p.mobile_open_animation||'fade');
+            setV('entrance_animation',p.entrance_animation||'none');setV('entrance_duration',p.entrance_duration||'0.5');
+            setV('submenu_animation',p.submenu_animation||'fade');setV('submenu_shadow',p.submenu_shadow||'0');
+            setV('dark_mode',p.dark_mode||'light');setV('nav_justify',p.nav_justify||'flex-start');
+            setC('submenu_bg',p.submenu_bg||'');setC('submenu_border',p.submenu_border||'');setC('submenu_link_color',p.submenu_link_color||'');
             menux_liveStylePreview();
         }
 
