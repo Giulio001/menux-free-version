@@ -1800,6 +1800,178 @@
     }
 
     /* ════════════════════════════════════════════════════════════════
+       MEGA MENU DEMO TEMPLATES
+    ════════════════════════════════════════════════════════════════ */
+
+    // Helper: build a complete item object from compact params.
+    function _mxDi(type, label, icon, desc, url) {
+        return { type: type, label: label||'', url: url||'', icon: icon||'', desc: desc||'', image_id: 0, image_url: '', content: '', target: '' };
+    }
+
+    var mxMegaDemos = [
+        {
+            name: 'SaaS Product',
+            desc: '4 cols — Features, Docs, Company, CTA',
+            gradient: 'linear-gradient(135deg,#0f172a 0%,#1e293b 100%)',
+            cols: [
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Features',      'fa-solid fa-bolt'),
+                    _mxDi('link',    'Dashboard',     'fa-solid fa-chart-pie',   'Analytics & reports',    '#'),
+                    _mxDi('link',    'Automations',   'fa-solid fa-robot',       'Save time with rules',   '#'),
+                    _mxDi('link',    'Integrations',  'fa-solid fa-plug',        'Connect your tools',     '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Resources',     'fa-solid fa-book-open'),
+                    _mxDi('link',    'Documentation', 'fa-solid fa-file-lines',  'Step-by-step guides',    '#'),
+                    _mxDi('link',    'API Reference', 'fa-solid fa-code',        'For developers',         '#'),
+                    _mxDi('link',    'Blog',          'fa-solid fa-rss',         'Tips & news',            '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Company',       'fa-solid fa-building'),
+                    _mxDi('link',    'About us',      'fa-solid fa-users',       'Our story & team',       '#'),
+                    _mxDi('link',    'Careers',       'fa-solid fa-briefcase',   "We're hiring!",          '#'),
+                    _mxDi('link',    'Contact',       'fa-solid fa-envelope',    'Get in touch',           '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Get started',   'fa-solid fa-rocket'),
+                    _mxDi('link',    'Free trial',    'fa-solid fa-star',        '14 days, no credit card','#'),
+                    _mxDi('link',    'Pricing',       'fa-solid fa-tag',         'Plans for every team',   '#'),
+                    _mxDi('divider', ''),
+                    _mxDi('link',    'Sign in',       'fa-solid fa-arrow-right-to-bracket', '',            '#'),
+                ]},
+            ]
+        },
+        {
+            name: 'E-Commerce',
+            desc: '3 cols — Categories, Deals, Help',
+            gradient: '#ffffff',
+            cols: [
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Shop by category', 'fa-solid fa-shop'),
+                    _mxDi('link',    'Electronics',  'fa-solid fa-laptop',      'Phones, tablets, PCs',   '#'),
+                    _mxDi('link',    'Clothing',      'fa-solid fa-shirt',       'Men, women, kids',       '#'),
+                    _mxDi('link',    'Home & Garden', 'fa-solid fa-house',       'Furniture & decor',      '#'),
+                    _mxDi('link',    'Sports',        'fa-solid fa-futbol',      'Outdoor & fitness',      '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Deals & Offers',   'fa-solid fa-fire'),
+                    _mxDi('link',    'Flash Sales',   'fa-solid fa-bolt',        'Today only',             '#'),
+                    _mxDi('link',    'New Arrivals',  'fa-solid fa-star',        'Fresh this week',        '#'),
+                    _mxDi('link',    'Clearance',     'fa-solid fa-percent',     'Up to 70% off',          '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'My Account',       'fa-solid fa-circle-user'),
+                    _mxDi('link',    'My Orders',     'fa-solid fa-box',         'Track your orders',      '#'),
+                    _mxDi('link',    'Returns',       'fa-solid fa-arrow-rotate-left','Easy 30-day returns','#'),
+                    _mxDi('link',    'Support',       'fa-solid fa-headset',     "We're here for you",     '#'),
+                ]},
+            ]
+        },
+        {
+            name: 'Creative Agency',
+            desc: '3 cols — Services, Work, Studio',
+            gradient: 'linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%)',
+            cols: [
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Services',      'fa-solid fa-wand-magic-sparkles'),
+                    _mxDi('link',    'Web Design',    'fa-solid fa-pen-ruler',   'Beautiful, fast sites',  '#'),
+                    _mxDi('link',    'Branding',      'fa-solid fa-palette',     'Identity & logo design', '#'),
+                    _mxDi('link',    'SEO & Growth',  'fa-solid fa-chart-line',  'Rank higher, grow faster','#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Our Work',      'fa-solid fa-images'),
+                    _mxDi('link',    'Portfolio',     'fa-solid fa-briefcase',   'Selected projects',      '#'),
+                    _mxDi('link',    'Case Studies',  'fa-solid fa-magnifying-glass','Results & stories',  '#'),
+                    _mxDi('link',    'Testimonials',  'fa-solid fa-quote-left',  'What clients say',       '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Studio',        'fa-solid fa-building-columns'),
+                    _mxDi('link',    'About',         'fa-solid fa-circle-info', 'Our story',              '#'),
+                    _mxDi('link',    'Team',          'fa-solid fa-people-group','Meet the creatives',     '#'),
+                    _mxDi('link',    'Start a project','fa-solid fa-rocket',     "Let's build together",   '#'),
+                ]},
+            ]
+        },
+        {
+            name: 'News & Blog',
+            desc: '3 cols — Topics, Sections, Connect',
+            gradient: '#f8fafc',
+            cols: [
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Topics',        'fa-solid fa-hashtag'),
+                    _mxDi('link',    'Technology',    'fa-solid fa-microchip',   'AI, software & gadgets', '#'),
+                    _mxDi('link',    'Business',      'fa-solid fa-chart-bar',   'Markets & startups',     '#'),
+                    _mxDi('link',    'Design',        'fa-solid fa-pen-nib',     'UI/UX & creativity',     '#'),
+                    _mxDi('link',    'Science',       'fa-solid fa-flask',       'Research & discoveries', '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Sections',      'fa-solid fa-newspaper'),
+                    _mxDi('link',    'Interviews',    'fa-solid fa-microphone',  'In-depth conversations', '#'),
+                    _mxDi('link',    'Opinion',       'fa-solid fa-comments',    "Editor's picks",         '#'),
+                    _mxDi('link',    'Guides',        'fa-solid fa-map',         'Practical how-tos',      '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Connect',       'fa-solid fa-satellite-dish'),
+                    _mxDi('link',    'Newsletter',    'fa-solid fa-envelope',    'Weekly digest',          '#'),
+                    _mxDi('link',    'Podcast',       'fa-solid fa-podcast',     'Listen & subscribe',     '#'),
+                    _mxDi('link',    'RSS Feed',      'fa-solid fa-rss',         'Follow updates',         '#'),
+                ]},
+            ]
+        },
+        {
+            name: 'Corporate',
+            desc: '3 cols — Solutions, Industries, Company',
+            gradient: 'linear-gradient(135deg,#0284c7 0%,#38bdf8 100%)',
+            cols: [
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Solutions',     'fa-solid fa-gear'),
+                    _mxDi('link',    'Enterprise',    'fa-solid fa-city',        'Large-scale deployments','#'),
+                    _mxDi('link',    'SMB',           'fa-solid fa-store',       'Small & medium business','#'),
+                    _mxDi('link',    'Startups',      'fa-solid fa-seedling',    'Grow from day one',      '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Industries',    'fa-solid fa-industry'),
+                    _mxDi('link',    'Healthcare',    'fa-solid fa-heart-pulse', 'Secure & compliant',     '#'),
+                    _mxDi('link',    'Finance',       'fa-solid fa-coins',       'FinTech solutions',      '#'),
+                    _mxDi('link',    'Retail',        'fa-solid fa-bag-shopping','Omnichannel commerce',   '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Company',       'fa-solid fa-landmark'),
+                    _mxDi('link',    'About',         'fa-solid fa-circle-info', 'Mission & values',       '#'),
+                    _mxDi('link',    'Press',         'fa-solid fa-bullhorn',    'News & media',           '#'),
+                    _mxDi('link',    'Partners',      'fa-solid fa-handshake',   'Grow together',          '#'),
+                ]},
+            ]
+        },
+        {
+            name: 'Restaurant',
+            desc: '3 cols — Menu, Visit Us, Reserve',
+            gradient: 'linear-gradient(135deg,#f97316 0%,#ef4444 100%)',
+            cols: [
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Our Menu',      'fa-solid fa-utensils'),
+                    _mxDi('link',    'Starters',      'fa-solid fa-leaf',        'Fresh & seasonal',       '#'),
+                    _mxDi('link',    'Main Courses',  'fa-solid fa-drumstick-bite',"Chef's specialties",   '#'),
+                    _mxDi('link',    'Desserts',      'fa-solid fa-cake-candles', 'Sweet endings',         '#'),
+                    _mxDi('link',    'Wine List',     'fa-solid fa-wine-glass',  'Curated selection',      '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Visit Us',      'fa-solid fa-location-dot'),
+                    _mxDi('link',    'Locations',     'fa-solid fa-map-location-dot','Find a restaurant',  '#'),
+                    _mxDi('link',    'Hours',         'fa-solid fa-clock',       'Open 7 days a week',     '#'),
+                    _mxDi('link',    'Private Events','fa-solid fa-champagne-glasses','Celebrate with us', '#'),
+                ]},
+                { width_pct: '', items: [
+                    _mxDi('heading', 'Reserve',       'fa-solid fa-calendar-check'),
+                    _mxDi('link',    'Book a Table',  'fa-solid fa-table',       'Online reservation',     '#'),
+                    _mxDi('link',    'Delivery',      'fa-solid fa-motorcycle',  'Order to your door',     '#'),
+                    _mxDi('link',    'Gift Cards',    'fa-solid fa-gift',        'The perfect present',    '#'),
+                ]},
+            ]
+        },
+    ];
+
+    /* ════════════════════════════════════════════════════════════════
        MEGA MENU EDITOR
     ════════════════════════════════════════════════════════════════ */
 
@@ -2230,6 +2402,14 @@
             render();
         }
 
+        function loadDemo(idx) {
+            var d = mxMegaDemos[idx];
+            if (!d) return;
+            _data = JSON.parse(JSON.stringify(d.cols));
+            render();
+            mxMegaDemoClose();
+        }
+
         return {
             open:          open,
             close:         close,
@@ -2243,6 +2423,7 @@
             closeItemEdit: closeItemEdit,
             applyItemEdit: applyItemEdit,
             renderPreview: renderPreview,
+            loadDemo:      loadDemo,
         };
     })();
 
@@ -2268,5 +2449,73 @@
         var c1  = (document.getElementById('bm-grad-c1') || {}).value  || '#4f46e5';
         var c2  = (document.getElementById('bm-grad-c2') || {}).value  || '#7c3aed';
         mxMegaBgPick('linear-gradient(' + dir + ',' + c1 + ' 0%,' + c2 + ' 100%)');
+    }
+
+    // ── Demo template picker ──────────────────────────────────────────
+    function mxMegaDemoOpen() {
+        var el = document.getElementById('mx-demo-picker');
+        if (!el) { el = _mxBuildDemoModal(); }
+        el.style.display = 'flex';
+    }
+    function mxMegaDemoClose() {
+        var el = document.getElementById('mx-demo-picker');
+        if (el) el.style.display = 'none';
+    }
+    function _mxBuildDemoModal() {
+        var wrap = document.createElement('div');
+        wrap.id = 'mx-demo-picker';
+        wrap.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,.78);z-index:1000020;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;';
+        wrap.onclick = function(e) { if (e.target === wrap) mxMegaDemoClose(); };
+
+        var cards = mxMegaDemos.map(function(d, i) {
+            // Mini column preview: each column = a small rectangle with placeholder bars
+            var colPreviews = d.cols.map(function(col) {
+                var bars = col.items.slice(0, 5).map(function(it) {
+                    if (it.type === 'divider') {
+                        return '<div style="height:1px;background:#d1d5db;margin:4px 0;"></div>';
+                    }
+                    var isHeading = it.type === 'heading';
+                    return '<div style="height:' + (isHeading ? '6' : '4') + 'px;border-radius:2px;background:'
+                        + (isHeading ? '#6366f1' : '#cbd5e1') + ';margin-bottom:' + (isHeading ? '5' : '3') + 'px;opacity:' + (isHeading ? '1' : '0.75') + ';"></div>';
+                }).join('');
+                return '<div style="flex:1;background:#f1f5f9;border-radius:5px;padding:7px 5px;min-width:0;">' + bars + '</div>';
+            }).join('');
+
+            return '<div style="border:2px solid #e5e7eb;border-radius:12px;overflow:hidden;cursor:default;transition:border-color .15s,box-shadow .15s;"'
+                + ' onmouseenter="this.style.borderColor=\'#6366f1\';this.style.boxShadow=\'0 4px 20px rgba(99,102,241,.18)\'"'
+                + ' onmouseleave="this.style.borderColor=\'#e5e7eb\';this.style.boxShadow=\'none\'">'
+                + '<div style="height:48px;background:' + d.gradient + ';"></div>'
+                + '<div style="padding:14px;">'
+                + '<div style="font-size:13px;font-weight:700;color:#111827;margin-bottom:3px;">' + d.name + '</div>'
+                + '<div style="font-size:11px;color:#6b7280;margin-bottom:10px;">' + d.desc + '</div>'
+                + '<div style="display:flex;gap:4px;margin-bottom:12px;">' + colPreviews + '</div>'
+                + '<button type="button" onclick="menuxMegaEditor.loadDemo(' + i + ')"'
+                + ' style="width:100%;background:linear-gradient(135deg,#4f46e5,#7c3aed);border:none;color:#fff;padding:7px 0;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;">Apply →</button>'
+                + '</div>'
+                + '</div>';
+        }).join('');
+
+        wrap.innerHTML = '<div style="background:#fff;border-radius:16px;box-shadow:0 24px 64px rgba(0,0,0,.35);width:min(900px,98vw);font-family:-apple-system,sans-serif;overflow:hidden;">'
+            // Header
+            + '<div style="background:linear-gradient(135deg,#4f46e5,#7c3aed);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;">'
+            + '<div><div style="color:rgba(255,255,255,.65);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Mega Menu</div>'
+            + '<div style="color:#fff;font-size:16px;font-weight:700;">✨ Demo Templates</div></div>'
+            + '<button type="button" onclick="mxMegaDemoClose()" style="background:rgba(255,255,255,.15);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:20px;line-height:1;display:flex;align-items:center;justify-content:center;">&times;</button>'
+            + '</div>'
+            // Subtitle
+            + '<div style="padding:10px 24px;background:#fafafa;border-bottom:1px solid #e5e7eb;">'
+            + '<p style="margin:0;font-size:12px;color:#6b7280;">Pick a ready-made template to load into the editor. You can freely customize everything afterwards — links, icons, descriptions, colors.</p>'
+            + '</div>'
+            // Grid
+            + '<div style="padding:20px 24px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">'
+            + cards
+            + '</div>'
+            + '<div style="padding:12px 24px;border-top:1px solid #f0f0f0;background:#fafafa;text-align:right;">'
+            + '<button type="button" onclick="mxMegaDemoClose()" style="background:#fff;border:1px solid #d1d5db;color:#374151;padding:7px 20px;border-radius:8px;font-size:13px;cursor:pointer;">Close</button>'
+            + '</div>'
+            + '</div>';
+
+        document.body.appendChild(wrap);
+        return wrap;
     }
 

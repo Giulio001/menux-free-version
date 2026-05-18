@@ -288,6 +288,7 @@ function menux_render_megamenu_panel( $menu_items ) {
 					<?php endforeach; ?>
 				</div>
 				<button type="button" onclick="menuxMegaAddCol()" style="background:#ede9fe;color:#5b21b6;border:1px dashed #a78bfa;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">+ Add Column</button>
+				<button type="button" onclick="mxMegaDemoOpen()" style="background:#fef3c7;color:#92400e;border:1px solid #fbbf24;padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">✨ Demo</button>
 				<span style="margin-left:auto;font-size:11px;color:#9ca3af;">Max 4 columns</span>
 			</div>
 
