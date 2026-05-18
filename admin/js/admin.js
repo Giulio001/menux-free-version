@@ -2433,6 +2433,22 @@
     function menuxMegaAddCol()   { menuxMegaEditor.addCol(); }
     function menuxMegaSetCols(n) { menuxMegaEditor.setCols(n); }
 
+    function mxMegaTogglePreview() {
+        var panel   = document.getElementById('menux-mega-preview-panel');
+        var btn     = document.getElementById('bm-mega-preview-toggle');
+        if (!panel) return;
+        var visible = panel.style.display !== 'none';
+        panel.style.display = visible ? 'none' : 'block';
+        if (btn) {
+            btn.style.background  = visible ? '#e0f2fe' : '#0369a1';
+            btn.style.color       = visible ? '#0369a1' : '#fff';
+            btn.style.borderColor = visible ? '#7dd3fc' : '#0369a1';
+        }
+        if (!visible) {
+            menuxMegaEditor.renderPreview && menuxMegaEditor.renderPreview();
+        }
+    }
+
     // ── Gradient / Background picker ──────────────────────────────────
     function mxMegaBgPick(val) {
         var inp = document.getElementById('bm-mega-bg-val');

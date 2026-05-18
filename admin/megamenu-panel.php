@@ -289,36 +289,32 @@ function menux_render_megamenu_panel( $menu_items ) {
 				</div>
 				<button type="button" onclick="menuxMegaAddCol()" style="background:#ede9fe;color:#5b21b6;border:1px dashed #a78bfa;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">+ Add Column</button>
 				<button type="button" onclick="mxMegaDemoOpen()" style="background:#fef3c7;color:#92400e;border:1px solid #fbbf24;padding:5px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">✨ Demo</button>
+				<button type="button" id="bm-mega-preview-toggle" onclick="mxMegaTogglePreview()" style="background:#e0f2fe;color:#0369a1;border:1px solid #7dd3fc;padding:5px 12px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;">👁 Preview</button>
 				<span style="margin-left:auto;font-size:11px;color:#9ca3af;">Max 4 columns</span>
 			</div>
 
-			<!-- Body: columns editor + live preview side by side -->
-			<div style="display:flex;min-height:420px;overflow:hidden;">
+			<!-- Body: columns editor full-width -->
+			<div style="display:flex;flex-direction:column;overflow:hidden;">
 
-				<!-- Left: Columns editor -->
-				<div id="menux-mega-cols-wrap" style="flex:1;display:flex;overflow-x:auto;align-items:stretch;border-right:1px solid #e5e7eb;min-width:0;">
+				<!-- Columns editor -->
+				<div id="menux-mega-cols-wrap" style="display:flex;overflow-x:auto;align-items:stretch;min-height:420px;min-width:0;">
 					<!-- Columns rendered by JS -->
 				</div>
 
-				<!-- Right: Live preview -->
-				<div style="width:300px;min-width:260px;flex-shrink:0;background:#f1f5f9;display:flex;flex-direction:column;overflow:hidden;">
-					<div style="padding:12px 16px 8px;border-bottom:1px solid #e2e8f0;">
-						<span style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:#64748b;">Live Preview</span>
-					</div>
-					<!-- Nav trigger simulation -->
-					<div style="background:#1e293b;padding:8px 16px;display:flex;align-items:center;gap:16px;">
+				<!-- Live preview — hidden by default, toggled via button -->
+				<div id="menux-mega-preview-panel" style="display:none;border-top:2px solid #e5e7eb;background:#f1f5f9;">
+					<!-- Nav bar simulation -->
+					<div style="background:#1e293b;padding:8px 20px;display:flex;align-items:center;gap:16px;">
 						<span style="color:#94a3b8;font-size:11px;">Home</span>
-						<span style="color:#fff;font-size:11px;font-weight:600;border-bottom:2px solid #818cf8;padding-bottom:2px;" id="menux-mega-preview-trigger">Menu item ▾</span>
+						<span id="menux-mega-preview-trigger" style="color:#fff;font-size:11px;font-weight:600;border-bottom:2px solid #818cf8;padding-bottom:2px;">Menu item ▾</span>
 						<span style="color:#94a3b8;font-size:11px;">About</span>
+						<span style="margin-left:auto;font-size:10px;color:#475569;">Approximate preview — actual look depends on your theme.</span>
 					</div>
-					<!-- Preview panel -->
-					<div style="flex:1;overflow-y:auto;padding:0;">
-						<div id="menux-mega-preview" style="background:#fff;border-bottom:1px solid #e2e8f0;padding:16px;min-height:120px;">
+					<!-- Preview content -->
+					<div style="overflow-y:auto;max-height:340px;">
+						<div id="menux-mega-preview" style="background:#fff;padding:16px;min-height:80px;">
 							<div style="color:#9ca3af;font-size:11px;text-align:center;padding:20px 0;">Add columns to see the preview</div>
 						</div>
-					</div>
-					<div style="padding:8px 16px;background:#f8fafc;border-top:1px solid #e2e8f0;">
-						<span style="font-size:10px;color:#94a3b8;">Approximate preview — actual look depends on your theme.</span>
 					</div>
 				</div>
 
